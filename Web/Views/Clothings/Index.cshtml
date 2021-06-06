@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Web.Models.Clothing>
+
+@{
+    ViewData["Title"] = "衣物清單";
+}
+
+<h1>@ViewData["Title"] @ViewBag.MemberId @ViewBag.MemberName</h1>
+
+<p>
+    <a asp-action="Create" asp-route-memberId="@ViewBag.MemberId">建立訂單</a>
+</p>
+<table class="table">
+    <thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Id)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.MemberId)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Type)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Color)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Action)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Remark)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Amount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DiscountAmount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PickupDt)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PicNo)
+			</th>
+			<th></th>
+		</tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Id)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.MemberId)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Type)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Color)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Action)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Remark)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Amount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.DiscountAmount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.PickupDt)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.PicNo)
+			</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |
+				<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |
+				<a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
+			</td>
+		</tr>
+}
+    </tbody>
+</table>

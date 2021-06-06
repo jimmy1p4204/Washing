@@ -1,0 +1,78 @@
+﻿@model Web.Models.Member
+
+@{
+    ViewData["Title"] = "會員詳細資料";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Member</h4>
+    <hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Name)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Name)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Phone)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Phone)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Address)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Address)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.UniformNo)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.UniformNo)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Remark)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Remark)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.LineId)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.LineId)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.CreateDt)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.CreateDt)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.CreateBy)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.CreateBy)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.UpdateDt)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.UpdateDt)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.UpdateBy)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.UpdateBy)
+		</dd>
+	</dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">編輯會員資料</a> |
+	<a asp-action="Index">回到會員清單</a>
+</div>

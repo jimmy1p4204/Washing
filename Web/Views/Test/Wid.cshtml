@@ -1,0 +1,173 @@
+﻿@model IEnumerable<Web.Models.Wid>
+
+@{
+    ViewData["Title"] = "Wid";
+}
+
+<h1>Wid</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Id)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.C1)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.C2)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.MemberNo)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.MemberName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.CommodityNo)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.CommodityName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Color)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.MethodNo)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.MethodName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Remark)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.C3)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.C4)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DateTime)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DateTime2)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DateTime3)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.C5)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.StaffName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.C6)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.StaffName2)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.C7)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.StaffName3)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.C8)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.C9)
+			</th>
+			<th></th>
+		</tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Id)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.C1)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.C2)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.MemberNo)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.MemberName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.CommodityNo)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.CommodityName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Color)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.MethodNo)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.MethodName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Remark)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.C3)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.C4)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.DateTime)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.DateTime2)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.DateTime3)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.C5)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.StaffName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.C6)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.StaffName2)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.C7)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.StaffName3)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.C8)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.C9)
+			</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+				<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+				<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+			</td>
+		</tr>
+}
+    </tbody>
+</table>
