@@ -9,56 +9,95 @@
 <div>
     <h4>Clothing</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Color)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Color)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Action)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Action)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Remark)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Remark)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Amount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DiscountAmount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiscountAmount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PickupDt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PickupDt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PicNo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PicNo)
-        </dd>
-    </dl>
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Seq)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Seq)
+		</dd>
+		@*<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.MemberId)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.MemberId)
+		</dd>*@
+		<dt class="col-sm-2">
+			會員
+		</dt>
+		<dd class="col-sm-10">
+			(@Model.MemberId)@ViewBag.Members[Model.MemberId].Name
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Type)
+		</dt>
+		<dd class="col-sm-10">
+			@*@Html.DisplayFor(model => model.Type)*@
+			@ViewBag.ClothingTypes[Model.Type]
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Color)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Color)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Action)
+		</dt>
+		<dd class="col-sm-10">
+			@*@Html.DisplayFor(model => model.Action)*@
+			@ViewBag.ClothingActions[Model.Action]
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Remark)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Remark)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Amount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Amount)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.DiscountAmount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.DiscountAmount)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Paid)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Paid)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Status)
+		</dt>
+		<dd class="col-sm-10">
+			@*@Html.DisplayFor(model => model.Status)*@
+			@ViewBag.ClothingStatus[Model.Status]
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.ReceiveDt)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ReceiveDt)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.PickupDt)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.PickupDt)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.PicNo)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.PicNo)
+		</dd>
+	</dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">編輯</a> |

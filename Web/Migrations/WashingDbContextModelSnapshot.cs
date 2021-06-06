@@ -32,8 +32,8 @@ namespace Web.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Color")
-                        .HasColumnType("int");
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DiscountAmount")
                         .HasColumnType("int");
@@ -41,14 +41,26 @@ namespace Web.Migrations
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Paid")
+                        .HasColumnType("bit");
+
                     b.Property<int>("PicNo")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("PickupDt")
+                    b.Property<DateTime?>("PickupDt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ReceiveDt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Remark")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Seq")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -58,6 +70,84 @@ namespace Web.Migrations
                     b.HasIndex("MemberId");
 
                     b.ToTable("Clothing");
+                });
+
+            modelBuilder.Entity("Web.Models.ClothingAction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClothingActions");
+                });
+
+            modelBuilder.Entity("Web.Models.ClothingColor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Seq")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClothingColors");
+                });
+
+            modelBuilder.Entity("Web.Models.ClothingStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClothingStatus");
+                });
+
+            modelBuilder.Entity("Web.Models.ClothingType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DryCleaningPrice")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Remark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Seq")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Spec")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("WashingPrice")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClothingTypes");
                 });
 
             modelBuilder.Entity("Web.Models.Cst", b =>
@@ -182,6 +272,9 @@ namespace Web.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.Property<string>("CreateBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -206,7 +299,7 @@ namespace Web.Migrations
                     b.Property<string>("UpdateBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdateDt")
+                    b.Property<DateTime?>("UpdateDt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");

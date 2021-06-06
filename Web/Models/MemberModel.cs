@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +20,12 @@ namespace Web.Models
 		/// </summary>
 		[DisplayName("姓名")]
 		public string Name { get; set; }
+
+		/// <summary>
+		/// 餘額
+		/// </summary>
+		[DisplayName("餘額")]
+		public int Amount { get; set; }
 
 		/// <summary>
 		/// 顧客電話
@@ -66,7 +73,7 @@ namespace Web.Models
 		/// 建立時間
 		/// </summary>
 		[DisplayName("更新時間")]
-		public DateTime UpdateDt { get; set; }
+		public DateTime? UpdateDt { get; set; }
 
 		/// <summary>
 		/// 建立者

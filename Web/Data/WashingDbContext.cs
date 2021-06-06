@@ -16,6 +16,7 @@ namespace Web.Data
 
 		public DbSet<Member> Members { get; set; }
 		public DbSet<Clothing> Clothings { get; set; }
+		public DbSet<ClothingType> ClothingTypes { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -27,5 +28,11 @@ namespace Web.Data
 		public DbSet<Web.Models.Wid> Wid { get; set; }
 
 		public DbSet<Web.Models.Cst> Cst { get; set; }
+
+		public DbSet<Web.Models.ClothingColor> ClothingColors { get; set; }
+
+		public DbSet<Web.Models.ClothingStatus> ClothingStatus { get; set; }
+
+		public DbSet<Web.Models.ClothingAction> ClothingActions { get; set; }
 	}
 }

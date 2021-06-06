@@ -1,0 +1,30 @@
+﻿@model Web.Models.ClothingColor
+
+@{
+    ViewData["Title"] = "衣服顏色內容";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>ClothingColor</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Seq)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Seq)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">編輯</a> |
+	<a asp-action="Index">回到衣物顏色清單</a>
+</div>

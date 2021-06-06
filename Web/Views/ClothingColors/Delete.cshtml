@@ -1,0 +1,33 @@
+﻿@model Web.Models.ClothingColor
+
+@{
+    ViewData["Title"] = "刪除衣服顏色";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>是否確認要刪除這個項目?</h3>
+<div>
+    <h4>ClothingColor</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Seq)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Seq)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+		<a asp-action="Index">回到衣物顏色清單</a>
+    </form>
+</div>

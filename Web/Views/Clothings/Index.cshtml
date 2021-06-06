@@ -6,18 +6,36 @@
 
 <h1>@ViewData["Title"] @ViewBag.MemberId @ViewBag.MemberName</h1>
 
+
+@if (ViewBag.MemberId > 0)
+{
 <p>
-    <a asp-action="Create" asp-route-memberId="@ViewBag.MemberId">建立訂單</a>
+	<a asp-action="Create" asp-route-memberId="@ViewBag.MemberId">建立訂單</a>
 </p>
-<table class="table">
-    <thead>
+}
+else
+{
+<a class="nav-link text-dark" asp-area="" asp-controller="Members" asp-action="Index">建立訂單請由 "會員資料" 進入</a>
+}
+<div>
+	備註:
+	<ul>
+		<li>若顧客已付款，則點選 "已付款"，此動作會在"會員總餘額"減掉此訂單的金額</li>
+		<li>"改回未付款" 則會在"會員總餘額"加回此訂單的金額</li>
+	</ul>
+</div>
+<table id="myTable" class="table">
+	<thead>
 		<tr>
 			<th>
-				@Html.DisplayNameFor(model => model.Id)
+				@Html.DisplayNameFor(model => model.Seq)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.MemberId)
+				會員
 			</th>
+			@*<th>
+			@Html.DisplayNameFor(model => model.MemberId)
+		</th>*@
 			<th>
 				@Html.DisplayNameFor(model => model.Type)
 			</th>
@@ -37,31 +55,45 @@
 				@Html.DisplayNameFor(model => model.DiscountAmount)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.PickupDt)
+				@Html.DisplayNameFor(model => model.Paid)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.PicNo)
+				@Html.DisplayNameFor(model => model.Status)
 			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ReceiveDt)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PickupDt)
+			</th>
+			@*<th>
+			@Html.DisplayNameFor(model => model.PicNo)
+		</th>*@
 			<th></th>
 		</tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
+	</thead>
+	<tbody>
+		@foreach (var item in Model) {
 		<tr>
 			<td>
-				@Html.DisplayFor(modelItem => item.Id)
+				@Html.DisplayFor(modelItem => item.Seq)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.MemberId)
+				<a asp-action="Index" asp-controller="Members" asp-route-Id="@item.MemberId">(@item.MemberId)@ViewBag.Members[item.MemberId].Name</a>
 			</td>
+			@*<td>
+					@Html.DisplayFor(modelItem => item.MemberId)
+				</td>*@
 			<td>
-				@Html.DisplayFor(modelItem => item.Type)
+				@*@Html.DisplayFor(modelItem => item.Type)*@
+				@ViewBag.ClothingTypes[item.Type]
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.Color)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.Action)
+				@*@Html.DisplayFor(modelItem => item.Action)*@
+				@ViewBag.ClothingActions[item.Action]
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.Remark)
@@ -73,17 +105,43 @@
 				@Html.DisplayFor(modelItem => item.DiscountAmount)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.PickupDt)
+				@Html.DisplayFor(modelItem => item.Paid)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.PicNo)
+				@*@Html.DisplayFor(modelItem => item.Status)*@
+				@ViewBag.ClothingStatus[item.Status]
 			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ReceiveDt)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.PickupDt)
+			</td>
+			@*<td>
+					@Html.DisplayFor(modelItem => item.PicNo)
+				</td>*@
 			<td>
 				<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |
 				<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |
-				<a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
+				<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |
+				@if(!item.Paid)
+			{
+				<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
+			}
+			else{
+				<a asp-action="UnPaid" asp-route-id="@item.Id">改回未付款</a>
+			}
+
 			</td>
 		</tr>
 }
-    </tbody>
+	</tbody>
 </table>
+
+@section scripts{
+	<script>
+		$(document).ready(function () {
+			$('#myTable').DataTable();
+		});
+	</script>
+}

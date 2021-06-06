@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Web.Models.ClothingColor>
+
+@{
+    ViewData["Title"] = "衣服顏色清單";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">新增衣服顏色</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Seq)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Seq)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">詳細內容</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

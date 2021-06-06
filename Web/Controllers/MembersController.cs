@@ -20,8 +20,17 @@ namespace Web.Controllers
         }
 
         // GET: Members
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id = 0)
         {
+            if (id != 0)
+            {
+                if (_context.Members.Any(x => x.Id == id))
+                {
+                    var member = _context.Members.Where(x => x.Id == id);
+                    return View(await member.ToListAsync());
+                }
+            }
+
             return View(await _context.Members.ToListAsync());
         }
 
@@ -120,6 +129,67 @@ namespace Web.Controllers
             }
             return View(member);
         }
+
+        // GET: Members/Edit/5
+        public async Task<IActionResult> EditAmount(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var member = await _context.Members.FindAsync(id);
+            if (member == null)
+            {
+                return NotFound();
+            }
+            member.Amount = 0;
+            return View(member);
+        }
+
+        // POST: Members/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAmount(int id, Member member)
+        {
+            if (id != member.Id)
+            {
+                return NotFound();
+            }
+
+            var memberFromDb = await _context.Members.FindAsync(id);
+            if (memberFromDb == null)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    memberFromDb.UpdateBy = User.Identity.Name;
+                    memberFromDb.UpdateDt = DateTime.Now;
+                    memberFromDb.Amount += member.Amount;
+                    _context.Update(memberFromDb);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!MemberExists(member.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(member);
+        }
+
 
         // GET: Members/Delete/5
         public async Task<IActionResult> Delete(int? id)

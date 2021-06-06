@@ -7,10 +7,19 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">建立會員資料</a>
+	<a asp-action="Create">建立會員資料</a>
 </p>
-<table class="table">
-    <thead>
+
+<div>
+	備註:
+	<ul>
+		<li>不管顧客是付錢還是儲值，都請使用 "收現/儲值" 功能</li>
+		<li>若會員衣物都已勾選已繳款，會員的餘額呈現負數，代表顧客欠你這麼多錢</li>
+	</ul>
+</div>
+
+<table id="myTable" class="table">
+	<thead>
 		<tr>
 			<th>
 				@Html.DisplayNameFor(model => model.Id)
@@ -19,20 +28,23 @@
 				@Html.DisplayNameFor(model => model.Name)
 			</th>
 			<th>
+				@Html.DisplayNameFor(model => model.Amount)
+			</th>
+			<th>
 				@Html.DisplayNameFor(model => model.Phone)
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.Address)
 			</th>
-			<th>
+			@*<th>
 				@Html.DisplayNameFor(model => model.UniformNo)
-			</th>
+			</th>*@
 			<th>
 				@Html.DisplayNameFor(model => model.Remark)
 			</th>
-			<th>
+			@*<th>
 				@Html.DisplayNameFor(model => model.LineId)
-			</th>
+			</th>*@
 			<th>
 				@Html.DisplayNameFor(model => model.CreateDt)
 			</th>
@@ -41,9 +53,9 @@
 			</th>
 			<th></th>
 		</tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
+	</thead>
+	<tbody>
+		@foreach (var item in Model) {
 		<tr>
 			<td>
 				@Html.DisplayFor(modelItem => item.Id)
@@ -52,20 +64,23 @@
 				@Html.DisplayFor(modelItem => item.Name)
 			</td>
 			<td>
+				@Html.DisplayFor(modelItem => item.Amount)
+			</td>
+			<td>
 				@Html.DisplayFor(modelItem => item.Phone)
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.Address)
 			</td>
-			<td>
+			@*<td>
 				@Html.DisplayFor(modelItem => item.UniformNo)
-			</td>
+			</td>*@
 			<td>
 				@Html.DisplayFor(modelItem => item.Remark)
 			</td>
-			<td>
+			@*<td>
 				@Html.DisplayFor(modelItem => item.LineId)
-			</td>
+			</td>*@
 			<td>
 				@Html.DisplayFor(modelItem => item.CreateDt)
 			</td>
@@ -78,8 +93,17 @@
 				<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |
 				<a asp-action="Index" asp-controller="Clothings" asp-route-memberId="@item.Id">衣物清單</a> |
 				<a asp-action="Create" asp-controller="Clothings" asp-route-memberId="@item.Id">建立訂單(收衣)</a> |
+				<a asp-action="EditAmount" asp-route-id="@item.Id">收現/儲值</a> |
 			</td>
 		</tr>
 }
-    </tbody>
+	</tbody>
 </table>
+
+@section scripts{
+<script>
+	$(document).ready(function () {
+		$('#myTable').DataTable();
+	});
+</script>
+}  
