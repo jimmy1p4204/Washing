@@ -61,6 +61,8 @@ namespace Web.Models
 		/// 建立時間
 		/// </summary>
 		[DisplayName("建立時間")]
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")] 
 		public DateTime CreateDt { get; set; }
 
 		/// <summary>
@@ -73,6 +75,8 @@ namespace Web.Models
 		/// 建立時間
 		/// </summary>
 		[DisplayName("更新時間")]
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")] 
 		public DateTime? UpdateDt { get; set; }
 
 		/// <summary>

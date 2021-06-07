@@ -43,7 +43,7 @@ namespace Web.Controllers
 			}
 
 			// 衣物類型對應 (呈現中文用)
-			ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Id, x => x.Spec);
+			ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Id, x => x.Name);
 
 			// 衣物類型對應 (呈現中文用)
 			ViewBag.ClothingStatus = _context.ClothingStatus.ToDictionary(x => x.Id, x => x.Name);
@@ -323,6 +323,70 @@ namespace Web.Controllers
 			return RedirectToAction(nameof(Index), new { memberId = member.Id });
 		}
 
+		/// <summary>
+		/// 已付款
+		/// GET: Clothings/Edit/5
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public async Task<IActionResult> Pickup(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var clothing = await _context.Clothings.FindAsync(id);
+			if (clothing == null)
+			{
+				return NotFound();
+			}
+
+			// 找到會員
+			var member = await _context.Members.FindAsync(clothing.MemberId);
+
+			clothing.IsPickup = true;
+			clothing.PickupDt = DateTime.Now;
+
+			_context.Update(clothing);
+			await _context.SaveChangesAsync();
+
+			// 回到該會員的衣物清單
+			return RedirectToAction(nameof(Index), new { memberId = member.Id });
+		}
+
+		//
+		/// <summary>
+		/// 改回未付款
+		///  GET: Clothings/UnPaid/5
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public async Task<IActionResult> UnPickup(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var clothing = await _context.Clothings.FindAsync(id);
+			if (clothing == null)
+			{
+				return NotFound();
+			}
+
+			// 找到會員
+			var member = await _context.Members.FindAsync(clothing.MemberId);
+
+			clothing.IsPickup = false;
+			clothing.PickupDt = null;
+
+			_context.Update(clothing);
+			await _context.SaveChangesAsync();
+
+			// 回到該會員的衣物清單
+			return RedirectToAction(nameof(Index), new { memberId = member.Id });
+		}
 
 
 		private void SetMemberIdSelectList(int memberId)
@@ -344,7 +408,7 @@ namespace Web.Controllers
 
 		private void SetCloseingTypeSelectList(int clothingTypeId = 0)
 		{
-			var selectList = _context.ClothingTypes.Select(x => new SelectListItem { Text = $"({x.Seq}){x.Spec}(乾洗:{x.WashingPrice}, 水洗:{x.DryCleaningPrice})", Value = x.Id.ToString() });
+			var selectList = _context.ClothingTypes.Select(x => new SelectListItem { Text = $"({x.Seq}){x.Spec}(乾洗:{x.DryCleaningPrice}, 水洗:{x.WashingPrice})", Value = x.Id.ToString() });
 			if (selectList.Any(x => x.Value == clothingTypeId.ToString()))
 			{
 				selectList.Where(x => x.Value == clothingTypeId.ToString()).FirstOrDefault().Selected = true;

@@ -34,8 +34,8 @@ else
 				會員
 			</th>
 			@*<th>
-			@Html.DisplayNameFor(model => model.MemberId)
-		</th>*@
+					@Html.DisplayNameFor(model => model.MemberId)
+				</th>*@
 			<th>
 				@Html.DisplayNameFor(model => model.Type)
 			</th>
@@ -67,8 +67,8 @@ else
 				@Html.DisplayNameFor(model => model.PickupDt)
 			</th>
 			@*<th>
-			@Html.DisplayNameFor(model => model.PicNo)
-		</th>*@
+					@Html.DisplayNameFor(model => model.PicNo)
+				</th>*@
 			<th></th>
 		</tr>
 	</thead>
@@ -120,28 +120,32 @@ else
 			@*<td>
 					@Html.DisplayFor(modelItem => item.PicNo)
 				</td>*@
-			<td>
-				<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |
-				<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |
-				<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |
-				@if(!item.Paid)
+		<td>
+			<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |
+			<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |
+			<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |
+			@if(!item.Paid)
 			{
-				<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
+			<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
 			}
 			else{
-				<a asp-action="UnPaid" asp-route-id="@item.Id">改回未付款</a>
+			<a asp-action="UnPaid" asp-route-id="@item.Id">改回未付款</a>
+			} |
+			
+			@if(!item.IsPickup)
+			{
+			<a asp-action="Pickup" asp-route-id="@item.Id">顧客取件</a>
 			}
-
-			</td>
+			else{
+			<a asp-action="UnPickup" asp-route-id="@item.Id">取消取件</a>
+			} |
+			
+		</td>
 		</tr>
 }
 	</tbody>
 </table>
 
 @section scripts{
-	<script>
-		$(document).ready(function () {
-			$('#myTable').DataTable();
-		});
-	</script>
+
 }

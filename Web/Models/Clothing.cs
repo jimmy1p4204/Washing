@@ -76,15 +76,25 @@ namespace Web.Models
 		public bool Paid { get; set; } = false;
 
 		/// <summary>
+		/// 顧客是否已取件
+		/// </summary>
+		[DisplayName("顧客是否已取件")]
+		public bool IsPickup { get; set; } = false;
+
+		/// <summary>
 		/// 收件日期
 		/// </summary>
 		[DisplayName("收件日期")]
-		public DateTime ReceiveDt { get; set; }
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
+		public DateTime ReceiveDt { get; set; } = DateTime.Now;
 
 		/// <summary>
 		/// 取件日期
 		/// </summary>
 		[DisplayName("顧客取件日期")]
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
 		public DateTime? PickupDt { get; set; }
 
 		/// <summary>

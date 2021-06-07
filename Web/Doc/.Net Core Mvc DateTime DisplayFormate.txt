@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/43752832/format-date-within-view-in-asp-net-core-mvc
