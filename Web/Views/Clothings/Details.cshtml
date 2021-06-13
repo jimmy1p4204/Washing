@@ -1,14 +1,14 @@
 ﻿@model Web.Models.Clothing
 
 @{
-    ViewData["Title"] = "訂單內容";
+	ViewData["Title"] = "訂單內容";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <div>
-    <h4>Clothing</h4>
-    <hr />
+	<h4>Clothing</h4>
+	<hr />
 	<dl class="row">
 		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.Seq)
@@ -17,11 +17,11 @@
 			@Html.DisplayFor(model => model.Seq)
 		</dd>
 		@*<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.MemberId)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.MemberId)
-		</dd>*@
+				@Html.DisplayNameFor(model => model.MemberId)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.MemberId)
+			</dd>*@
 		<dt class="col-sm-2">
 			會員
 		</dt>
@@ -99,7 +99,19 @@
 		</dd>
 	</dl>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">編輯</a> |
+	<a asp-action="Edit" asp-route-id="@Model.Id">編輯</a> |
+	<a asp-action="Create" asp-controller="ClothingPictures" asp-route-ClothingId="@Model.Id">拍照</a> |
+	<a asp-action="Index" asp-controller="ClothingPictures" asp-route-ClothingId="@Model.Id">刪除照片</a> |
 	<a asp-action="Index">回到衣物清單</a>
 </div>
+<hr />
+@foreach (var item in @ViewBag.ClothingPictures)
+{
+<div class="row">
+	<img src="@item.Content" />
+	<label>@item.CreateDt</label>
+</div>
+	
+}

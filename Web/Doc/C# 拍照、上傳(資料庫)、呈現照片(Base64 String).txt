@@ -1,0 +1,8 @@
+=== 拍照 ===
+https://iter01.com/545940.html
+
+=== 檔案上傳 ===
+https://kevintsengtw.blogspot.com/2013/03/aspnet-mvc.html
+
+=== image ===
+呈現圖片 https://stackoverflow.com/questions/17952514/asp-net-mvc-how-to-display-a-byte-array-image-from-model

@@ -118,7 +118,9 @@ namespace Web.Controllers
 			var colors = _context.ClothingColors.ToDictionary(x => x.Id, x => x.Name);
 			var colorIds = clothing.Color.Split(',');
 			clothing.Color = string.Join(",", colorIds.Select(y => colors[int.Parse(y)]));
-			
+
+			// 取得衣物照片
+			ViewBag.ClothingPictures = _context.ClothingPictures.Where(x => x.ClothingId == id);
 
 			return View(clothing);
 		}

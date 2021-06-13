@@ -1,0 +1,93 @@
+﻿@model Web.Models.ClothingPicture
+
+@{
+	ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>ClothingPicture</h4>
+<hr />
+<div class="row">
+	<div class="col-md-6">
+		<video id="video" style="width: 480px;"></video>
+	</div>
+	<div class="col-md-6">
+		<canvas id="canvas" width="480" height="320" style="display: none"></canvas>
+	</div>
+</div>
+<hr />
+<div class="row">
+
+	<div class="col-md-4">
+		<form asp-action="Create">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<input type="hidden" asp-for="ClothingId" />
+			</div>
+			<div class="form-group">
+				<input type="hidden" asp-for="Content" />
+			</div>
+			<div class="form-group">
+				<input id="submit" type="submit" value="Create" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+	<script>
+		//訪問使用者媒體裝置的相容方法
+		function getUserMedia(constraints, success, error) {
+			if (navigator.mediaDevices.getUserMedia) {
+				//最新的標準API
+				navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
+			} else if (navigator.webkitGetUserMedia) {
+				//webkit核心瀏覽器
+				navigator.webkitGetUserMedia(constraints, success, error)
+			} else if (navigator.mozGetUserMedia) {
+				//firfox瀏覽器
+				navigator.mozGetUserMedia(constraints, success, error);
+			} else if (navigator.getUserMedia) {
+				//舊版API
+				navigator.getUserMedia(constraints, success, error);
+			}
+		}
+
+		let video = document.getElementById('video');
+		let canvas = document.getElementById('canvas');
+		let context = canvas.getContext('2d');
+
+		function success(stream) {
+			//相容webkit核心瀏覽器
+			let CompatibleURL = window.URL || window.webkitURL;
+			//將視訊流設定為video元素的源
+			console.log(stream);
+
+			//video.src = CompatibleURL.createObjectURL(stream);
+			video.srcObject = stream;
+			video.play();
+		}
+
+		function error(error) {
+			console.log(`訪問使用者媒體裝置失敗${error.name}, ${error.message}`);
+		}
+
+		if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
+			//呼叫使用者媒體裝置, 訪問攝像頭
+			getUserMedia({ video: { width: 480, height: 320 } }, success, error);
+		} else {
+			alert('不支援訪問使用者媒體');
+		}
+
+		document.getElementById('submit').addEventListener('click', function () {
+			context.drawImage(video, 0, 0, 480, 320);
+			$('#Content').val(canvas.toDataURL("image/jpeg", 1.0));
+		})
+	</script>
+}

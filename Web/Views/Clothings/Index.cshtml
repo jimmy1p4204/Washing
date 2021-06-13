@@ -96,7 +96,8 @@
 		{
 		<tr>
 			<td>
-				@Html.DisplayFor(modelItem => item.Seq)
+				<a asp-action="Details" asp-route-id="@item.Id">@item.Seq</a>
+				@*@Html.DisplayFor(modelItem => item.Seq)*@
 			</td>
 			<td>
 				<a asp-action="Index" asp-controller="Members" asp-route-Id="@item.MemberId">(@item.MemberId)@ViewBag.Members[item.MemberId].Name</a>
@@ -148,7 +149,7 @@
 				</td>*@
 			<td>
 				<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |
-				<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |
+				@*<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |*@
 				<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |
 				@if (!item.Paid)
 					{

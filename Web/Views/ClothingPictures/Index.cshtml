@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Web.Models.ClothingPicture>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<hr />
+@if (ViewBag.ClothingId != null && @ViewBag.ClothingId != 0)
+{
+<ul>
+	<li><a asp-action="Create" asp-route-clothingId="@ViewBag.ClothingId">拍照</a></li>
+	<li><a asp-action="Details" asp-controller="Clothings" asp-route-id="@ViewBag.ClothingId">回到衣物明細</a></li>
+</ul>
+}
+
+<hr />
+<table id="myTable" class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Content)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.CreateDt)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					<img src="@item.Content" />
+					@*@Html.DisplayFor(modelItem => item.Content)*@
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.CreateDt)
+				</td>
+				<td>
+					<a asp-action="Delete" asp-route-id="@item.Id">刪除</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

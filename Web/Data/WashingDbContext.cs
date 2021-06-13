@@ -34,7 +34,9 @@ namespace Web.Data
 		public DbSet<Web.Models.ClothingStatus> ClothingStatus { get; set; }
 
 		public DbSet<Web.Models.ClothingAction> ClothingActions { get; set; }
-		
+
+		public DbSet<Web.Models.ClothingPicture> ClothingPictures { get; set; }
+
 		public DbSet<Web.Models.Log> Logs { get; set; }
 	}
 }
