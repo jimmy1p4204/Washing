@@ -27,7 +27,7 @@ namespace Web.Controllers
 		/// 取得衣物清單
 		/// </summary>
 		/// <param name="memberId"></param>
-		/// <param name="unPickup">預設顯示未取件</param>
+		/// <param name="unPickup">預設為:僅顯示未取件</param>
 		/// <returns></returns>
 		public async Task<IActionResult> Index(int memberId, bool unPickup = true)
 		{
@@ -60,7 +60,7 @@ namespace Web.Controllers
 			}
 
 			// 預設顯示未取件
-			if (!unPickup) 
+			if (unPickup) 
 			{
 				clothings = clothings.Where(x => x.PickupDt == null);
 			}
