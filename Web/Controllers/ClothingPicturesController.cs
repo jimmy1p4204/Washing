@@ -84,7 +84,7 @@ namespace Web.Controllers
             {
                 _context.Add(clothingPicture);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { ClothingId = clothingPicture.ClothingId});
+                return RedirectToAction("Details", "Clothings", new { id = clothingPicture.ClothingId});
             }
             return View(clothingPicture);
         }
