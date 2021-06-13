@@ -105,7 +105,7 @@
 	<a asp-action="Delete" asp-route-id="@Model.Id">刪除衣物資料</a> |
 	<a asp-action="Create" asp-controller="ClothingPictures" asp-route-ClothingId="@Model.Id">拍照</a> |
 	<a asp-action="Index" asp-controller="ClothingPictures" asp-route-ClothingId="@Model.Id">刪除照片</a> |
-	<a asp-action="Index">回到衣物清單</a>
+	<a asp-action="Index" asp-route-MemberId="@Model.MemberId">回到此會員的衣物清單</a>
 </div>
 <hr />
 @foreach (var item in @ViewBag.ClothingPictures)

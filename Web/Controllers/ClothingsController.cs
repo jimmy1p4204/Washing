@@ -121,7 +121,6 @@ namespace Web.Controllers
 
 			// 取得衣物照片
 			ViewBag.ClothingPictures = _context.ClothingPictures.Where(x => x.ClothingId == id);
-
 			return View(clothing);
 		}
 
@@ -175,7 +174,7 @@ namespace Web.Controllers
 				});
 
 				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index), new { memberId = clothing.MemberId });
+				return RedirectToAction(nameof(Details), new { Id = clothing.Id });
 			}
 			return View(clothing);
 		}
