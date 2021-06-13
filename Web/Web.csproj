@@ -20,6 +20,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\images\Rocket.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\Spinner-1s-200px.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="App_Data\Washing\CST.dbf_all_from_78.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
