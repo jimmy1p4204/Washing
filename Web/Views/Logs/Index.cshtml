@@ -25,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.Balance)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClothingSeq)
+                @Html.DisplayNameFor(model => model.ClothingId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Employee)
@@ -52,9 +52,9 @@
                 @Html.DisplayFor(modelItem => item.Balance)
             </td>
 			<td>
-				@if (item.ClothingSeq != null && item.ClothingSeq.Value != 0)
+				@if (item.ClothingId != null && item.ClothingId.Value != 0)
                 {
-				<a asp-action="Index" asp-controller="Clothings" asp-route-memberId="@item.MemberId">@ViewBag.Clothings[item.ClothingSeq.Value].Seq</a>
+				<a asp-action="Index" asp-controller="Clothings" asp-route-memberId="@item.MemberId">@ViewBag.Clothings[item.ClothingId.Value].Seq</a>
                 }
 
 				@*@Html.DisplayFor(modelItem => item.ClothingSeq)*@

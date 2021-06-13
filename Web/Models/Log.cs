@@ -47,7 +47,7 @@ namespace Web.Models
 		/// 衣物編號
 		/// </summary>
 		[DisplayName("衣物編號")]
-		public int? ClothingSeq { get; set; }
+		public int? ClothingId { get; set; }
 
 		/// <summary>
 		/// 員工

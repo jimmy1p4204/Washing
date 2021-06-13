@@ -142,9 +142,11 @@ namespace Web.Controllers
 
 
 
-		// POST: Clothings/Create
-		// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-		// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		/// <summary>
+		/// 衣服收件
+		/// </summary>
+		/// <param name="clothing"></param>
+		/// <returns></returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(ClothingEditViewModel clothing)
@@ -157,6 +159,19 @@ namespace Web.Controllers
 				}
 				clothing.Color = string.Join(",", clothing.SelectedColorIds);
 				_context.Add(clothing);
+
+				// 找到會員
+				var member = await _context.Members.FindAsync(clothing.MemberId);
+
+				_context.Logs.Add(new Log()
+				{
+					Act = "衣物收件",
+					MemberId = clothing.MemberId,
+					Amount = member.Amount,
+					Balance = 0,
+					Employee = User.Identity.Name,
+				});
+
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index), new { memberId = clothing.MemberId });
 			}
@@ -312,7 +327,7 @@ namespace Web.Controllers
 				MemberId = member.Id,
 				Amount = -clothing.Amount,
 				Balance = member.Amount,
-				ClothingSeq = id,
+				ClothingId = id,
 				Employee = User.Identity.Name,
 			});
 			await _context.SaveChangesAsync();
@@ -359,7 +374,7 @@ namespace Web.Controllers
 				MemberId = member.Id,
 				Amount = clothing.Amount,
 				Balance = member.Amount,
-				ClothingSeq = id,
+				ClothingId = id,
 				Employee = User.Identity.Name,
 			});
 
@@ -391,17 +406,20 @@ namespace Web.Controllers
 			// 找到會員
 			var member = await _context.Members.FindAsync(clothing.MemberId);
 
-			// 尚未付款
-			if (!clothing.Paid)
-			{
-				TempData["ErrorMsg"] = $"{clothing.Seq}衣物狀態為「未付款」，不能取件。";
-				return RedirectToAction(nameof(Index), new { memberId = member.Id });
-			}
-
 			clothing.IsPickup = true;
 			clothing.PickupDt = DateTime.Now;
 
 			_context.Update(clothing);
+
+			_context.Logs.Add(new Log()
+			{
+				Act = "顧客取件",
+				MemberId = clothing.MemberId,
+				Amount = member.Amount,
+				Balance = 0,
+				Employee = User.Identity.Name,
+			});
+
 			await _context.SaveChangesAsync();
 
 			// 回到該會員的衣物清單
@@ -435,6 +453,17 @@ namespace Web.Controllers
 			clothing.PickupDt = null;
 
 			_context.Update(clothing);
+
+			_context.Logs.Add(new Log()
+			{
+				Act = "取消衣物取件",
+				MemberId = clothing.MemberId,
+				Amount = member.Amount,
+				Balance = 0,
+				ClothingId = clothing.Id,
+				Employee = User.Identity.Name,
+			});
+
 			await _context.SaveChangesAsync();
 
 			// 回到該會員的衣物清單
