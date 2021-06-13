@@ -34,7 +34,7 @@ namespace Web.Controllers
             ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Seq, x => x.Name);
 
 
-            return View(await _context.Logs.ToListAsync());
+            return View(await _context.Logs.OrderByDescending(x=>x.LogDt).ToListAsync());
         }
 
         //// GET: Logs/Details/5
