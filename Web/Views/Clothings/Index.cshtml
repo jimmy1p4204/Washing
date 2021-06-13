@@ -1,29 +1,48 @@
 ﻿@model IEnumerable<Web.Models.Clothing>
 
 @{
-    ViewData["Title"] = "衣物清單";
+	ViewData["Title"] = "衣物清單";
 }
 
-<h1>@ViewData["Title"] @ViewBag.MemberId @ViewBag.MemberName</h1>
+<h1>@ViewData["Title"]</h1>
 
 
+<hr />
 @if (ViewBag.MemberId > 0)
 {
-<p>
-	<a asp-action="Create" asp-route-memberId="@ViewBag.MemberId">建立訂單</a>
-</p>
+<h4>會員: @ViewBag.MemberId @ViewBag.MemberName</h4>
+<ul>
+	<li>餘額: @ViewBag.Members[ViewBag.MemberId].Amount</li>
+	<li>未付衣物金額: @ViewBag.UnPayAmount </li>
+	<li>預計餘額: @ViewBag.estimateAmount</li>
+	<li>報表時間: @ViewBag.ReportDt</li>
+</ul>
 }
-else
-{
-<a class="nav-link text-dark" asp-area="" asp-controller="Members" asp-action="Index">建立訂單請由 "會員資料" 進入</a>
-}
+<hr />
+<h4>選單:</h4>
+<ul>
+	<li>
+		@if (ViewBag.MemberId > 0)
+	{
+		<a asp-action="Create" asp-route-memberId="@ViewBag.MemberId">建立訂單</a>
+	}
+	else
+	{
+		<a asp-controller="Members" asp-action="Index">建立訂單請由 "會員資料" 進入</a>
+	}
+	</li>
+	<li>目前僅顯示「未取件」點選 <a asp-action="Index" asp-route-memberId="@ViewBag.MemberId" asp-route-unPickup=false>此處</a> 顯示所有衣物資料</li>
+</ul>
+<hr />
 <div>
-	備註:
+	<h4>備註:</h4>
 	<ul>
-		<li>若顧客已付款，則點選 "已付款"，此動作會在"會員總餘額"減掉此訂單的金額</li>
-		<li>"改回未付款" 則會在"會員總餘額"加回此訂單的金額</li>
+		<li>若顧客已付款，則點選 「已付款」，此動作會在「會員總餘額」減掉此訂單的金額</li>
+		<li>「改回未付款」 則會在「會員總餘額」加回此訂單的金額</li>
 	</ul>
 </div>
+
+<div style="color:#DC143C; font-size:large">@ViewBag.ErrorMsg</div>
 <table id="myTable" class="table">
 	<thead>
 		<tr>
@@ -73,7 +92,8 @@ else
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model) {
+		@foreach (var item in Model)
+		{
 		<tr>
 			<td>
 				@Html.DisplayFor(modelItem => item.Seq)
@@ -105,7 +125,13 @@ else
 				@Html.DisplayFor(modelItem => item.DiscountAmount)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.Paid)
+				@if(item.Paid){
+				<span>已付</span>
+					}
+					else{
+				<span>未付</span>
+					}
+
 			</td>
 			<td>
 				@*@Html.DisplayFor(modelItem => item.Status)*@
@@ -120,29 +146,31 @@ else
 			@*<td>
 					@Html.DisplayFor(modelItem => item.PicNo)
 				</td>*@
-		<td>
-			<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |
-			<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |
-			<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |
-			@if(!item.Paid)
-			{
-			<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
-			}
-			else{
-			<a asp-action="UnPaid" asp-route-id="@item.Id">改回未付款</a>
-			} |
-			
-			@if(!item.IsPickup)
-			{
-			<a asp-action="Pickup" asp-route-id="@item.Id">顧客取件</a>
-			}
-			else{
-			<a asp-action="UnPickup" asp-route-id="@item.Id">取消取件</a>
-			} |
-			
-		</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |
+				<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |
+				<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |
+				@if (!item.Paid)
+					{
+				<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
+					}
+					else
+					{
+				<a asp-action="UnPaid" asp-route-id="@item.Id">改回未付款</a>
+					} |
+
+				@if (!item.IsPickup)
+					{
+				<a asp-action="Pickup" asp-route-id="@item.Id">顧客取件</a>
+					}
+					else
+					{
+				<a asp-action="UnPickup" asp-route-id="@item.Id">取消取件</a>
+					} |
+
+			</td>
 		</tr>
-}
+		}
 	</tbody>
 </table>
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+	[Authorize(Roles = "Maganer,Employee")]
 	public class ClothingsController : Controller
 	{
 		private readonly WashingDbContext _context;
@@ -21,10 +23,18 @@ namespace Web.Controllers
 
 		}
 
-		// GET: Clothings
-		public async Task<IActionResult> Index(int memberId)
+		/// <summary>
+		/// 取得衣物清單
+		/// </summary>
+		/// <param name="memberId"></param>
+		/// <param name="unPickup">預設顯示未取件</param>
+		/// <returns></returns>
+		public async Task<IActionResult> Index(int memberId, bool unPickup = true)
 		{
-			List<Clothing> clothings;
+			ViewBag.ErrorMsg = TempData["ErrorMsg"]?.ToString();
+
+			IEnumerable<Clothing> clothings;
+			Member member = null;
 			if (memberId == 0)
 			{
 				clothings = await _context.Clothings.ToListAsync();
@@ -34,12 +44,25 @@ namespace Web.Controllers
 			{
 				if (_context.Members.Any(x => x.Id == memberId))
 				{
-					var member = _context.Members.FirstOrDefault(x => x.Id == memberId);
+					member = _context.Members.FirstOrDefault(x => x.Id == memberId);
 					ViewBag.MemberId = member.Id;
 					ViewBag.MemberName = member.Name;
+					ViewBag.ReportDt = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
 				}
 
 				clothings = await _context.Clothings.Where(x => x.MemberId == memberId).ToListAsync();
+				
+				// 未付衣物金額
+				var unPayAmount = clothings.Where(x => x.Paid == false).Sum(x => x.Amount);
+				ViewBag.UnPayAmount = unPayAmount;
+				// 預計餘額
+				ViewBag.estimateAmount = member.Amount - unPayAmount;
+			}
+
+			// 預設顯示未取件
+			if (!unPickup) 
+			{
+				clothings = clothings.Where(x => x.PickupDt == null);
 			}
 
 			// 衣物類型對應 (呈現中文用)
@@ -51,12 +74,14 @@ namespace Web.Controllers
 			// 衣物類型對應 (呈現中文用)
 			ViewBag.ClothingActions = _context.ClothingActions.ToDictionary(x => x.Id, x => x.Name);
 
-			// 衣物類型對應 (呈現中文用)
+			// 會員
 			ViewBag.Members = _context.Members.ToDictionary(x => x.Id, x => x);
+
+
 
 			// 將顏色編號轉成顏色
 			var colors = _context.ClothingColors.ToDictionary(x => x.Id, x => x.Name);
-			clothings.ForEach(x => 
+			clothings.ToList().ForEach(x => 
 			{ 
 				var colorIds = x.Color.Split(',');
 				x.Color = string.Join(",", colorIds.Select(y => colors[int.Parse(y)]));
@@ -280,6 +305,16 @@ namespace Web.Controllers
 
 			_context.Update(clothing);
 			_context.Update(member);
+
+			_context.Logs.Add(new Log()
+			{
+				Act = "衣物已付款",
+				MemberId = member.Id,
+				Amount = -clothing.Amount,
+				Balance = member.Amount,
+				ClothingSeq = id,
+				Employee = User.Identity.Name,
+			});
 			await _context.SaveChangesAsync();
 
 			// 回到該會員的衣物清單
@@ -317,6 +352,17 @@ namespace Web.Controllers
 
 			_context.Update(clothing);
 			_context.Update(member);
+
+			_context.Logs.Add(new Log()
+			{
+				Act = "衣物改回未付款",
+				MemberId = member.Id,
+				Amount = clothing.Amount,
+				Balance = member.Amount,
+				ClothingSeq = id,
+				Employee = User.Identity.Name,
+			});
+
 			await _context.SaveChangesAsync();
 
 			// 回到該會員的衣物清單
@@ -324,7 +370,7 @@ namespace Web.Controllers
 		}
 
 		/// <summary>
-		/// 已付款
+		/// 顧客取件
 		/// GET: Clothings/Edit/5
 		/// </summary>
 		/// <param name="id"></param>
@@ -344,6 +390,13 @@ namespace Web.Controllers
 
 			// 找到會員
 			var member = await _context.Members.FindAsync(clothing.MemberId);
+
+			// 尚未付款
+			if (!clothing.Paid)
+			{
+				TempData["ErrorMsg"] = $"{clothing.Seq}衣物狀態為「未付款」，不能取件。";
+				return RedirectToAction(nameof(Index), new { memberId = member.Id });
+			}
 
 			clothing.IsPickup = true;
 			clothing.PickupDt = DateTime.Now;
