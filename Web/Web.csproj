@@ -6,10 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\IdentityUserRoles\Delete.cshtml" />
+    <Content Remove="Views\IdentityUserRoles\Details.cshtml" />
+    <Content Remove="Views\IdentityUserRoles\Edit.cshtml" />
+    <Content Remove="Views\IdentityUsers\Create.cshtml" />
+    <Content Remove="Views\IdentityUsers\Details.cshtml" />
+    <Content Remove="Views\IdentityUsers\Edit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FileHelpers" Version="3.4.2" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.15">
@@ -41,6 +50,11 @@
     <None Update="App_Data\Washing\Wid.bdf_ThirdPart.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Controllers\" />
+    <Folder Include="Areas\Identity\Views\" />
   </ItemGroup>
 
 </Project>

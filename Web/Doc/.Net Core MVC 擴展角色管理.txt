@@ -1,0 +1,25 @@
+加入 .Net Core MVC 預設 Identity 相關程式碼  (Scaffold)
+https://stackoverflow.com/questions/54194930/asp-net-core-mvc-change-default-identity-area-routes
+
+個人資料管理
+https://localhost:44315/Identity/Account/Manage 
+
+取得角色的方法
+https://stackoverflow.com/questions/51004516/net-core-2-1-identity-get-all-users-with-their-associated-roles/51005445
+
+No service for type 'Microsoft.AspNetCore.Identity.UserManager`1[Microsoft.AspNetCore.Identity.IdentityUser]' has been registered.
+https://stackoverflow.com/questions/52568264/no-service-for-type-microsoft-aspnetcore-identity-usermanager1microsoft-aspne
+- _LoginPartial.cshtml 的 UserManager<IdentityUser> 改成 UserManager<ApplicationUser>
+
+
+=============================== 以下是我最後自己的作法 ============================================
+- 用原本的 IdentityUser, IdentityRole, IdentityUserRole 物件去建立 Contorller
+- (因為上述物件不在你的程式裡，所以無法用產生器選到上述物件，一切皆手動調整)
+	- 建立 IdentityRolesController，選 ApplicationDbContext
+	- 建立 View
+	- 調整 View
+
+
+---
+頁面根據角色呈現內容 
+https://stackoverflow.com/questions/11829937/how-to-show-or-hide-controls-based-on-roles-asp-net-mvc-4-razor
