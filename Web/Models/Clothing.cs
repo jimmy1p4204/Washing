@@ -98,9 +98,9 @@ namespace Web.Models
 		public DateTime? PickupDt { get; set; }
 
 		/// <summary>
-		/// 照片編號
+		/// 包裝方式
 		/// </summary>
-		[DisplayName("照片編號")]
-		public int PicNo { get; set; }
+		[DisplayName("包裝方式")]
+		public int? PackageTypeId { get; set; }
 	}
 }

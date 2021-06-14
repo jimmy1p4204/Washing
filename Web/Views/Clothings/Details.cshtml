@@ -17,11 +17,11 @@
 			@Html.DisplayFor(model => model.Seq)
 		</dd>
 		@*<dt class="col-sm-2">
-				@Html.DisplayNameFor(model => model.MemberId)
-			</dt>
-			<dd class="col-sm-10">
-				@Html.DisplayFor(model => model.MemberId)
-			</dd>*@
+			@Html.DisplayNameFor(model => model.MemberId)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.MemberId)
+		</dd>*@
 		<dt class="col-sm-2">
 			會員
 		</dt>
@@ -47,6 +47,16 @@
 		<dd class="col-sm-10">
 			@*@Html.DisplayFor(model => model.Action)*@
 			@ViewBag.ClothingActions[Model.Action]
+		</dd>
+		<dt class="col-sm-2">	
+			@Html.DisplayNameFor(model => model.PackageTypeId)
+		</dt>
+		<dd class="col-sm-10">
+			@if (Model.PackageTypeId > 0)
+			{
+				@ViewBag.ClothingPackageTypes[Model.PackageTypeId.Value]
+			}
+			@*@Html.DisplayFor(model => model.PackageTypeId)*@
 		</dd>
 		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.Remark)
@@ -90,12 +100,6 @@
 		</dt>
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.PickupDt)
-		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.PicNo)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.PicNo)
 		</dd>
 	</dl>
 </div>

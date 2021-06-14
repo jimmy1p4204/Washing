@@ -74,6 +74,10 @@ namespace Web.Controllers
 			// 衣物類型對應 (呈現中文用)
 			ViewBag.ClothingActions = _context.ClothingActions.ToDictionary(x => x.Id, x => x.Name);
 
+			// 衣物包裝方式 (呈現中文用)
+			ViewBag.ClothingPackageTypes = _context.ClothingPackageTypes.ToDictionary(x => x.Id, x => x.Name);
+
+
 			// 會員
 			ViewBag.Members = _context.Members.ToDictionary(x => x.Id, x => x);
 
@@ -113,6 +117,8 @@ namespace Web.Controllers
 			ViewBag.Members = _context.Members.ToDictionary(x => x.Id, x => x);
 			// 衣物類型對應 (呈現中文用)
 			ViewBag.ClothingActions = _context.ClothingActions.ToDictionary(x => x.Id, x => x.Name);
+			// 衣物包裝方式 (呈現中文用)
+			ViewBag.ClothingPackageTypes = _context.ClothingPackageTypes.ToDictionary(x => x.Id, x => x.Name);
 
 			// 將顏色編號轉成顏色
 			var colors = _context.ClothingColors.ToDictionary(x => x.Id, x => x.Name);
@@ -197,6 +203,7 @@ namespace Web.Controllers
 			SetCloseingTypeSelectList();
 			SetCloseingStatusSelectList(clothing.Status);
 			SetCloseingActionSelectList(clothing.Action);
+			SetCloseingPackageTypeSelectList(clothing.PackageTypeId);
 			ViewBag.Colors = new MultiSelectList(_context.ClothingColors.ToList(), "Id", "Name", clothing.Color.Split(','));
 			return View(clothing);
 		}
@@ -491,7 +498,7 @@ namespace Web.Controllers
 
 		private void SetCloseingTypeSelectList(int clothingTypeId = 0)
 		{
-			var selectList = _context.ClothingTypes.Select(x => new SelectListItem { Text = $"({x.Seq}){x.Spec}(乾洗:{x.DryCleaningPrice}, 水洗:{x.WashingPrice})", Value = x.Id.ToString() });
+			var selectList = _context.ClothingTypes.Select(x => new SelectListItem { Text = $"({x.Seq}){x.Name}(乾洗:{x.DryCleaningPrice}, 水洗:{x.WashingPrice})", Value = x.Id.ToString() });
 			if (selectList.Any(x => x.Value == clothingTypeId.ToString()))
 			{
 				selectList.Where(x => x.Value == clothingTypeId.ToString()).FirstOrDefault().Selected = true;
@@ -509,6 +516,22 @@ namespace Web.Controllers
 			}
 
 			ViewBag.ClothingActions = selectList;
+		}
+
+		private void SetCloseingPackageTypeSelectList(int? packageTypeId)
+		{
+			var selectList = _context.ClothingPackageTypes.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).ToList();
+			selectList.Add(new SelectListItem() { Text = "未指定", Value = "0" });
+			if (packageTypeId != null && packageTypeId.Value != 0) 
+			{
+				if (selectList.Any(x => x.Value == packageTypeId.ToString()))
+				{
+					selectList.Where(x => x.Value == packageTypeId.ToString()).FirstOrDefault().Selected = true;
+				}
+			}
+			
+
+			ViewBag.ClothingPackageTypes = selectList.OrderBy(x => x.Value);
 		}
 
 		private void SetCloseingStatusSelectList(int clothingStatusId = 0)

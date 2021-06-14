@@ -53,8 +53,8 @@
 				會員
 			</th>
 			@*<th>
-					@Html.DisplayNameFor(model => model.MemberId)
-				</th>*@
+			@Html.DisplayNameFor(model => model.MemberId)
+		</th>*@
 			<th>
 				@Html.DisplayNameFor(model => model.Type)
 			</th>
@@ -63,6 +63,9 @@
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.Action)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PackageTypeId)
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.Remark)
@@ -86,8 +89,8 @@
 				@Html.DisplayNameFor(model => model.PickupDt)
 			</th>
 			@*<th>
-					@Html.DisplayNameFor(model => model.PicNo)
-				</th>*@
+			@Html.DisplayNameFor(model => model.PicNo)
+		</th>*@
 			<th></th>
 		</tr>
 	</thead>
@@ -103,8 +106,8 @@
 				<a asp-action="Index" asp-controller="Members" asp-route-Id="@item.MemberId">(@item.MemberId)@ViewBag.Members[item.MemberId].Name</a>
 			</td>
 			@*<td>
-					@Html.DisplayFor(modelItem => item.MemberId)
-				</td>*@
+			@Html.DisplayFor(modelItem => item.MemberId)
+		</td>*@
 			<td>
 				@*@Html.DisplayFor(modelItem => item.Type)*@
 				@ViewBag.ClothingTypes[item.Type]
@@ -117,6 +120,13 @@
 				@ViewBag.ClothingActions[item.Action]
 			</td>
 			<td>
+				@if(item.PackageTypeId > 0)
+				{
+					@ViewBag.ClothingPackageTypes[item.PackageTypeId.Value]
+				}
+				@*@Html.DisplayFor(modelItem => item.PackageTypeId)*@
+			</td>
+			<td>
 				@Html.DisplayFor(modelItem => item.Remark)
 			</td>
 			<td>
@@ -126,12 +136,14 @@
 				@Html.DisplayFor(modelItem => item.DiscountAmount)
 			</td>
 			<td>
-				@if(item.Paid){
-				<span>已付</span>
-					}
-					else{
-				<span>未付</span>
-					}
+				@if (item.Paid)
+				{
+					<span>已付</span>
+				}
+				else
+				{
+					<span>未付</span>
+				}
 
 			</td>
 			<td>
@@ -145,29 +157,29 @@
 				@Html.DisplayFor(modelItem => item.PickupDt)
 			</td>
 			@*<td>
-					@Html.DisplayFor(modelItem => item.PicNo)
-				</td>*@
+			@Html.DisplayFor(modelItem => item.PicNo)
+		</td>*@
 			<td>
 				<!--<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |-->
 				@*<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |*@
 				<!--<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |-->
 				@if (!item.Paid)
-					{
-				<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
-					}
-					else
-					{
-				<a asp-action="UnPaid" asp-route-id="@item.Id">改回未付款</a>
-					} |
+				{
+					<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
+				}
+				else
+				{
+					<a asp-action="UnPaid" asp-route-id="@item.Id">改回未付款</a>
+				} |
 
 				@if (!item.IsPickup)
-					{
-				<a asp-action="Pickup" asp-route-id="@item.Id">顧客取件</a>
-					}
-					else
-					{
-				<a asp-action="UnPickup" asp-route-id="@item.Id">取消取件</a>
-					} |
+				{
+					<a asp-action="Pickup" asp-route-id="@item.Id">顧客取件</a>
+				}
+				else
+				{
+					<a asp-action="UnPickup" asp-route-id="@item.Id">取消取件</a>
+				} |
 
 			</td>
 		</tr>
