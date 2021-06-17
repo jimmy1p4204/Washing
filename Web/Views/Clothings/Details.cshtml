@@ -114,5 +114,5 @@
 <hr />
 @foreach (var item in @ViewBag.ClothingPictures)
 {
-	<a asp-action="Index" asp-controller="ClothingPictures" asp-route-ClothingId="@Model.Id"><img src="@item.Content" h /></a>
+	<a asp-action="Index" asp-controller="ClothingPictures" asp-route-ClothingId="@Model.Id"><img src="@item.Content"/></a>
 }

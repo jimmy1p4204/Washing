@@ -11,7 +11,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Maganer,Employee")]
     public class LogsController : Controller
     {
         private readonly WashingDbContext _context;
@@ -22,8 +22,17 @@ namespace Web.Controllers
         }
 
         // GET: Logs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? memberId)
         {
+            IQueryable<Log> logs = _context.Logs;
+
+            if (memberId > 0) 
+            {
+                logs = logs.Where(x => x.MemberId == memberId);
+            }
+
+            var logList = await logs.OrderByDescending(x => x.LogDt).ToListAsync();
+
             // 會員 (呈現中文用)
             ViewBag.Members = _context.Members.ToDictionary(x => x.Id, x => x);
 
@@ -34,7 +43,7 @@ namespace Web.Controllers
             ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Seq, x => x.Name);
 
 
-            return View(await _context.Logs.OrderByDescending(x=>x.LogDt).ToListAsync());
+            return View(logList);
         }
 
         //// GET: Logs/Details/5
