@@ -62,7 +62,7 @@ namespace Web.Controllers
 			// 預設顯示未取件
 			if (unPickup) 
 			{
-				clothings = clothings.Where(x => x.PickupDt == null);
+				clothings = clothings.Where(x => (x.PickupDt == null) || (x.PickupDt < DateTime.Now.AddMinutes(3)));
 			}
 
 			// 衣物類型對應 (呈現中文用)
@@ -425,6 +425,7 @@ namespace Web.Controllers
 				MemberId = clothing.MemberId,
 				Amount = member.Amount,
 				Balance = 0,
+				ClothingId = id,
 				Employee = User.Identity.Name,
 			});
 
