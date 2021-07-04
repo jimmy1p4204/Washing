@@ -62,7 +62,7 @@ namespace Web.Controllers
 			// 預設顯示未取件
 			if (unPickup) 
 			{
-				clothings = clothings.Where(x => (x.PickupDt == null) || (x.PickupDt < DateTime.Now.AddMinutes(3)));
+				clothings = clothings.Where(x => (x.PickupDt == null));
 			}
 
 			// 衣物類型對應 (呈現中文用)

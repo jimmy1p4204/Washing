@@ -31,7 +31,7 @@
 		<a asp-controller="Members" asp-action="Index">建立訂單請由 "會員資料" 進入</a>
 	}
 	</li>
-	<li>僅顯示「未取件」或「已取件，取件時間在三個月內」的資料，可點此<a asp-action="Index" asp-route-memberId="@ViewBag.MemberId" asp-route-unPickup=false>顯示所有衣物資料</a> </li>
+	<li>僅顯示「未取件」的資料，可點此<a asp-action="Index" asp-route-memberId="@ViewBag.MemberId" asp-route-unPickup=false>顯示所有衣物資料</a> </li>
 </ul>
 <hr />
 <div>
@@ -99,7 +99,15 @@
 		{
 		<tr>
 			<td>
-				<a asp-action="Details" asp-route-id="@item.Id">@item.Seq</a>
+				@if (item.Seq > 0)
+				{
+					<a asp-action="Details" asp-route-id="@item.Id">@item.Seq</a>
+				}
+				else
+				{
+					<a asp-action="Details" asp-route-id="@item.Id">無</a>
+				}
+
 				@*@Html.DisplayFor(modelItem => item.Seq)*@
 			</td>
 			<td>
