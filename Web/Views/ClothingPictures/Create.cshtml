@@ -10,10 +10,10 @@
 <hr />
 <div class="row">
 	<div class="col-md-6">
-		<video id="video" style="width: 480px;"></video>
+		<video id="video" style="width: 768px;"></video>
 	</div>
 	<div class="col-md-6">
-		<canvas id="canvas" width="480" height="320" style="display: none"></canvas>
+		<canvas id="canvas" width="1024" height="768" style="display: none"></canvas>
 	</div>
 </div>
 <hr />
@@ -80,13 +80,13 @@
 
 		if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
 			//呼叫使用者媒體裝置, 訪問攝像頭
-			getUserMedia({ video: { width: 480, height: 320 } }, success, error);
+			getUserMedia({ video: { width: 1024, height: 768, facingMode: { exact: "environment" } } }, success, error);
 		} else {
 			alert('不支援訪問使用者媒體');
 		}
 
 		document.getElementById('submit').addEventListener('click', function () {
-			context.drawImage(video, 0, 0, 480, 320);
+			context.drawImage(video, 0, 0, 1024, 768);
 			$('#Content').val(canvas.toDataURL("image/jpeg", 1.0));
 		})
 	</script>
