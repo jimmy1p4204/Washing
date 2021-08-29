@@ -499,7 +499,7 @@ namespace Web.Controllers
 
 		private void SetCloseingTypeSelectList(int clothingTypeId = 0)
 		{
-			var selectList = _context.ClothingTypes.Select(x => new SelectListItem { Text = $"({x.Seq}){x.Name}(乾洗:{x.DryCleaningPrice}, 水洗:{x.WashingPrice})", Value = x.Id.ToString() });
+			var selectList = _context.ClothingTypes.OrderBy(x=>x.Seq).Select(x => new SelectListItem { Text = $"({x.Seq}){x.Name}(乾洗:{x.DryCleaningPrice}, 水洗:{x.WashingPrice})", Value = x.Id.ToString() });
 			if (selectList.Any(x => x.Value == clothingTypeId.ToString()))
 			{
 				selectList.Where(x => x.Value == clothingTypeId.ToString()).FirstOrDefault().Selected = true;

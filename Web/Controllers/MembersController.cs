@@ -198,7 +198,8 @@ namespace Web.Controllers
 						throw;
 					}
 				}
-				return RedirectToAction(nameof(Index));
+				//儲值完回到會員衣物清單
+				return RedirectToAction("Index", "Clothings", new { memberId = member.Id });
 			}
 			return View(member);
 		}
