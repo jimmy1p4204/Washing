@@ -46,36 +46,36 @@ namespace Web.Controllers
 		/// 本月儲值總額
 		/// </summary>
 		/// <returns></returns>
-		private decimal GetThisMonthStoreAmount()
+		private string GetThisMonthStoreAmount()
 		{
-			return _context.Logs.Where(x => x.LogDt.Month == DateTime.Now.Month && x.Act == "儲值").Sum(y => y.Amount);
+			return $"{_context.Logs.Where(x => x.LogDt.Month == DateTime.Now.Month && x.Act == "儲值").Sum(y => y.Amount).ToString("#,#")} 元";
 		}
 
 		/// <summary>
 		/// 本月收件數
 		/// </summary>
 		/// <returns></returns>
-		private int GetThisMonthClothings()
+		private string GetThisMonthClothings()
 		{
-			return _context.Clothings.Count(x => x.ReceiveDt.Month == DateTime.Now.Month);
+			return $"{_context.Clothings.Count(x => x.ReceiveDt.Month == DateTime.Now.Month).ToString("#,#")} 件";
 		}
 
 		/// <summary>
 		/// 取得未付衣物總餘額
 		/// </summary>
 		/// <returns></returns>
-		private decimal GetUnPayAmountOfClothings()
+		private string GetUnPayAmountOfClothings()
 		{
-			return _context.Clothings.Where(x=>x.Paid == false).Sum(y => y.Amount);
+			return $"{_context.Clothings.Where(x=>x.Paid == false).Sum(y => y.Amount).ToString("#,#")} 元";
 		}
 
 		/// <summary>
 		/// 儲值金總餘額
 		/// </summary>
 		/// <returns></returns>
-		private decimal GetTotalBalanceOfStoreAmount()
+		private string GetTotalBalanceOfStoreAmount()
 		{
-			return _context.Members.Sum(x => x.Amount);
+			return $"{_context.Members.Sum(x => x.Amount).ToString("#,#")} 元";
 		}
 	}
 }

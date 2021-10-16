@@ -15,25 +15,25 @@ namespace Web.Models
 		/// 儲值金總餘額
 		/// </summary>
 		[DisplayName("儲值金總餘額")] 
-		public decimal TotalBalanceOfStoreAmount { get; set; }
+		public string TotalBalanceOfStoreAmount { get; set; }
 
 		/// <summary>
 		/// 衣物未收總額
 		/// </summary>
 		[DisplayName("衣物未收總額")] 
-		public decimal UnPayAmountOfClothings { get; set; }
+		public string UnPayAmountOfClothings { get; set; }
 
 		/// <summary>
 		/// 本月儲值金額
 		/// </summary>
 		[DisplayName("本月儲值金額")] 
-		public decimal ThisMonthStoreAmount { get; set; }
+		public string ThisMonthStoreAmount { get; set; }
 
 		/// <summary>
 		/// 本月收件數
 		/// </summary>
 		[DisplayName("本月收件數")] 
-		public int ThisMonthClothings { get; set; }
+		public string ThisMonthClothings { get; set; }
 	}
 
 	/// <summary>
