@@ -11,7 +11,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize(Roles = "Maganer,Employee")]
+    [Authorize(Roles = "Manager,Employee")]
     public class LogsController : Controller
     {
         private readonly WashingDbContext _context;
