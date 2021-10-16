@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,6 +41,31 @@ namespace Web.Controllers
 			viewModel.ThisMonthStoreAmount = GetThisMonthStoreAmount();
 
 			return View(viewModel);
+		}
+
+		/// <summary>
+		/// 每月報表(一年)
+		/// </summary>
+		/// <returns></returns>
+		public IActionResult MonthlyReport()
+		{
+			var viewModel = new ConcurrentBag<MonthlyReport>();
+
+			for (int i = 0; i < 13; i++)
+			{
+				var month = DateTime.Now.AddMonths(-i);
+				var item = new MonthlyReport()
+				{
+					Month = month,
+					MonthStr = month.ToString("yyyy-MM"),
+					StoreAmount = _context.Logs.Where(x => x.Act == "儲值" && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount).ToString("#,#"),
+					Clothings = _context.Clothings.Count(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).ToString("#,#"),
+				};
+				viewModel.Add(item);
+			}
+
+			var orderViewModel = viewModel.OrderBy(x => x.Month);
+			return View(orderViewModel);
 		}
 
 		/// <summary>

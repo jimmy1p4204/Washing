@@ -41,6 +41,30 @@ namespace Web.Models
 	/// </summary>
 	public class MonthlyReport 
 	{
+		/// <summary>
+		/// 月份
+		/// </summary>
+		[DisplayName("月份")]
+		public DateTime Month { get; set; }
+
+		/// <summary>
+		/// 月份
+		/// </summary>
+		[DisplayName("月份")]
+		public string MonthStr { get; set; }
+
+		/// <summary>
+		/// 儲值金額
+		/// </summary>
+		[DisplayName("儲值金額")]
+		public string StoreAmount { get; set; }
+
+		/// <summary>
+		/// 收件數
+		/// </summary>
+		[DisplayName("收件數")]
+		public string Clothings { get; set; }
+
 
 	}
 }
