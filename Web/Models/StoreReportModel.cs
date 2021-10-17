@@ -34,24 +34,48 @@ namespace Web.Models
 		/// </summary>
 		[DisplayName("本月收件數")] 
 		public string ThisMonthClothings { get; set; }
+
+		/// <summary>
+		/// 本月收件總金額
+		/// </summary>
+		[DisplayName("本月收件總金額")]
+		public string ThisMonthClothingsAmount { get; set; }
+
+		/// <summary>
+		/// 今日儲值金額
+		/// </summary>
+		[DisplayName("今日儲值金額")]
+		public string TodayStoreAmount { get; set; }
+
+		/// <summary>
+		/// 今日收件數
+		/// </summary>
+		[DisplayName("今日收件數")]
+		public string TodayClothings { get; set; }
+
+		/// <summary>
+		/// 本日收件總金額
+		/// </summary>
+		[DisplayName("今日收件總金額")]
+		public string TodayClothingsAmount { get; set; }
 	}
 
 	/// <summary>
 	/// 每月報表
 	/// </summary>
-	public class MonthlyReport 
+	public class ReportModel 
 	{
 		/// <summary>
-		/// 月份
+		/// 月份/日期
 		/// </summary>
-		[DisplayName("月份")]
-		public DateTime Month { get; set; }
+		[DisplayName("月份/日期")]
+		public DateTime Date { get; set; }
 
 		/// <summary>
-		/// 月份
+		/// 月份/日期
 		/// </summary>
-		[DisplayName("月份")]
-		public string MonthStr { get; set; }
+		[DisplayName("月份/日期")]
+		public string DateStr { get; set; }
 
 		/// <summary>
 		/// 儲值金額
@@ -65,6 +89,10 @@ namespace Web.Models
 		[DisplayName("收件數")]
 		public string Clothings { get; set; }
 
-
+		/// <summary>
+		/// 收件總金額
+		/// </summary>
+		[DisplayName("收件總金額")]
+		public string ClothingsAmount { get; set; }
 	}
 }

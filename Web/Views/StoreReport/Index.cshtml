@@ -7,34 +7,73 @@
 <h1>@ViewData["Title"]</h1>
 
 <div>
-    @*<h4>StoreReportModel</h4>*@
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalBalanceOfStoreAmount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TotalBalanceOfStoreAmount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UnPayAmountOfClothings)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UnPayAmountOfClothings)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ThisMonthStoreAmount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ThisMonthStoreAmount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ThisMonthClothings)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ThisMonthClothings)
-        </dd>
-    </dl>
+	@*<h4>StoreReportModel</h4>*@
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TotalBalanceOfStoreAmount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TotalBalanceOfStoreAmount)
+		</dd>
+
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.UnPayAmountOfClothings)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.UnPayAmountOfClothings)
+		</dd>
+	</dl>
+
+	<hr />
+
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.ThisMonthStoreAmount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ThisMonthStoreAmount)
+		</dd>
+
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.ThisMonthClothings)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ThisMonthClothings)
+		</dd>
+
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.ThisMonthClothingsAmount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ThisMonthClothingsAmount)
+		</dd>
+	</dl>
+
+	<hr />
+	
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TodayStoreAmount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TodayStoreAmount)
+		</dd>
+
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TodayClothings)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TodayClothings)
+		</dd>
+
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TodayClothingsAmount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TodayClothingsAmount)
+		</dd>
+	</dl>
 </div>
 <div>
     

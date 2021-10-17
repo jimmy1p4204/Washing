@@ -68,7 +68,7 @@ namespace Web.Controllers
 			// 衣物類型對應 (呈現中文用)
 			ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Id, x => x.Name);
 
-			// 衣物類型對應 (呈現中文用)
+			// 衣物狀態對應 (呈現中文用)
 			ViewBag.ClothingStatus = _context.ClothingStatus.ToDictionary(x => x.Id, x => x.Name);
 
 			// 衣物類型對應 (呈現中文用)
