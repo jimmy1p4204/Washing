@@ -106,7 +106,7 @@
 
 <div>
 	<a asp-action="Edit" asp-route-id="@Model.Id">編輯衣物資料</a> |
-	<a asp-action="Delete" asp-route-id="@Model.Id">刪除衣物資料</a> |
+	@*<a asp-action="Delete" asp-route-id="@Model.Id">刪除衣物資料</a> |*@
 	<a asp-action="Create" asp-controller="ClothingPictures" asp-route-ClothingId="@Model.Id">拍照</a> |
 	<a asp-action="Index" asp-controller="ClothingPictures" asp-route-ClothingId="@Model.Id">刪除照片</a> |
 	<a asp-action="Index" asp-route-MemberId="@Model.MemberId">回到此會員的衣物清單</a>
