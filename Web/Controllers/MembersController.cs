@@ -179,7 +179,7 @@ namespace Web.Controllers
 					_context.Update(memberFromDb);
 					_context.Logs.Add(new Log()
 					{
-						Act = "儲值",
+						Act = LogAct.儲值,
 						MemberId = id,
 						Amount = member.Amount,
 						Balance = memberFromDb.Amount,

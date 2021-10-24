@@ -24,7 +24,6 @@ namespace Web.Models
 		[DisplayName("動作")]
 		public string Act { get; set; }
 
-
 		/// <summary>
 		/// 衣物對應的會員編號
 		/// </summary>
@@ -62,5 +61,15 @@ namespace Web.Models
 		[DataType(DataType.DateTime)]
 		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
 		public DateTime LogDt { get; set; } = DateTime.Now;
+	}
+
+	public class LogAct
+	{
+		public const string 儲值 = "儲值";
+		public const string 衣物收件 = "衣物收件";
+		internal static string 衣物已付款 = "衣物已付款";
+		internal static string 衣物改回未付款 = "衣物改回未付款";
+		internal static string 顧客取件 = "顧客取件";
+		internal static string 取消衣物取件 = "取消衣物取件";
 	}
 }

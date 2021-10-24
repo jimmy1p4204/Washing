@@ -19,6 +19,8 @@ namespace Web.Controllers
         public LogsController(WashingDbContext context)
         {
             _context = context;
+
+           
         }
 
         // GET: Logs
@@ -33,6 +35,17 @@ namespace Web.Controllers
 
             var logList = await logs.OrderByDescending(x => x.LogDt).ToListAsync();
 
+            GetViewBag();
+
+            ViewData["Title"] = "系統紀錄";
+            return View(logList);
+        }
+
+        /// <summary>
+        /// 取得畫面呈現所需資訊(ViewBag)
+        /// </summary>
+		private void GetViewBag()
+		{
             // 會員 (呈現中文用)
             ViewBag.Members = _context.Members.ToDictionary(x => x.Id, x => x);
 
@@ -41,9 +54,22 @@ namespace Web.Controllers
 
             // 衣物類型對應 (呈現中文用)
             ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Seq, x => x.Name);
+        }
 
+		/// <summary>
+		/// 本日儲值金額
+		/// </summary>
+		/// <returns></returns>
+		public async Task<IActionResult> TodayDeposit() 
+        {
+            IQueryable<Log> logs = _context.Logs.Where(x=>x.LogDt > DateTime.Today && x.Act == LogAct.儲值);
 
-            return View(logList);
+            var logList = await logs.OrderByDescending(x => x.LogDt).ToListAsync();
+
+            GetViewBag();
+
+            ViewData["Title"] = "本日儲值紀錄";
+            return View("Index", logList);
         }
 
         //// GET: Logs/Details/5

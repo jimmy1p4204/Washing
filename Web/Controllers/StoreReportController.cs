@@ -79,7 +79,7 @@ namespace Web.Controllers
 		/// <returns></returns>
 		private string GetTodayStoreAmount()
 		{
-			return $"{_context.Logs.Where(x => x.LogDt >= DateTime.Today && x.Act == "儲值").Sum(y => y.Amount).ToString("#,#")} 元";
+			return $"{_context.Logs.Where(x => x.LogDt >= DateTime.Today && x.Act == LogAct.儲值).Sum(y => y.Amount).ToString("#,#")} 元";
 		}
 
 		/// <summary>
@@ -106,7 +106,7 @@ namespace Web.Controllers
 				{
 					Date = month,
 					DateStr = month.ToString("yyyy-MM"),
-					StoreAmount = _context.Logs.Where(x => x.Act == "儲值" && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount).ToString("#,#"),
+					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount).ToString("#,#"),
 					Clothings = _context.Clothings.Count(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).ToString("#,#"),
 					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).Sum(x=> x.Amount).ToString("#,#"),
 				};
@@ -132,7 +132,7 @@ namespace Web.Controllers
 				{
 					Date = day,
 					DateStr = day.ToString("yyyy-MM-dd"),
-					StoreAmount = _context.Logs.Where(x => x.Act == "儲值" && x.LogDt.Date == day).Sum(x => x.Amount).ToString("#,#"),
+					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Date == day).Sum(x => x.Amount).ToString("#,#"),
 					Clothings = _context.Clothings.Count(x => x.ReceiveDt.Date == day).ToString("#,#"),
 					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Date == day).Sum(x => x.Amount).ToString("#,#"),
 				};
@@ -149,7 +149,7 @@ namespace Web.Controllers
 		/// <returns></returns>
 		private string GetThisMonthStoreAmount()
 		{
-			return $"{_context.Logs.Where(x => x.LogDt.Year == DateTime.Now.Year && x.LogDt.Month == DateTime.Now.Month && x.Act == "儲值").Sum(y => y.Amount).ToString("#,#")} 元";
+			return $"{_context.Logs.Where(x => x.LogDt.Year == DateTime.Now.Year && x.LogDt.Month == DateTime.Now.Month && x.Act == LogAct.儲值).Sum(y => y.Amount).ToString("#,#")} 元";
 		}
 
 		/// <summary>

@@ -172,7 +172,7 @@ namespace Web.Controllers
 
 				_context.Logs.Add(new Log()
 				{
-					Act = "衣物收件",
+					Act = LogAct.衣物收件,
 					MemberId = clothing.MemberId,
 					Amount = member.Amount,
 					Balance = 0,
@@ -331,7 +331,7 @@ namespace Web.Controllers
 
 			_context.Logs.Add(new Log()
 			{
-				Act = "衣物已付款",
+				Act = LogAct.衣物已付款,
 				MemberId = member.Id,
 				Amount = -clothing.Amount,
 				Balance = member.Amount,
@@ -378,7 +378,7 @@ namespace Web.Controllers
 
 			_context.Logs.Add(new Log()
 			{
-				Act = "衣物改回未付款",
+				Act = LogAct.衣物改回未付款,
 				MemberId = member.Id,
 				Amount = clothing.Amount,
 				Balance = member.Amount,
@@ -421,7 +421,7 @@ namespace Web.Controllers
 
 			_context.Logs.Add(new Log()
 			{
-				Act = "顧客取件",
+				Act = LogAct.顧客取件,
 				MemberId = clothing.MemberId,
 				Amount = member.Amount,
 				Balance = 0,
@@ -465,7 +465,7 @@ namespace Web.Controllers
 
 			_context.Logs.Add(new Log()
 			{
-				Act = "取消衣物取件",
+				Act = LogAct.取消衣物取件,
 				MemberId = clothing.MemberId,
 				Amount = member.Amount,
 				Balance = 0,
