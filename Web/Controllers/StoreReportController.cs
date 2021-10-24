@@ -39,7 +39,10 @@ namespace Web.Controllers
 
 			// 本月收件總金額
 			viewModel.ThisMonthClothingsAmount = GetThisMonthClothingsAmount();
-
+			
+			// 本月收款金額
+			viewModel.ThisMonthDepositAmount = GetThisMonthDepositAmount();
+			
 			// 本月儲值總額
 			viewModel.ThisMonthStoreAmount = GetThisMonthStoreAmount();
 
@@ -48,6 +51,9 @@ namespace Web.Controllers
 
 			// 本日收件總金額
 			viewModel.TodayClothingsAmount = GetTodayClothingsAmount();
+
+			// 本日收款金額
+			viewModel.TodayDepositAmount = GetTodayDepositAmount();
 
 			// 本日儲值總額
 			viewModel.TodayStoreAmount = GetTodayStoreAmount();
@@ -72,6 +78,15 @@ namespace Web.Controllers
 		{
 			return $"{ _context.Clothings.Where(x => x.ReceiveDt.Year == DateTime.Now.Year && x.ReceiveDt.Month == DateTime.Now.Month).Sum(x => x.Amount).ToString("#,#")} 元";
 		}
+		
+		/// <summary>
+		/// 本日收現金額
+		/// </summary>
+		/// <returns></returns>
+		private string GetTodayDepositAmount()
+		{
+			return $"{_context.Logs.Where(x => x.LogDt >= DateTime.Today && x.Act == LogAct.儲值).Sum(y => y.Amount).ToString("#,#")} 元";
+		}
 
 		/// <summary>
 		/// 本日儲值總額
@@ -79,7 +94,7 @@ namespace Web.Controllers
 		/// <returns></returns>
 		private string GetTodayStoreAmount()
 		{
-			return $"{_context.Logs.Where(x => x.LogDt >= DateTime.Today && x.Act == LogAct.儲值).Sum(y => y.Amount).ToString("#,#")} 元";
+			return $"{_context.Logs.Where(x => x.LogDt >= DateTime.Today && x.Act == LogAct.儲值).Sum(y => y.Amount +y.BonusAmount).ToString("#,#")} 元";
 		}
 
 		/// <summary>
@@ -106,7 +121,8 @@ namespace Web.Controllers
 				{
 					Date = month,
 					DateStr = month.ToString("yyyy-MM"),
-					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount).ToString("#,#"),
+					DepositAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount).ToString("#,#"),
+					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount + x.BonusAmount).ToString("#,#"),
 					Clothings = _context.Clothings.Count(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).ToString("#,#"),
 					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).Sum(x=> x.Amount).ToString("#,#"),
 				};
@@ -132,7 +148,8 @@ namespace Web.Controllers
 				{
 					Date = day,
 					DateStr = day.ToString("yyyy-MM-dd"),
-					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Date == day).Sum(x => x.Amount).ToString("#,#"),
+					DepositAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Date == day).Sum(x => x.Amount).ToString("#,#"),
+					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Date == day).Sum(x => x.Amount + x.BonusAmount).ToString("#,#"),
 					Clothings = _context.Clothings.Count(x => x.ReceiveDt.Date == day).ToString("#,#"),
 					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Date == day).Sum(x => x.Amount).ToString("#,#"),
 				};
@@ -144,12 +161,21 @@ namespace Web.Controllers
 		}
 
 		/// <summary>
+		/// 本月收款金額
+		/// </summary>
+		/// <returns></returns>
+		private string GetThisMonthDepositAmount()
+		{
+			return $"{_context.Logs.Where(x => x.LogDt.Year == DateTime.Now.Year && x.LogDt.Month == DateTime.Now.Month && x.Act == LogAct.儲值).Sum(y => y.Amount).ToString("#,#")} 元";
+		}
+
+		/// <summary>
 		/// 本月儲值總額
 		/// </summary>
 		/// <returns></returns>
 		private string GetThisMonthStoreAmount()
 		{
-			return $"{_context.Logs.Where(x => x.LogDt.Year == DateTime.Now.Year && x.LogDt.Month == DateTime.Now.Month && x.Act == LogAct.儲值).Sum(y => y.Amount).ToString("#,#")} 元";
+			return $"{_context.Logs.Where(x => x.LogDt.Year == DateTime.Now.Year && x.LogDt.Month == DateTime.Now.Month && x.Act == LogAct.儲值).Sum(y => y.Amount + y.BonusAmount).ToString("#,#")} 元";
 		}
 
 		/// <summary>

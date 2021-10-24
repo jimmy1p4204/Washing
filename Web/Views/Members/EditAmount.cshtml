@@ -1,4 +1,4 @@
-﻿@model Web.Models.Member
+﻿@model Web.Models.DepositViewModel
 
 @{
     ViewData["Title"] = "編輯會員資料";
@@ -24,10 +24,16 @@
 				<span asp-validation-for="Name" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<label class="control-label">收款金額、儲值金額</label>
-				<input asp-for="Amount" class="form-control" />
-				<span asp-validation-for="Amount" class="text-danger"></span>
+				<label class="control-label">收款金額</label>
+				<input asp-for="DepositAmount" class="form-control" />
+				<span asp-validation-for="DepositAmount" class="text-danger"></span>
 			</div>
+			<div class="form-group">
+				<label class="control-label">優惠金額</label>
+				<input asp-for="BonusAmount" class="form-control" />
+				<span asp-validation-for="BonusAmount" class="text-danger"></span>
+			</div>
+			<p>註: 本次顧客儲值總金額 = 收款金額 + 優惠金額</p>
 			<div class="form-group">
 				<input type="submit" value="送出" class="btn btn-primary" />
 			</div>

@@ -61,6 +61,12 @@ namespace Web.Models
 		[DataType(DataType.DateTime)]
 		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
 		public DateTime LogDt { get; set; } = DateTime.Now;
+
+		/// <summary>
+		/// 優惠金額
+		/// </summary>
+		[DisplayName("優惠金額")]
+		public int BonusAmount { get; set; }
 	}
 
 	public class LogAct

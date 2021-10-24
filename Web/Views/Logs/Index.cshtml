@@ -11,66 +11,72 @@
 <hr />
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Act)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MemberId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Balance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClothingId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Employee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LogDt)
-            </th>
-            <th></th>
-        </tr>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Act)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.MemberId)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Amount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.BonusAmount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Balance)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ClothingId)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Employee)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.LogDt)
+			</th>
+			<th></th>
+		</tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Act)
-            </td>
-            <td>
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Act)
+			</td>
+			<td>
 				<a asp-action="Index" asp-controller="Members" asp-route-Id="@item.MemberId">(@item.MemberId)@ViewBag.Members[item.MemberId].Name</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Balance)
-            </td>
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Amount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.BonusAmount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Balance)
+			</td>
 			<td>
 				@if (item.ClothingId != null && item.ClothingId.Value != 0)
-                {
-				<a asp-action="Index" asp-controller="Clothings" asp-route-memberId="@item.MemberId">@ViewBag.Clothings[item.ClothingId.Value].Seq</a>
-                }
+				{
+					<a asp-action="Index" asp-controller="Clothings" asp-route-memberId="@item.MemberId">@ViewBag.Clothings[item.ClothingId.Value].Seq</a>
+				}
 
 				@*@Html.DisplayFor(modelItem => item.ClothingSeq)*@
 			</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Employee)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LogDt)
-            </td>
-            <td>
-                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-            </td>
-        </tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Employee)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.LogDt)
+			</td>
+			<td>
+				@*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+			<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+			<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+			</td>
+		</tr>
 }
     </tbody>
 </table>

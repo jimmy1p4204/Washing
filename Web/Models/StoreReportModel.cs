@@ -24,9 +24,15 @@ namespace Web.Models
 		public string UnPayAmountOfClothings { get; set; }
 
 		/// <summary>
-		/// 本月儲值金額
+		/// 本月收款金額
 		/// </summary>
-		[DisplayName("本月儲值金額")] 
+		[DisplayName("本月收款金額")]
+		public string ThisMonthDepositAmount { get; set; }
+
+		/// <summary>
+		/// 本月會員儲值金額(收現+優惠)
+		/// </summary>
+		[DisplayName("本月會員儲值金額(收現+優惠)")] 
 		public string ThisMonthStoreAmount { get; set; }
 
 		/// <summary>
@@ -42,9 +48,15 @@ namespace Web.Models
 		public string ThisMonthClothingsAmount { get; set; }
 
 		/// <summary>
-		/// 今日儲值金額
+		/// 今日收款金額
 		/// </summary>
-		[DisplayName("今日儲值金額")]
+		[DisplayName("今日收款金額")]
+		public string TodayDepositAmount { get; set; }
+
+		/// <summary>
+		/// 今日會員儲值金額(收現+優惠)
+		/// </summary>
+		[DisplayName("今日會員儲值金額(收現+優惠)")]
 		public string TodayStoreAmount { get; set; }
 
 		/// <summary>
@@ -76,6 +88,12 @@ namespace Web.Models
 		/// </summary>
 		[DisplayName("月份/日期")]
 		public string DateStr { get; set; }
+
+		/// <summary>
+		/// 收款金額
+		/// </summary>
+		[DisplayName("收款金額")]
+		public string DepositAmount { get; set; }
 
 		/// <summary>
 		/// 儲值金額

@@ -145,27 +145,33 @@ namespace Web.Controllers
 			{
 				return NotFound();
 			}
-			member.Amount = 0;
-			return View(member);
+
+			var viewModel = new DepositViewModel()
+			{
+				Id = member.Id,
+				Name = member.Name,
+			};
+			
+			return View(viewModel);
 		}
 
 		/// <summary>
 		/// 儲值
 		/// </summary>
 		/// <param name="id"></param>
-		/// <param name="member"></param>
+		/// <param name="viewModel"></param>
 		/// <returns></returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> EditAmount(int id, Member member)
+		public async Task<IActionResult> EditAmount(int id, DepositViewModel viewModel)
 		{
-			if (id != member.Id)
+			if (id != viewModel.Id)
 			{
 				return NotFound();
 			}
 
-			var memberFromDb = await _context.Members.FindAsync(id);
-			if (memberFromDb == null)
+			var member = await _context.Members.FindAsync(id);
+			if (member == null)
 			{
 				return NotFound();
 			}
@@ -173,23 +179,24 @@ namespace Web.Controllers
 			{
 				try
 				{
-					memberFromDb.UpdateBy = User.Identity.Name;
-					memberFromDb.UpdateDt = DateTime.Now;
-					memberFromDb.Amount += member.Amount;
-					_context.Update(memberFromDb);
+					member.UpdateBy = User.Identity.Name;
+					member.UpdateDt = DateTime.Now;
+					member.Amount += viewModel.DepositAmount + viewModel.BonusAmount;
+					_context.Update(member);
 					_context.Logs.Add(new Log()
 					{
 						Act = LogAct.儲值,
 						MemberId = id,
-						Amount = member.Amount,
-						Balance = memberFromDb.Amount,
+						Amount = viewModel.DepositAmount,
+						BonusAmount = viewModel.BonusAmount,
+						Balance = member.Amount,
 						Employee = User.Identity.Name,
 					});
 					await _context.SaveChangesAsync();
 				}
 				catch (DbUpdateConcurrencyException)
 				{
-					if (!MemberExists(member.Id))
+					if (!MemberExists(viewModel.Id))
 					{
 						return NotFound();
 					}
@@ -199,9 +206,9 @@ namespace Web.Controllers
 					}
 				}
 				//儲值完回到會員衣物清單
-				return RedirectToAction("Index", "Clothings", new { memberId = member.Id });
+				return RedirectToAction("Index", "Clothings", new { memberId = viewModel.Id });
 			}
-			return View(member);
+			return View(viewModel);
 		}
 
 
