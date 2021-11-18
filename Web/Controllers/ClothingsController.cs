@@ -166,6 +166,7 @@ namespace Web.Controllers
 				}
 				clothing.Color = string.Join(",", clothing.SelectedColorIds);
 				_context.Add(clothing);
+				await _context.SaveChangesAsync();
 
 				// 找到會員
 				var member = await _context.Members.FindAsync(clothing.MemberId);
@@ -177,6 +178,7 @@ namespace Web.Controllers
 					Amount = member.Amount,
 					Balance = 0,
 					Employee = User.Identity.Name,
+					ClothingId = clothing.Id,
 				});
 
 				await _context.SaveChangesAsync();
@@ -537,7 +539,7 @@ namespace Web.Controllers
 
 		private void SetCloseingStatusSelectList(int clothingStatusId = 0)
 		{
-			var selectList = _context.ClothingStatus.Select(x => new SelectListItem { Text = $"{x.Id}:{x.Name}", Value = x.Id.ToString() });
+			var selectList = _context.ClothingStatus.Select(x => new SelectListItem { Text = $"{x.Id}:{x.Name}", Value = x.Id.ToString() }).ToList();
 			if (selectList.Any(x => x.Value == clothingStatusId.ToString()))
 			{
 				selectList.Where(x => x.Value == clothingStatusId.ToString()).FirstOrDefault().Selected = true;
