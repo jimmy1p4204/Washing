@@ -287,6 +287,7 @@ namespace Web.Controllers
 		// POST: Clothings/Delete/5
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "Manager")]
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
 			var clothing = await _context.Clothings.FindAsync(id);

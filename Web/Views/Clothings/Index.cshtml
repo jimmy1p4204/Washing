@@ -167,29 +167,30 @@
 			@*<td>
 			@Html.DisplayFor(modelItem => item.PicNo)
 		</td>*@
-			<td>
-				<!--<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |-->
-				@*<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |*@
-				<!--<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |-->
-				@if (!item.Paid)
-				{
-					<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
-				}
-				else
-				{
-					<a asp-action="UnPaid" asp-route-id="@item.Id">改回未付款</a>
-				} |
+		<td>
+			<!--<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |-->
+			@*<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |*@
+			<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |
+			
+			@if (!item.Paid)
+			{
+				<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
+			}
+			else
+			{
+				<a asp-action="UnPaid" asp-route-id="@item.Id">改回未付款</a>
+			} |
 
-				@if (!item.IsPickup)
-				{
-					<a asp-action="Pickup" asp-route-id="@item.Id">顧客取件</a>
-				}
-				else
-				{
-					<a asp-action="UnPickup" asp-route-id="@item.Id">取消取件</a>
-				} |
+			@if (!item.IsPickup)
+			{
+				<a asp-action="Pickup" asp-route-id="@item.Id">顧客取件</a>
+			}
+			else
+			{
+				<a asp-action="UnPickup" asp-route-id="@item.Id">取消取件</a>
+			} |
 
-			</td>
+		</td>
 		</tr>
 		}
 	</tbody>
