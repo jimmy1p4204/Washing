@@ -31,12 +31,9 @@
 			<li>
 				<a asp-area="" asp-controller="ClothingManage" asp-action="WashedButUnPick">已清洗未取件衣物清單</a>
 			</li>
-			@if (User.IsInRole("SystemManager"))
-			{
-				<li>
-					<a asp-area="" asp-controller="ClothingManage" asp-action="PickedButUnPay">已取件未付款衣物清單</a>
-				</li>
-			}
+			<li>
+				<a asp-area="" asp-controller="ClothingManage" asp-action="PickedButUnPay">已取件未付款衣物清單</a>
+			</li>
 
 		</ul>
 	</div>

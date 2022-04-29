@@ -64,12 +64,12 @@ namespace Web.Controllers
 		}
 
 		/// <summary>
-		/// 已清洗未付款清單
+		/// 已取件未付款清單
 		/// </summary>
 		/// <returns></returns>
 		public IActionResult PickedButUnPay()
 		{
-			var viewModel = _context.Clothings.Where(x => x.Paid == false && x.IsPickup).Select(x => new UnWashViewModel()
+			var viewModel = _context.Clothings.Where(x => x.Paid == false && x.IsPickup && x.Status != 3).Select(x => new UnWashViewModel()
 			{
 				Id = x.Id,
 				ClothingSeq = x.Seq,
