@@ -40,6 +40,17 @@ namespace Web.Models
 		[DisplayName("衣物狀態")]
 		public int Status { get; set; }
 
+		/// <summary>
+		/// 付款狀態
+		/// </summary>
+		[DisplayName("付款狀態")]
+		public bool Paid { get; set; }
+
+		/// <summary>
+		/// 取件日期
+		/// </summary>
+		[DisplayName("取件日期")]
+		public DateTime? PickupDt { get; internal set; }
 	}
 
 }

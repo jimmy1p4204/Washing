@@ -29,7 +29,9 @@ namespace Web.Controllers
 				ClothingSeq = x.Seq,
 				ReceiveDayCount = DateTime.Now.Subtract(x.ReceiveDt).TotalDays.ToString("#,#"),
 				ReceiveDt = x.ReceiveDt,
-				Status = x.Status
+				Status = x.Status,
+				PickupDt = x.PickupDt,
+				Paid = x.Paid
 			});
 
 			// 衣物狀態對應 (呈現中文用)
@@ -50,7 +52,32 @@ namespace Web.Controllers
 				ClothingSeq = x.Seq,
 				ReceiveDayCount = DateTime.Now.Subtract(x.ReceiveDt).TotalDays.ToString("#,#"),
 				ReceiveDt = x.ReceiveDt,
-				Status = x.Status
+				Status = x.Status,
+				PickupDt = x.PickupDt,
+				Paid = x.Paid
+			});
+
+			// 衣物狀態對應 (呈現中文用)
+			ViewBag.ClothingStatus = _context.ClothingStatus.ToDictionary(x => x.Id, x => x.Name);
+
+			return View(viewModel);
+		}
+
+		/// <summary>
+		/// 已清洗未付款清單
+		/// </summary>
+		/// <returns></returns>
+		public IActionResult PickedButUnPay()
+		{
+			var viewModel = _context.Clothings.Where(x => x.Paid == false && x.IsPickup).Select(x => new UnWashViewModel()
+			{
+				Id = x.Id,
+				ClothingSeq = x.Seq,
+				ReceiveDayCount = DateTime.Now.Subtract(x.ReceiveDt).TotalDays.ToString("#,#"),
+				ReceiveDt = x.ReceiveDt,
+				Status = x.Status,
+				PickupDt = x.PickupDt,
+				Paid = x.Paid
 			});
 
 			// 衣物狀態對應 (呈現中文用)
