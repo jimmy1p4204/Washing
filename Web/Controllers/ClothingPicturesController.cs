@@ -172,7 +172,7 @@ namespace Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "SystemManager,Manager")]
+        [Authorize(Roles = "SystemManager")]
         public async Task<IActionResult> DeletePictureOverSixMonthComfirm()
         {
             return View();
@@ -183,18 +183,25 @@ namespace Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "SystemManager,Manager")]
+        [Authorize(Roles = "SystemManager")]
         public async Task<IActionResult> DeletePictureOverSixMonth()
         {
-            var clothingIds = _context.ClothingPictures.Select(x => x.ClothingId);
-            var needDeleteClothingIds = _context.Clothings.Where(x => clothingIds.Contains(x.Id) && x.IsPickup && x.PickupDt < DateTime.Now.AddMonths(-6))
-                .Select(y => y.Id);
+            int month = 6; // 要刪除多久前的資料(月)
+            //  (因 DB 效能問題，一次刪 20 好像是最多了)
 
-			var needDeletePic = _context.ClothingPictures.Where(x => needDeleteClothingIds.Contains(x.ClothingId));
-			_context.ClothingPictures.RemoveRange(needDeletePic);
-			await _context.SaveChangesAsync();
+            var task = await _context.Database.ExecuteSqlInterpolatedAsync($@"
+DELETE [dbo].[ClothingPictures]
+WHERE Id IN (
+    SELECT TOP 20
+        T2.Id
+    FROM [dbo].[Clothing]  AS T1 
+    JOIN [dbo].[ClothingPictures] AS T2 
+    ON T1.Id = T2.ClothingId
+    WHERE IsPickup = 1 AND PickupDt < DATEADD(MONTH, -{month}, GETDATE())
+)");
+            ViewBag.DeletePicCount = task;
 
-			return RedirectToAction("Index", "Clothings");
+            return View();
         }
     }
 }

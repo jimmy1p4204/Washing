@@ -6,10 +6,10 @@
 <h1>@ViewData["Title"]</h1>
 
 <h3>是否確認要刪除?</h3>
-<p class="text-danger">注意: 只有店長和系統管理員可以刪除</p>
+<p class="text-danger">注意: 只有系統管理員可以刪除</p>
 <div>
     <form asp-action="DeletePictureOverSixMonth">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-		<a asp-action="Index" asp-controller="Members">回到會員清單</a>
+		<a asp-action="Index" asp-controller="Home">回到首頁</a>
     </form>
 </div>
