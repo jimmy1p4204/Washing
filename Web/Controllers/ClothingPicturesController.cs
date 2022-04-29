@@ -173,32 +173,28 @@ namespace Web.Controllers
         /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "SystemManager,Manager")]
-        public async Task<IActionResult> DeletePictureOverThreeMonthComfirm()
+        public async Task<IActionResult> DeletePictureOverSixMonthComfirm()
         {
             return View();
         }
 
         /// <summary>
-        /// 刪除已取件超過三個月的衣物的圖片
+        /// 刪除已取件超過六個月的衣物的圖片
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "SystemManager,Manager")]
-        public async Task<IActionResult> DeletePictureOverThreeMonth()
+        public async Task<IActionResult> DeletePictureOverSixMonth()
         {
             var clothingIds = _context.ClothingPictures.Select(x => x.ClothingId);
-            var needDeleteClothingIds = _context.Clothings.Where(x => clothingIds.Contains(x.Id) && x.IsPickup && x.PickupDt < DateTime.Now.AddMonths(-3))
+            var needDeleteClothingIds = _context.Clothings.Where(x => clothingIds.Contains(x.Id) && x.IsPickup && x.PickupDt < DateTime.Now.AddMonths(-6))
                 .Select(y => y.Id);
 
-            //var needDeletePic = _context.ClothingPictures.Where(x => needDeleteClothingIds.Contains(x.ClothingId));
-            //_context.ClothingPictures.RemoveRange(needDeletePic);
-            //await _context.SaveChangesAsync();
+			var needDeletePic = _context.ClothingPictures.Where(x => needDeleteClothingIds.Contains(x.ClothingId));
+			_context.ClothingPictures.RemoveRange(needDeletePic);
+			await _context.SaveChangesAsync();
 
-            //return RedirectToAction("Index", "Clothings");
-
-            var needDeletePic = _context.ClothingPictures.Where(x => needDeleteClothingIds.Contains(x.ClothingId)).Select(x=> new { x.ClothingId, x.Id });
-            return Content(JsonConvert.SerializeObject(needDeletePic));
-            
+			return RedirectToAction("Index", "Clothings");
         }
     }
 }
