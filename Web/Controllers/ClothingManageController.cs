@@ -19,12 +19,33 @@ namespace Web.Controllers
 		}
 
 		/// <summary>
-		/// 店鋪報表
+		/// 未清洗清單
 		/// </summary>
 		/// <returns></returns>
 		public IActionResult Index()
 		{
 			var viewModel = _context.Clothings.Where(x => x.Status == 1).Select(x => new UnWashViewModel() { 
+				Id = x.Id,
+				ClothingSeq = x.Seq,
+				ReceiveDayCount = DateTime.Now.Subtract(x.ReceiveDt).TotalDays.ToString("#,#"),
+				ReceiveDt = x.ReceiveDt,
+				Status = x.Status
+			});
+
+			// 衣物狀態對應 (呈現中文用)
+			ViewBag.ClothingStatus = _context.ClothingStatus.ToDictionary(x => x.Id, x => x.Name);
+
+			return View(viewModel);
+		}
+
+		/// <summary>
+		/// 已清洗未取件清單
+		/// </summary>
+		/// <returns></returns>
+		public IActionResult WashedButUnPick()
+		{
+			var viewModel = _context.Clothings.Where(x => x.Status == 2 && x.IsPickup == false).Select(x => new UnWashViewModel()
+			{
 				Id = x.Id,
 				ClothingSeq = x.Seq,
 				ReceiveDayCount = DateTime.Now.Subtract(x.ReceiveDt).TotalDays.ToString("#,#"),
