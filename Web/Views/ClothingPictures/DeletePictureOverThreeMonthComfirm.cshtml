@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "刪除已取件超過三個月的衣物圖片";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>是否確認要刪除?</h3>
+<p class="text-danger">注意: 只有店長和系統管理員可以刪除</p>
+<div>
+    <form asp-action="DeletePictureOverThreeMonth">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+		<a asp-action="Index" asp-controller="Members">回到會員清單</a>
+    </form>
+</div>

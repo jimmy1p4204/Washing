@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Web.Data;
 using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize(Roles = "Manager,Employee")]
+    [Authorize(Roles = "Manager,Employee,SystemManager")]
     public class ClothingPicturesController : Controller
     {
         private readonly WashingDbContext _context;
@@ -164,6 +165,40 @@ namespace Web.Controllers
         private bool ClothingPictureExists(int id)
         {
             return _context.ClothingPictures.Any(e => e.Id == id);
+        }
+
+        /// <summary>
+        /// 刪除已取件超過三個月的衣物的圖片
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize(Roles = "SystemManager,Manager")]
+        public async Task<IActionResult> DeletePictureOverThreeMonthComfirm()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 刪除已取件超過三個月的衣物的圖片
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(Roles = "SystemManager,Manager")]
+        public async Task<IActionResult> DeletePictureOverThreeMonth()
+        {
+            var clothingIds = _context.ClothingPictures.Select(x => x.ClothingId);
+            var needDeleteClothingIds = _context.Clothings.Where(x => clothingIds.Contains(x.Id) && x.IsPickup && x.PickupDt < DateTime.Now.AddMonths(-3))
+                .Select(y => y.Id);
+
+            //var needDeletePic = _context.ClothingPictures.Where(x => needDeleteClothingIds.Contains(x.ClothingId));
+            //_context.ClothingPictures.RemoveRange(needDeletePic);
+            //await _context.SaveChangesAsync();
+
+            //return RedirectToAction("Index", "Clothings");
+
+            var needDeletePic = _context.ClothingPictures.Where(x => needDeleteClothingIds.Contains(x.ClothingId)).Select(x=> new { x.ClothingId, x.Id });
+            return Content(JsonConvert.SerializeObject(needDeletePic));
+            
         }
     }
 }

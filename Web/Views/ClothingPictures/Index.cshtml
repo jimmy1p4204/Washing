@@ -31,8 +31,8 @@
 		{
 			<tr>
 				<td>
-					<img src="@item.Content" />
-					@*@Html.DisplayFor(modelItem => item.Content)*@
+					<a asp-controller="Clothings" asp-action="Details" asp-route-id="@item.ClothingId"><img src="@item.Content" /></a>
+					
 				</td>
 				<td>
 					@Html.DisplayFor(modelItem => item.CreateDt)

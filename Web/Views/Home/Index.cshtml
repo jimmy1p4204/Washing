@@ -73,4 +73,17 @@
 			</ul>
 		</div>
 	}
+
+	@if (User.IsInRole("SystemManager") || User.IsInRole("Manager"))
+	{
+		<div class="col-md-6">
+			<h4>系統維運功能:</h4>
+			<ul>
+				<li>
+					<a asp-area="" asp-controller="ClothingPictures" asp-action="DeletePictureOverThreeMonthComfirm">清除已取件超過三個月的衣物圖片</a>
+				</li>
+
+			</ul>
+		</div>
+	}
 </div>
