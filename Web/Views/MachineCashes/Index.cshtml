@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Web.Models.MachineCash>
+
+@{
+    ViewData["Title"] = "機器現金清單 (僅店長可看)";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">建立</a>
+</p>
+<table class="table">
+    <thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Dt)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Amount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.UpdateBy)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.CreateDt)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.UpdateDt)
+			</th>
+			<th></th>
+		</tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Dt)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Amount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.UpdateBy)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.CreateDt)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.UpdateDt)
+			</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+				<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+			</td>
+		</tr>
+}
+    </tbody>
+</table>

@@ -36,6 +36,12 @@ namespace Web.Models
 		public string ThisMonthStoreAmount { get; set; }
 
 		/// <summary>
+		/// 本月機器現金總計
+		/// </summary>
+		[DisplayName("本月機器現金總計")]
+		public string ThisMonthMachineCash { get; set; }
+
+		/// <summary>
 		/// 本月收件數
 		/// </summary>
 		[DisplayName("本月收件數")] 
@@ -70,6 +76,12 @@ namespace Web.Models
 		/// </summary>
 		[DisplayName("今日收件總金額")]
 		public string TodayClothingsAmount { get; set; }
+
+		/// <summary>
+		/// 今日機器現金
+		/// </summary>
+		[DisplayName("今日機器現金")]
+		public string TodayMachineCash { get; set; }
 	}
 
 	/// <summary>
@@ -112,5 +124,11 @@ namespace Web.Models
 		/// </summary>
 		[DisplayName("收件總金額")]
 		public string ClothingsAmount { get; set; }
+
+		/// <summary>
+		/// 機器現金總額
+		/// </summary>
+		[DisplayName("機器現金總額")]
+		public string MachineCash { get; set; }
 	}
 }

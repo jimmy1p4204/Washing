@@ -28,6 +28,9 @@
 			<th>
 				@Html.DisplayNameFor(model => model.ClothingsAmount)
 			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.MachineCash)
+			</th>
 			@*<th></th>*@
 		</tr>
     </thead>
@@ -51,6 +54,9 @@
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.ClothingsAmount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.MachineCash)
 			</td>
 			@*<td>
 			@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

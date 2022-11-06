@@ -1,0 +1,50 @@
+﻿@model Web.Models.MachineCash
+
+@{
+    ViewData["Title"] = "機器現金-刪除資料";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>你確定要刪除沒這筆資料?</h3>
+<div>
+    <hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Dt)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Dt)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Amount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Amount)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.CreateDt)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.CreateDt)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.UpdateDt)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.UpdateDt)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.UpdateBy)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.UpdateBy)
+		</dd>
+	</dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

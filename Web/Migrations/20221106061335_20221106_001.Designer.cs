@@ -3,19 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web.Data;
 
 namespace Web.Migrations
 {
     [DbContext(typeof(WashingDbContext))]
-    partial class WashingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221106061335_20221106_001")]
+    partial class _20221106_001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.30")
+                .HasAnnotation("ProductVersion", "3.1.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -339,18 +341,13 @@ namespace Web.Migrations
 
             modelBuilder.Entity("Web.Models.MachineCash", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<DateTime>("Dt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Dt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdateBy")
@@ -359,7 +356,7 @@ namespace Web.Migrations
                     b.Property<DateTime>("UpdateDt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("Dt");
 
                     b.ToTable("MachineCashs");
                 });

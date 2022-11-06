@@ -1,0 +1,5 @@
+https://dotblogs.com.tw/yc421206/2019/11/28/ef_core_migration
+
+EntityFrameworkCore\Add-Migration 20221106_001 -Context WashingDbContext
+
+EntityFrameworkCore\Update-Database -Context WashingDbContext

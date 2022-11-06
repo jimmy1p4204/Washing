@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Web.Models;
 
 namespace Web.Data
@@ -25,20 +21,22 @@ namespace Web.Data
 			modelBuilder.Entity<Wid>().ToTable("Wid");
 		}
 
-		public DbSet<Web.Models.Wid> Wid { get; set; }
+		public DbSet<Wid> Wid { get; set; }
 
-		public DbSet<Web.Models.Cst> Cst { get; set; }
+		public DbSet<Cst> Cst { get; set; }
 
-		public DbSet<Web.Models.ClothingColor> ClothingColors { get; set; }
+		public DbSet<ClothingColor> ClothingColors { get; set; }
 
-		public DbSet<Web.Models.ClothingStatus> ClothingStatus { get; set; }
+		public DbSet<ClothingStatus> ClothingStatus { get; set; }
 
-		public DbSet<Web.Models.ClothingAction> ClothingActions { get; set; }
+		public DbSet<ClothingAction> ClothingActions { get; set; }
 
-		public DbSet<Web.Models.ClothingPackageType> ClothingPackageTypes { get; set; }
+		public DbSet<ClothingPackageType> ClothingPackageTypes { get; set; }
 
-		public DbSet<Web.Models.ClothingPicture> ClothingPictures { get; set; }
+		public DbSet<ClothingPicture> ClothingPictures { get; set; }
 
-		public DbSet<Web.Models.Log> Logs { get; set; }
+		public DbSet<Log> Logs { get; set; }
+
+		public DbSet<MachineCash> MachineCashs { get; set; }
 	}
 }

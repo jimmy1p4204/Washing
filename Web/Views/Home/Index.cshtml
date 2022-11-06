@@ -37,9 +37,19 @@
 
 		</ul>
 	</div>
-	
+	<div class="col-md-6">
+		<h4>結帳功能:</h4>
+		<ul>
+			<li>
+				<a asp-area="" asp-controller="MachineCashes" asp-action="CheckOut">機器現金(僅限當日)</a>
+			</li>
+		</ul>
+	</div>
+
 
 </div>
+
+<hr />
 
 <div class="row">
 	@if (User.IsInRole("Manager"))
@@ -56,11 +66,19 @@
 				<li>
 					<a asp-area="" asp-controller="StoreReport" asp-action="YearReport">年報表(18個月)</a>
 				</li>
-
+				<li>
+					<a asp-area="" asp-controller="MachineCashes" asp-action="Index">機器現金報表</a> <span class="text-danger">New!</span>
+				</li>
 			</ul>
 		</div>
 	}
 
+</div>
+
+<hr />
+
+
+<div class="row">
 	@if (User.IsInRole("SystemManager"))
 	{
 		<div class="col-md-6">
@@ -78,17 +96,13 @@
 
 			</ul>
 		</div>
-	}
 
-	@if (User.IsInRole("SystemManager"))
-	{
 		<div class="col-md-6">
 			<h4>系統維運功能:</h4>
 			<ul>
 				<li>
 					<a asp-area="" asp-controller="ClothingPictures" asp-action="DeletePictureOverSixMonthComfirm">清除已取件超過六個月的衣物圖片</a>
 				</li>
-
 			</ul>
 		</div>
 	}

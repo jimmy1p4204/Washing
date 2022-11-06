@@ -1,5 +1,0 @@
-https://dotblogs.com.tw/yc421206/2019/11/28/ef_core_migration
-
-Add-Migration 20210606_001 -Context WashingDbContext
-
-Update-Database -Context WashingDbContext

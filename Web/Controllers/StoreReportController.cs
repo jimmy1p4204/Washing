@@ -46,6 +46,9 @@ namespace Web.Controllers
 			// 本月儲值總額
 			viewModel.ThisMonthStoreAmount = GetThisMonthStoreAmount();
 
+			// 本月機器現金
+			viewModel.ThisMonthMachineCash = GetThisMonthMachineCash();
+
 			// 本日收件數
 			viewModel.TodayClothings = GetTodayClothings();
 
@@ -58,8 +61,15 @@ namespace Web.Controllers
 			// 本日儲值總額
 			viewModel.TodayStoreAmount = GetTodayStoreAmount();
 
+			// 本日機器現金
+			viewModel.TodayMachineCash = GetTodayMachineCash();
+
 			return View(viewModel);
 		}
+
+		
+
+
 
 		/// <summary>
 		/// 本日收件總金額
@@ -127,6 +137,7 @@ namespace Web.Controllers
 					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount + x.BonusAmount).ToString("#,#"),
 					Clothings = _context.Clothings.Count(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).ToString("#,#"),
 					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).Sum(x=> x.Amount).ToString("#,#"),
+					MachineCash = _context.MachineCashs.Where(x=>x.Dt.Year == month.Year && x.Dt.Month == month.Month).Sum(x => x.Amount).ToString("#,#"),
 				};
 				viewModel.Add(item);
 			}
@@ -154,6 +165,7 @@ namespace Web.Controllers
 					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Date == day).Sum(x => x.Amount + x.BonusAmount).ToString("#,#"),
 					Clothings = _context.Clothings.Count(x => x.ReceiveDt.Date == day).ToString("#,#"),
 					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Date == day).Sum(x => x.Amount).ToString("#,#"),
+					MachineCash = _context.MachineCashs.Where(x => x.Dt.Date == day).Sum(x => x.Amount).ToString("#,#"),
 				};
 				viewModel.Add(item);
 			}
@@ -181,6 +193,15 @@ namespace Web.Controllers
 		}
 
 		/// <summary>
+		/// 本月機器現金
+		/// </summary>
+		/// <returns></returns>
+		private string GetThisMonthMachineCash()
+		{
+			return $"{_context.MachineCashs.Where(x => x.Dt.Year == DateTime.Today.Year && x.Dt.Month == DateTime.Today.Month).Sum(y => y.Amount).ToString("#,#")} 元";
+		}
+
+		/// <summary>
 		/// 本月收件數
 		/// </summary>
 		/// <returns></returns>
@@ -205,6 +226,22 @@ namespace Web.Controllers
 		private string GetTotalBalanceOfStoreAmount()
 		{
 			return $"{_context.Members.Sum(x => x.Amount).ToString("#,#")} 元";
+		}
+
+		/// <summary>
+		/// 取得今日機器現金
+		/// </summary>
+		/// <returns></returns>
+		private string GetTodayMachineCash()
+		{
+			if(!_context.MachineCashs.Any(x=>x.Dt == DateTime.Today))
+			{
+				return  "尚未結帳";
+			}
+			else
+			{
+				return $"{_context.MachineCashs.First(x => x.Dt == DateTime.Today).Amount} 元";
+			}
 		}
 	}
 }

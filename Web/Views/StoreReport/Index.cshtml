@@ -55,6 +55,13 @@
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.ThisMonthClothingsAmount)
 		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.ThisMonthMachineCash)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ThisMonthMachineCash)
+			(<a asp-action="Index" asp-controller="MachineCashes">明細</a>)
+		</dd>
 	</dl>
 
 	<hr />
@@ -88,6 +95,12 @@
 		</dt>
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.TodayClothingsAmount)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TodayMachineCash)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TodayMachineCash)
 		</dd>
 	</dl>
 </div>
