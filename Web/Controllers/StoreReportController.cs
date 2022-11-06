@@ -107,14 +107,16 @@ namespace Web.Controllers
 		}
 
 		/// <summary>
-		/// 年報表(13個月)
+		/// 年報表(18個月)
 		/// </summary>
 		/// <returns></returns>
 		public IActionResult YearReport()
 		{
+			var totalMonth = 18; //總月數
 			var viewModel = new ConcurrentBag<ReportModel>();
+			
 
-			for (int i = 0; i < 13; i++)
+			for (int i = 0; i < totalMonth; i++)
 			{
 				var month = DateTime.Now.AddMonths(-i);
 				var item = new ReportModel()
@@ -129,7 +131,7 @@ namespace Web.Controllers
 				viewModel.Add(item);
 			}
 
-			ViewData["Title"] = "年報表(13個月)";
+			ViewData["Title"] = $"年報表({totalMonth}個月)";
 			return View("Report", viewModel);
 		}
 
