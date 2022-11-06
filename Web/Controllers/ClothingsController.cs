@@ -142,6 +142,7 @@ namespace Web.Controllers
 				ReceiveDt = DateTime.Now,
 				Colors = new MultiSelectList(_context.ClothingColors.ToList(), "Id", "Name"),
 			};
+
 			return View(clothing);
 		}
 
@@ -215,7 +216,7 @@ namespace Web.Controllers
 		// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, Clothing clothing, int[] selectedColorIds)
+		public async Task<IActionResult> Edit(int? id, ClothingEditViewModel clothing)
 		{
 			if (id != clothing.Id)
 			{
@@ -226,11 +227,11 @@ namespace Web.Controllers
 			{
 				try
 				{
-					if (selectedColorIds.Length == 0)
+					if (clothing.SelectedColorIds.Count == 0)
 					{
-						selectedColorIds = new int[] { 1 }; // 無指定
+						clothing.SelectedColorIds.Add(1); // 無指定
 					}
-					clothing.Color = string.Join(',', selectedColorIds);
+					clothing.Color = string.Join(",", clothing.SelectedColorIds);
 					_context.Update(clothing);
 					await _context.SaveChangesAsync();
 				}

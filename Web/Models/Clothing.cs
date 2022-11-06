@@ -19,6 +19,7 @@ namespace Web.Models
 		/// 衣物編號
 		/// </summary>
 		[DisplayName("衣物編號")]
+		[Range(0, int.MaxValue, ErrorMessage = "數值範圍須小於 2147483647")]
 		public int? Seq { get; set; }
 
 		/// <summary>

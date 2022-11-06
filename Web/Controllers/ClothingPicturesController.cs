@@ -167,41 +167,5 @@ namespace Web.Controllers
             return _context.ClothingPictures.Any(e => e.Id == id);
         }
 
-        /// <summary>
-        /// 刪除已取件超過三個月的衣物的圖片
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Authorize(Roles = "SystemManager")]
-        public async Task<IActionResult> DeletePictureOverSixMonthComfirm()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// 刪除已取件超過六個月的衣物的圖片
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        [Authorize(Roles = "SystemManager")]
-        public async Task<IActionResult> DeletePictureOverSixMonth()
-        {
-            int month = 6; // 要刪除多久前的資料(月)
-            //  (因 DB 效能問題，一次刪 20 好像是最多了)
-
-            var task = await _context.Database.ExecuteSqlInterpolatedAsync($@"
-DELETE [dbo].[ClothingPictures]
-WHERE Id IN (
-    SELECT TOP 20
-        T2.Id
-    FROM [dbo].[Clothing]  AS T1 
-    JOIN [dbo].[ClothingPictures] AS T2 
-    ON T1.Id = T2.ClothingId
-    WHERE IsPickup = 1 AND PickupDt < DATEADD(MONTH, -{month}, GETDATE())
-)");
-            ViewBag.DeletePicCount = task;
-
-            return View();
-        }
     }
 }
