@@ -15,7 +15,7 @@
 	<li>餘額: @ViewBag.Members[ViewBag.MemberId].Amount</li>
 	<li>未付衣物金額: @ViewBag.UnPayAmount </li>
 	<li>預計餘額: @ViewBag.estimateAmount</li>
-	<li>報表時間: @ViewBag.ReportDt (<a href="javascript:window.print()">列印</a>)</li>
+	<li>報表時間: @ViewBag.ReportDt <input name="print" type="button" value="列印" onClick="varitext()"></li>
 </ul>
 }
 <hr />
@@ -147,5 +147,10 @@
 
 
 @section scripts{
-
+	<script>
+		function varitext() {
+			var text = document
+			print(text)
+		}
+	</script>
 }
