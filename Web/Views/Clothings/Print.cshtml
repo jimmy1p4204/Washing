@@ -15,7 +15,7 @@
 	<li>餘額: @ViewBag.Members[ViewBag.MemberId].Amount</li>
 	<li>未付衣物金額: @ViewBag.UnPayAmount </li>
 	<li>預計餘額: @ViewBag.estimateAmount</li>
-	<li>報表時間: @ViewBag.ReportDt</li>
+	<li>報表時間: @ViewBag.ReportDt (<a href="javascript:window.print()">列印</a>)</li>
 </ul>
 }
 <hr />
@@ -28,8 +28,8 @@
 				@Html.DisplayNameFor(model => model.Seq)
 			</th>
 			@*<th>
-			@Html.DisplayNameFor(model => model.MemberId)
-		</th>*@
+					@Html.DisplayNameFor(model => model.MemberId)
+				</th>*@
 			<th>
 				@Html.DisplayNameFor(model => model.Type)
 			</th>
@@ -64,8 +64,8 @@
 				@Html.DisplayNameFor(model => model.PickupDt)
 			</th>
 			@*<th>
-			@Html.DisplayNameFor(model => model.PicNo)
-		</th>*@
+					@Html.DisplayNameFor(model => model.PicNo)
+				</th>*@
 
 		</tr>
 	</thead>
@@ -76,18 +76,18 @@
 			<td>
 				@if (item.Seq > 0)
 				{
-					<a asp-action="Details" asp-route-id="@item.Id">@item.Seq</a>
+				<a asp-action="Details" asp-route-id="@item.Id">@item.Seq</a>
 				}
 				else
 				{
-					<a asp-action="Details" asp-route-id="@item.Id">無</a>
+				<a asp-action="Details" asp-route-id="@item.Id">無</a>
 				}
 
 				@*@Html.DisplayFor(modelItem => item.Seq)*@
 			</td>
 			@*<td>
-			@Html.DisplayFor(modelItem => item.MemberId)
-		</td>*@
+					@Html.DisplayFor(modelItem => item.MemberId)
+				</td>*@
 			<td>
 				@*@Html.DisplayFor(modelItem => item.Type)*@
 				@ViewBag.ClothingTypes[item.Type]
@@ -102,7 +102,7 @@
 			<td>
 				@if(item.PackageTypeId > 0)
 				{
-					@ViewBag.ClothingPackageTypes[item.PackageTypeId.Value]
+				@ViewBag.ClothingPackageTypes[item.PackageTypeId.Value]
 				}
 				@*@Html.DisplayFor(modelItem => item.PackageTypeId)*@
 			</td>
@@ -118,11 +118,11 @@
 			<td>
 				@if (item.Paid)
 				{
-					<span>已付</span>
+				<span>已付</span>
 				}
 				else
 				{
-					<span>未付</span>
+				<span>未付</span>
 				}
 
 			</td>
@@ -137,12 +137,14 @@
 				@Html.DisplayFor(modelItem => item.PickupDt)
 			</td>
 			@*<td>
-			@Html.DisplayFor(modelItem => item.PicNo)
-		</td>*@
+					@Html.DisplayFor(modelItem => item.PicNo)
+				</td>*@
 		</tr>
 		}
 	</tbody>
 </table>
+
+
 
 @section scripts{
 
