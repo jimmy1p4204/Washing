@@ -10,7 +10,7 @@
 <hr />
 @if (ViewBag.MemberId > 0)
 {
-<h4>會員: @ViewBag.MemberId @ViewBag.MemberName</h4>
+<h4>會員: <a asp-action="Index" asp-route-memberid="@ViewBag.MemberId">@ViewBag.MemberId @ViewBag.MemberName</a></h4>
 <ul>
 	<li>餘額: @ViewBag.Members[ViewBag.MemberId].Amount</li>
 	<li>未付衣物金額: @ViewBag.UnPayAmount </li>
@@ -19,29 +19,6 @@
 </ul>
 }
 <hr />
-<h4>選單:</h4>
-<ul>
-	<li>
-		@if (ViewBag.MemberId > 0)
-		{
-			<a asp-action="Create" asp-route-memberId="@ViewBag.MemberId">建立訂單</a>
-		}
-		else
-		{
-			<a asp-controller="Members" asp-action="Index">建立訂單請由 "會員資料" 進入</a>
-		}
-	</li>
-	<li>僅顯示「未取件」的資料，可點此<a asp-action="Index" asp-route-memberId="@ViewBag.MemberId" asp-route-unPickup=false>顯示所有衣物資料</a> </li>
-	<li><a asp-action="Index" asp-route-memberId="@ViewBag.MemberId" asp-route-print="true">友善列印</a> </li>
-</ul>
-<hr />
-<div>
-	<h4>備註:</h4>
-	<ul>
-		<li>若顧客已付款，則點選 「已付款」，此動作會在「會員總餘額」減掉此訂單的金額</li>
-		<li>「改回未付款」 則會在「會員總餘額」加回此訂單的金額</li>
-	</ul>
-</div>
 
 <div style="color:#DC143C; font-size:large">@ViewBag.ErrorMsg</div>
 <table id="myTable" class="table">
@@ -49,9 +26,6 @@
 		<tr>
 			<th>
 				@Html.DisplayNameFor(model => model.Seq)
-			</th>
-			<th>
-				會員
 			</th>
 			@*<th>
 			@Html.DisplayNameFor(model => model.MemberId)
@@ -92,7 +66,7 @@
 			@*<th>
 			@Html.DisplayNameFor(model => model.PicNo)
 		</th>*@
-			<th></th>
+
 		</tr>
 	</thead>
 	<tbody>
@@ -110,9 +84,6 @@
 				}
 
 				@*@Html.DisplayFor(modelItem => item.Seq)*@
-			</td>
-			<td>
-				<a asp-action="Index" asp-controller="Members" asp-route-Id="@item.MemberId">(@item.MemberId)@ViewBag.Members[item.MemberId].Name</a>
 			</td>
 			@*<td>
 			@Html.DisplayFor(modelItem => item.MemberId)
@@ -168,30 +139,6 @@
 			@*<td>
 			@Html.DisplayFor(modelItem => item.PicNo)
 		</td>*@
-		<td>
-			<!--<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |-->
-			@*<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |*@
-			<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |
-			
-			@if (!item.Paid)
-			{
-				<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
-			}
-			else
-			{
-				<a asp-action="UnPaid" asp-route-id="@item.Id">改回未付款</a>
-			} |
-
-			@if (!item.IsPickup)
-			{
-				<a asp-action="Pickup" asp-route-id="@item.Id">顧客取件</a>
-			}
-			else
-			{
-				<a asp-action="UnPickup" asp-route-id="@item.Id">取消取件</a>
-			} |
-
-		</td>
 		</tr>
 		}
 	</tbody>

@@ -29,7 +29,7 @@ namespace Web.Controllers
 		/// <param name="memberId"></param>
 		/// <param name="unPickup">預設為:僅顯示未取件</param>
 		/// <returns></returns>
-		public async Task<IActionResult> Index(int memberId, bool unPickup = true)
+		public async Task<IActionResult> Index(int memberId, bool unPickup = true, bool print = false)
 		{
 			ViewBag.ErrorMsg = TempData["ErrorMsg"]?.ToString();
 
@@ -90,7 +90,17 @@ namespace Web.Controllers
 				var colorIds = x.Color.Split(',');
 				x.Color = string.Join(",", colorIds.Select(y => colors[int.Parse(y)]));
 			});
-			return View(clothings);
+
+			if (print)
+			{
+				// 友善列印頁
+				return View("Print", clothings);
+			}
+			else
+			{
+				return View(clothings);
+			}
+			
 
 		}
 
@@ -482,7 +492,6 @@ namespace Web.Controllers
 			// 回到該會員的衣物清單
 			return RedirectToAction(nameof(Index), new { memberId = member.Id });
 		}
-
 
 		private void SetMemberIdSelectList(int memberId)
 		{
