@@ -232,6 +232,7 @@ namespace Web.Controllers
 
 		// POST: Members/Delete/5
 		[HttpPost, ActionName("Delete")]
+		[Authorize(Roles = "Manager")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{

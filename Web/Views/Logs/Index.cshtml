@@ -46,7 +46,15 @@
 				@Html.DisplayFor(modelItem => item.Act)
 			</td>
 			<td>
-				<a asp-action="Index" asp-controller="Members" asp-route-Id="@item.MemberId">(@item.MemberId)@ViewBag.Members[item.MemberId].Name</a>
+				@if (ViewBag.Members.ContainsKey(item.MemberId))
+				{
+					<a asp-action="Index" asp-controller="Members" asp-route-Id="@item.MemberId">(@item.MemberId)@ViewBag.Members[item.MemberId].Name</a>
+				}
+				else
+				{
+					@Html.DisplayFor(modelItem => item.MemberId)
+				}
+
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.Amount)
