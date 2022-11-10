@@ -71,6 +71,19 @@
 				</li>
 			</ul>
 		</div>
+
+		<div class="col-md-6">
+			<h4>系統紀錄: (僅店長可看)</h4>
+			<ul>
+				<li>
+					<a asp-area="" asp-controller="Logs" asp-action="Today">本日操作紀錄</a>
+				</li>
+				<li>
+					<a asp-area="" asp-controller="Logs" asp-action="Month">本月操作紀錄</a>
+				</li>
+			</ul>
+		</div>
+
 	}
 
 </div>
@@ -102,6 +115,15 @@
 			<ul>
 				<li>
 					<a asp-area="" asp-controller="SystemManagement" asp-action="DeletePictureOverSixMonthComfirm">清除已取件超過六個月的衣物圖片</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="col-md-6">
+			<h4>系統紀錄:</h4>
+			<ul>
+				<li>
+					<a asp-area="" asp-controller="Logs" asp-action="Offset" asp-route-offset="1">系統紀錄</a>
 				</li>
 			</ul>
 		</div>

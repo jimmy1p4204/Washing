@@ -23,44 +23,30 @@ namespace Web.Controllers
            
         }
 
-        // GET: Logs
-        public async Task<IActionResult> Index(int? memberId)
+        public async Task<IActionResult> Member(int? memberId)
         {
             IQueryable<Log> logs = _context.Logs;
 
-            if (memberId > 0) 
-            {
-                logs = logs.Where(x => x.MemberId == memberId);
-            }
+            if (memberId == null || memberId == 0)
+			{
+                return NotFound();
+			}
+
+            logs = logs.Where(x => x.MemberId == memberId);
 
             var logList = await logs.OrderByDescending(x => x.LogDt).ToListAsync();
 
             GetViewBag();
 
             ViewData["Title"] = "系統紀錄";
-            return View(logList);
+            return View("Index", logList);
         }
 
         /// <summary>
-        /// 取得畫面呈現所需資訊(ViewBag)
+        /// 本日儲值金額
         /// </summary>
-		private void GetViewBag()
-		{
-            // 會員 (呈現中文用)
-            ViewBag.Members = _context.Members.ToDictionary(x => x.Id, x => x);
-
-            // 衣物類型對應 (呈現中文用)
-            ViewBag.Clothings = _context.Clothings.ToDictionary(x => x.Id, x => x);
-
-            // 衣物類型對應 (呈現中文用)
-            ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Seq, x => x.Name);
-        }
-
-		/// <summary>
-		/// 本日儲值金額
-		/// </summary>
-		/// <returns></returns>
-		public async Task<IActionResult> TodayDeposit() 
+        /// <returns></returns>
+        public async Task<IActionResult> TodayDeposit() 
         {
             IQueryable<Log> logs = _context.Logs.Where(x=>x.LogDt > DateTime.Today && x.Act == LogAct.儲值);
 
@@ -72,129 +58,89 @@ namespace Web.Controllers
             return View("Index", logList);
         }
 
-        //// GET: Logs/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        /// <summary>
+		/// 本日儲值金額
+		/// </summary>
+		/// <returns></returns>
+		[Authorize(Roles = "Manager")]
+        public async Task<IActionResult> ThisMonthDeposit()
+        {
+            IQueryable<Log> logs = _context.Logs.Where(x => x.LogDt.Year == DateTime.Today.Year && x.LogDt.Month == DateTime.Today.Month && x.Act == LogAct.儲值);
 
-        //    var log = await _context.Logs
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (log == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var logList = await logs.OrderByDescending(x => x.LogDt).ToListAsync();
 
-        //    return View(log);
-        //}
+            GetViewBag();
 
-        //// GET: Logs/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+            ViewData["Title"] = "本月儲值紀錄";
+            return View("Index", logList);
+        }
 
-        //// POST: Logs/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Act,MemberId,Amount,Balance,ClothingSeq,Employee,LogDt")] Log log)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(log);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(log);
-        //}
+        /// <summary>
+		/// 本日操作紀錄
+		/// </summary>
+		/// <returns></returns>
+        public async Task<IActionResult> Today()
+        {
+            IQueryable<Log> logs = _context.Logs.Where(x => x.LogDt > DateTime.Today);
 
-        //// GET: Logs/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var logList = await logs.OrderByDescending(x => x.LogDt).ToListAsync();
 
-        //    var log = await _context.Logs.FindAsync(id);
-        //    if (log == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(log);
-        //}
+            GetViewBag();
 
-        //// POST: Logs/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Act,MemberId,Amount,Balance,ClothingSeq,Employee,LogDt")] Log log)
-        //{
-        //    if (id != log.Id)
-        //    {
-        //        return NotFound();
-        //    }
+            ViewData["Title"] = "本日操作紀錄";
+            return View("Index", logList);
+        }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(log);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!LogExists(log.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(log);
-        //}
+        /// <summary>
+		/// 本月操作紀錄
+		/// </summary>
+		/// <returns></returns>
+		[Authorize(Roles = "Manager")]
+        public async Task<IActionResult> Month()
+        {
+            IQueryable<Log> logs = _context.Logs.Where(x => x.LogDt.Year == DateTime.Today.Year && x.LogDt.Month == DateTime.Today.Month);
 
-        //// GET: Logs/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var logList = await logs.OrderByDescending(x => x.LogDt).ToListAsync();
 
-        //    var log = await _context.Logs
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (log == null)
-        //    {
-        //        return NotFound();
-        //    }
+            GetViewBag();
 
-        //    return View(log);
-        //}
+            ViewData["Title"] = "本月操作紀錄";
+            return View("Index", logList);
+        }
 
-        //// POST: Logs/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var log = await _context.Logs.FindAsync(id);
-        //    _context.Logs.Remove(log);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        /// <summary>
+        /// 指定月份資料 (取三個月)
+        /// </summary>
+        /// <param name="offset">偏移量(月)</param>
+        /// <returns></returns>
+		[Authorize(Roles = "Manager, SystemManager")]
+        public async Task<IActionResult> Offset(int offset)
+        {
+            var startDt = DateTime.Today.AddMonths(-offset);
+            var endDt = startDt.AddMonths(3);
+            IQueryable<Log> logs = _context.Logs.Where(x => x.LogDt >= startDt && x.LogDt <= endDt);
 
-        //private bool LogExists(int id)
-        //{
-        //    return _context.Logs.Any(e => e.Id == id);
-        //}
+            var logList = await logs.OrderByDescending(x => x.LogDt).ToListAsync();
+
+            GetViewBag();
+
+            ViewData["Title"] = $"{startDt.ToShortDateString()} ~ {endDt.ToShortDateString()} 操作紀錄";
+            return View("Index", logList);
+        }
+
+        /// <summary>
+        /// 取得畫面呈現所需資訊(ViewBag)
+        /// </summary>
+        private void GetViewBag()
+        {
+            // 會員 (呈現中文用)
+            ViewBag.Members = _context.Members.ToDictionary(x => x.Id, x => x);
+
+            // 衣物類型對應 (呈現中文用)
+            ViewBag.Clothings = _context.Clothings.ToDictionary(x => x.Id, x => x);
+
+            // 衣物類型對應 (呈現中文用)
+            ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Seq, x => x.Name);
+        }
     }
 }

@@ -92,7 +92,7 @@
 				<a asp-action="Index" asp-controller="Clothings" asp-route-memberId="@item.Id">衣物清單</a> |
 				<a asp-action="Create" asp-controller="Clothings" asp-route-memberId="@item.Id">建立訂單(收衣)</a> |
 				<a asp-action="EditAmount" asp-route-id="@item.Id">收現/儲值</a> |
-				<a asp-controller="Logs" asp-action="Index" asp-route-memberId="@item.Id">顧客交易明細</a> |
+				<a asp-controller="Logs" asp-action="Member" asp-route-memberId="@item.Id">顧客交易明細</a> |
 			</td>
 		</tr>
 }
