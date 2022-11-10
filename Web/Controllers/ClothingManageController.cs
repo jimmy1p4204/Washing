@@ -96,6 +96,9 @@ namespace Web.Controllers
 			// 將顏色編號轉成顏色
 			viewModel = viewModel.GetColorMapping(_context);
 
+			// 總筆數
+			ViewBag.Count = viewModel.Count();
+
 			return viewModel;
 		}
 	}
