@@ -186,8 +186,8 @@ namespace Web.Controllers
 				{
 					Act = LogAct.衣物收件,
 					MemberId = clothing.MemberId,
-					Amount = member.Amount,
-					Balance = 0,
+					Amount = 0,
+					Balance = member.Amount,
 					Employee = User.Identity.Name,
 					ClothingId = clothing.Id,
 				});
