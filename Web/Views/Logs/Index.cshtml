@@ -68,7 +68,7 @@
 			<td>
 				@if (item.ClothingId != null && item.ClothingId.Value != 0 && ViewBag.Clothings.ContainsKey(item.ClothingId.Value))
 				{
-					<a asp-action="Index" asp-controller="Clothings" asp-route-memberId="@item.MemberId">@ViewBag.Clothings[item.ClothingId.Value].Seq</a>
+					<a asp-action="Details" asp-controller="Clothings" asp-route-Id="@item.ClothingId">@ViewBag.Clothings[item.ClothingId.Value].Seq</a>
 				}
 
 				@*@Html.DisplayFor(modelItem => item.ClothingSeq)*@
