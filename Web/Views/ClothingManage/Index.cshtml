@@ -1,8 +1,5 @@
-﻿@model IEnumerable<Web.Models.UnWashViewModel>
+﻿@model IEnumerable<Web.Models.ClothingManageViewModel>
 
-@{
-    ViewData["Title"] = "未清洗衣物清單";
-}
 
 <h1>@ViewData["Title"]</h1>
 
@@ -11,25 +8,37 @@
 </p>*@
 <table id="myTable" class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ClothingSeq)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReceiveDayCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReceiveDt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            @*<th></th>*@
-        </tr>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.ClothingSeq)
+			</th>
+			<th>
+				會員
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Type)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Color)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ReceiveDayCount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ReceiveDt)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Status)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PickupDt)
+			</th>
+			@*<th></th>*@
+		</tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+		<tr>
 			<td>
 				@if (item.ClothingSeq > 0)
 				{
@@ -41,22 +50,34 @@
 				}
 				@*@Html.DisplayFor(modelItem => item.ClothingSeq)*@
 			</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReceiveDayCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReceiveDt)
-            </td>
+			<td>
+				<a asp-action="Index" asp-controller="Members" asp-route-Id="@item.MemberId">(@item.MemberId)@ViewBag.Members[item.MemberId].Name</a>
+			</td>
+			<td>
+				@ViewBag.ClothingTypes[item.Type]
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ColorStr)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ReceiveDayCount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ReceiveDt)
+			</td>
 			<td>
 				@ViewBag.ClothingStatus[item.Status]
 				@*@Html.DisplayFor(modelItem => item.Status)*@
 			</td>
-            @*<td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>*@
-        </tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.PickupDt)
+			</td>
+			@*<td>
+			@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+			@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+			@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+		</td>*@
+		</tr>
 }
     </tbody>
 </table>

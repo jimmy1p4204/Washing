@@ -4,13 +4,14 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Web.Data;
 
 namespace Web.Models
 {
 	/// <summary>
 	/// 未清洗衣物
 	/// </summary>
-	public class UnWashViewModel
+	public class ClothingManageViewModel
 	{
 		public int Id { get; set; }
 
@@ -19,6 +20,13 @@ namespace Web.Models
 		/// </summary>
 		[DisplayName("衣物編號")] 
 		public int? ClothingSeq { get; set; }
+
+		/// <summary>
+		/// 會員編號
+		/// </summary>
+		[DisplayName("會員編號")]
+
+		public int MemberId { get; set; }
 
 		/// <summary>
 		/// 已收件天數
@@ -51,6 +59,39 @@ namespace Web.Models
 		/// </summary>
 		[DisplayName("取件日期")]
 		public DateTime? PickupDt { get; internal set; }
+
+		/// <summary>
+		/// 類型
+		/// </summary>
+		[DisplayName("類型")]
+		public int Type { get; internal set; }
+
+		/// <summary>
+		/// 顏色
+		/// </summary>
+		[DisplayName("顏色")]
+		public string Color { get; internal set; }
+
+		/// <summary>
+		/// 顏色
+		/// </summary>
+		[DisplayName("顏色")]
+		public string ColorStr { get; internal set; }
 	}
 
+	public static class ClothingManageViewModelExtentions
+	{
+		public static List<ClothingManageViewModel> GetColorMapping(this List<ClothingManageViewModel> model, WashingDbContext context)
+		{
+			// 將顏色編號轉成顏色
+			var colors = context.ClothingColors.ToDictionary(x => x.Id, x => x.Name);
+			model.ForEach(x =>
+			{
+				var colorIds = x.Color.Split(',');
+				x.ColorStr = string.Join(",", colorIds.Select(y => colors[int.Parse(y)]));
+			});
+
+			return model;
+		}
+	}
 }
