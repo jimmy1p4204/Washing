@@ -302,9 +302,10 @@ namespace Web.Controllers
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
 			var clothing = await _context.Clothings.FindAsync(id);
+			var memberId = clothing.MemberId;
 			_context.Clothings.Remove(clothing);
 			await _context.SaveChangesAsync();
-			return RedirectToAction(nameof(Index));
+			return RedirectToAction(nameof(Index), new { memberId = memberId });
 		}
 
 		private bool ClothingExists(int id)
