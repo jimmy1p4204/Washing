@@ -15,11 +15,12 @@ namespace Web.Controllers
 	public class ClothingsController : Controller
 	{
 		private readonly WashingDbContext _context;
+		private readonly Dictionary<int, string> colors;
 
 		public ClothingsController(WashingDbContext context)
 		{
 			_context = context;
-
+			colors = _context.ClothingColors.ToDictionary(x => x.Id, x => x.Name);
 
 		}
 
@@ -65,30 +66,12 @@ namespace Web.Controllers
 				clothings = clothings.Where(x => (x.PickupDt == null));
 			}
 
-			// 衣物類型對應 (呈現中文用)
-			ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Id, x => x.Name);
-
-			// 衣物狀態對應 (呈現中文用)
-			ViewBag.ClothingStatus = _context.ClothingStatus.ToDictionary(x => x.Id, x => x.Name);
-
-			// 衣物類型對應 (呈現中文用)
-			ViewBag.ClothingActions = _context.ClothingActions.ToDictionary(x => x.Id, x => x.Name);
-
-			// 衣物包裝方式 (呈現中文用)
-			ViewBag.ClothingPackageTypes = _context.ClothingPackageTypes.ToDictionary(x => x.Id, x => x.Name);
-
-
-			// 會員
-			ViewBag.Members = _context.Members.ToDictionary(x => x.Id, x => x);
-
-
-
+			AssignViewData();
+			
 			// 將顏色編號轉成顏色
-			var colors = _context.ClothingColors.ToDictionary(x => x.Id, x => x.Name);
 			clothings.ToList().ForEach(x => 
-			{ 
-				var colorIds = x.Color.Split(',');
-				x.Color = string.Join(",", colorIds.Select(y => colors[int.Parse(y)]));
+			{
+				x.Color = ColorIdToStr(x.Color);
 			});
 
 			if (print)
@@ -119,21 +102,10 @@ namespace Web.Controllers
 				return NotFound();
 			}
 
-			// 衣物類型對應 (呈現中文用)
-			ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Id, x => x.Spec);
-			// 衣物類型對應 (呈現中文用)
-			ViewBag.ClothingStatus = _context.ClothingStatus.ToDictionary(x => x.Id, x => x.Name);
-			// 衣物類型對應 (呈現中文用)
-			ViewBag.Members = _context.Members.ToDictionary(x => x.Id, x => x);
-			// 衣物類型對應 (呈現中文用)
-			ViewBag.ClothingActions = _context.ClothingActions.ToDictionary(x => x.Id, x => x.Name);
-			// 衣物包裝方式 (呈現中文用)
-			ViewBag.ClothingPackageTypes = _context.ClothingPackageTypes.ToDictionary(x => x.Id, x => x.Name);
+			AssignViewData();
 
 			// 將顏色編號轉成顏色
-			var colors = _context.ClothingColors.ToDictionary(x => x.Id, x => x.Name);
-			var colorIds = clothing.Color.Split(',');
-			clothing.Color = string.Join(",", colorIds.Select(y => colors[int.Parse(y)]));
+			clothing.Color = ColorIdToStr(clothing.Color);
 
 			// 取得衣物照片
 			ViewBag.ClothingPictures = _context.ClothingPictures.Where(x => x.ClothingId == id);
@@ -280,17 +252,10 @@ namespace Web.Controllers
 				return NotFound();
 			}
 
-			// 衣物類型對應 (呈現中文用)
-			ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Id, x => x.Spec);
-			// 衣物類型對應 (呈現中文用)
-			ViewBag.ClothingStatus = _context.ClothingStatus.ToDictionary(x => x.Id, x => x.Name);
-			// 衣物類型對應 (呈現中文用)
-			ViewBag.ClothingActions = _context.ClothingActions.ToDictionary(x => x.Id, x => x.Name);
+			AssignViewData();
 
 			// 將顏色編號轉成顏色
-			var colors = _context.ClothingColors.ToDictionary(x => x.Id, x => x.Name);
-			var colorIds = clothing.Color.Split(',');
-			clothing.Color = string.Join(",", colorIds.Select(y => colors[int.Parse(y)]));
+			clothing.Color = ColorIdToStr(clothing.Color);
 
 			return View(clothing);
 		}
@@ -306,6 +271,89 @@ namespace Web.Controllers
 			_context.Clothings.Remove(clothing);
 			await _context.SaveChangesAsync();
 			return RedirectToAction(nameof(Index), new { memberId = memberId });
+		}
+
+		/// <summary>
+		/// 衣物移轉
+		///  GET: Clothings/Transfer/5
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public async Task<IActionResult> Transfer(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var clothing = await _context.Clothings
+				.FirstOrDefaultAsync(m => m.Id == id);
+			if (clothing == null)
+			{
+				return NotFound();
+			}
+
+			AssignViewData();
+
+			// 將顏色編號轉成顏色
+			clothing.Color = ColorIdToStr(clothing.Color);
+
+			return View(clothing);
+		}
+
+		/// <summary>
+		/// 衣物移轉確認
+		/// POST: Clothings/Transfer/5
+		/// </summary>
+		/// <param name="id">原會員</param>
+		/// <param name="id">目標會員</param>
+		/// <returns></returns>
+		[HttpPost, ActionName("Transfer")]
+		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "Manager")]
+		public async Task<IActionResult> TransferConfirmed(int id, int memberId)
+		{
+			var clothing = await _context.Clothings.FindAsync(id);
+
+			if (clothing.Paid)
+			{
+				return RedirectToAction(nameof(Index), new { id });
+			}
+
+			if(memberId < 1)
+			{
+				ViewBag.MemberIdError = "請輸入正確的會員編號";
+				return RedirectToAction(nameof(Index), new { id });
+			}
+
+			var originalMemberId = clothing.MemberId;
+
+			//衣物調整: 衣物編號 原會員 -> 目標會員
+			clothing.MemberId = memberId;
+			_context.Update(clothing);
+
+			//Log 調整
+			_context.Logs.Add(new Log()
+			{
+				Act = LogAct.衣物轉出,
+				MemberId = originalMemberId,
+				Amount = 0,
+				Balance = 0,
+				ClothingId = id,
+				Employee = User.Identity.Name,
+			});
+			_context.Logs.Add(new Log()
+			{
+				Act = LogAct.衣物轉入,
+				MemberId = memberId,
+				Amount = 0,
+				Balance = 0,
+				ClothingId = id,
+				Employee = User.Identity.Name,
+			});
+
+			await _context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index), new { memberId = originalMemberId });
 		}
 
 		private bool ClothingExists(int id)
@@ -492,6 +540,34 @@ namespace Web.Controllers
 
 			// 回到該會員的衣物清單
 			return RedirectToAction(nameof(Index), new { memberId = member.Id });
+		}
+
+		/// <summary>
+		/// 設定 View 所需要的資料 (ViewData、ViewBag)
+		/// </summary>
+		private void AssignViewData()
+		{
+			// 衣物類型對應 (呈現中文用)
+			ViewBag.ClothingTypes = _context.ClothingTypes.ToDictionary(x => x.Id, x => x.Name);
+			// 衣物類型對應 (呈現中文用)
+			ViewBag.ClothingStatus = _context.ClothingStatus.ToDictionary(x => x.Id, x => x.Name);
+			// 衣物類型對應 (呈現中文用)
+			ViewBag.ClothingActions = _context.ClothingActions.ToDictionary(x => x.Id, x => x.Name);
+			// 會員資料 (呈現中文用)
+			ViewBag.Members = _context.Members.ToDictionary(x => x.Id, x => x);
+			// 衣物包裝方式 (呈現中文用)
+			ViewBag.ClothingPackageTypes = _context.ClothingPackageTypes.ToDictionary(x => x.Id, x => x.Name);
+		}
+
+		/// <summary>
+		/// 將衣物的「顏色Id」轉成容易看的「顏色中文字」
+		/// </summary>
+		/// <param name="color"></param>
+		/// <returns></returns>
+		private string ColorIdToStr(string color)
+		{
+			var colorIds = color.Split(',');
+			return string.Join(",", colorIds.Select(y => colors[int.Parse(y)]));
 		}
 
 		private void SetMemberIdSelectList(int memberId)

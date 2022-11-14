@@ -1,16 +1,18 @@
 ﻿@model Web.Models.Clothing
 
 @{
-    ViewData["Title"] = "刪除訂單";
+	ViewData["Title"] = "衣物轉移";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<h3>是否確認要刪除這個項目?</h3>
-<p class="text-danger">注意: 只有店長可以刪除</p>
+<p class="text-danger">注意: 只有店長可以轉移</p>
+
+<hr />
+
 <div>
-    <h4>Clothing</h4>
-    <hr />
+	<h4>原衣物資料</h4>
+
 	<dl class="row">
 		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.Seq)
@@ -88,10 +90,27 @@
 			@Html.DisplayFor(model => model.PickupDt)
 		</dd>
 	</dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-		<a asp-action="Index">回到衣物清單</a>
-    </form>
+
+	<form asp-action="Transfer">
+		<input type="hidden" asp-for="Id" />
+		@if (Model.Paid)
+		{
+			<span class="text-danger">要改回「未付款」才能移轉 </span>
+		}
+		else
+		{
+			<hr />
+			<div class="form-group">
+				<label asp-for="MemberId" class="control-label">請輸入目標會員編號: </label>
+				<input asp-for="MemberId" class="form-control" />
+				<span asp-validation-for="MemberId" class="text-danger"></span>
+				<span class="text-danger">@ViewBag.MemberIdError</span>
+			</div>
+			<input type="submit" value="移轉" class="btn btn-danger" />
+		}
+	</form>
+
+	<hr />
+
+	<a asp-action="Index" asp-route-memberId="@Model.MemberId">回到衣物清單</a>
 </div>

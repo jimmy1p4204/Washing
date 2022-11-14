@@ -71,11 +71,13 @@ namespace Web.Models
 
 	public class LogAct
 	{
-		public const string 儲值 = "儲值";
-		public const string 衣物收件 = "衣物收件";
-		internal static string 衣物已付款 = "衣物已付款";
-		internal static string 衣物改回未付款 = "衣物改回未付款";
-		internal static string 顧客取件 = "顧客取件";
-		internal static string 取消衣物取件 = "取消衣物取件";
+		internal const string 儲值 = "儲值";
+		internal const string 衣物收件 = "衣物收件";
+		internal const string 衣物已付款 = "衣物已付款";
+		internal const string 衣物改回未付款 = "衣物改回未付款";
+		internal const string 顧客取件 = "顧客取件";
+		internal const string 取消衣物取件 = "取消衣物取件";
+		internal const string 衣物轉出 = "衣物轉出";
+		internal const string 衣物轉入 = "衣物轉入";
 	}
 }

@@ -172,7 +172,7 @@
 			<!--<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |-->
 			@*<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |*@
 			<a asp-action="Delete" asp-route-id="@item.Id">刪除</a> |
-			
+
 			@if (!item.Paid)
 			{
 				<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
@@ -191,6 +191,7 @@
 				<a asp-action="UnPickup" asp-route-id="@item.Id">取消取件</a>
 			} |
 
+			<a asp-action="Transfer" asp-route-id="@item.Id">移轉</a> |
 		</td>
 		</tr>
 		}
