@@ -77,6 +77,12 @@ namespace Web.Models
 		/// </summary>
 		[DisplayName("顏色")]
 		public string ColorStr { get; internal set; }
+
+		/// <summary>
+		/// 顏色
+		/// </summary>
+		[DisplayName("金額")]
+		public int Amount { get; internal set; }
 	}
 
 	public static class ClothingManageViewModelExtentions

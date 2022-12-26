@@ -66,6 +66,7 @@ namespace Web.Models
 
 		/// <summary>
 		/// 衣物清洗狀態 (預設 1:未清洗)
+		/// <para>2:已清洗, 3:已退件</para>
 		/// </summary>
 		[DisplayName("狀態")]
 		public int Status { get; set; } = 1;

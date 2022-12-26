@@ -19,6 +19,21 @@ namespace Web.Controllers
 		}
 
 		/// <summary>
+		/// 未付款清單 (排除退件)
+		/// </summary>
+		/// <returns></returns>
+		public IActionResult UnPaid()
+		{
+			ViewData["Title"] = "未付款衣物清單";
+
+			var clothings = _context.Clothings.Where(x => x.Paid == false && x.Status != 3);
+
+			var viewModel = GetViewData(clothings);
+
+			return View(nameof(Index), viewModel);
+		}
+
+		/// <summary>
 		/// 未清洗清單
 		/// </summary>
 		/// <returns></returns>
@@ -26,13 +41,11 @@ namespace Web.Controllers
 		{
 			ViewData["Title"] = "未清洗衣物清單";
 
-
-
 			var clothings = _context.Clothings.Where(x=> x.Status == 1);
 
 			var viewModel = GetViewData(clothings);
 
-			return View(viewModel);
+			return View(nameof(Index), viewModel);
 		}
 
 		/// <summary>
@@ -47,7 +60,7 @@ namespace Web.Controllers
 
 			var viewModel = GetViewData(clothings);
 
-			return View("Index", viewModel);
+			return View(nameof(Index), viewModel);
 		}
 
 		/// <summary>
@@ -62,7 +75,7 @@ namespace Web.Controllers
 
 			var viewModel = GetViewData(clothings);
 
-			return View("Index", viewModel);
+			return View(nameof(Index), viewModel);
 		}
 
 		/// <summary>
@@ -77,6 +90,7 @@ namespace Web.Controllers
 				MemberId = x.MemberId,
 				Type = x.Type,
 				Color = x.Color,
+				Amount = x.Amount,
 				ReceiveDayCount = DateTime.Now.Subtract(x.ReceiveDt).TotalDays.ToString("#,#"),
 				ReceiveDt = x.ReceiveDt,
 				Status = x.Status,
