@@ -123,12 +123,24 @@ namespace Web.Models
 		/// 收件總金額
 		/// </summary>
 		[DisplayName("收件總金額")]
-		public string ClothingsAmount { get; set; }
+		public decimal ClothingsAmount { get; set; }
+
+		/// <summary>
+		/// 收件總金額
+		/// </summary>
+		[DisplayName("收件總金額")]
+		public string  ClothingsAmountStr => ClothingsAmount.ToString("#,#");
 
 		/// <summary>
 		/// 機器現金總額
 		/// </summary>
 		[DisplayName("機器現金總額")]
 		public string MachineCash { get; set; }
+
+		/// <summary>
+		/// 去年同期衣物收款總額
+		/// </summary>
+		[DisplayName("去年同期衣物收款總額")]
+		public int ClothingsAmountLastYear { get; internal set; }
 	}
 }

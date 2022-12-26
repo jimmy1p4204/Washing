@@ -129,6 +129,7 @@ namespace Web.Controllers
 			for (int i = 0; i < totalMonth; i++)
 			{
 				var month = DateTime.Now.AddMonths(-i);
+				var monthLastYear = month.AddYears(-1);
 				var item = new ReportModel()
 				{
 					Date = month,
@@ -136,13 +137,16 @@ namespace Web.Controllers
 					DepositAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount).ToString("#,#"),
 					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount + x.BonusAmount).ToString("#,#"),
 					Clothings = _context.Clothings.Count(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).ToString("#,#"),
-					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).Sum(x=> x.Amount).ToString("#,#"),
+					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).Sum(x=> x.Amount),
+					ClothingsAmountLastYear = _context.Clothings.Where(x => x.ReceiveDt.Year == monthLastYear.Year && x.ReceiveDt.Month == monthLastYear.Month).Sum(x => x.Amount),
 					MachineCash = _context.MachineCashs.Where(x=>x.Dt.Year == month.Year && x.Dt.Month == month.Month).Sum(x => x.Amount).ToString("#,#"),
 				};
 				viewModel.Add(item);
 			}
 
 			ViewData["Title"] = $"年報表({totalMonth}個月)";
+			ViewData["DateFormat"] = "yyyy-MM";
+			ViewData["ShowChart"] = true;
 			return View("Report", viewModel);
 		}
 
@@ -157,6 +161,7 @@ namespace Web.Controllers
 			for (int i = 0; i < 90; i++)
 			{
 				var day = DateTime.Now.AddDays(-i).Date;
+				var dayLastYear = day.AddYears(-1);
 				var item = new ReportModel()
 				{
 					Date = day,
@@ -164,13 +169,15 @@ namespace Web.Controllers
 					DepositAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Date == day).Sum(x => x.Amount).ToString("#,#"),
 					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Date == day).Sum(x => x.Amount + x.BonusAmount).ToString("#,#"),
 					Clothings = _context.Clothings.Count(x => x.ReceiveDt.Date == day).ToString("#,#"),
-					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Date == day).Sum(x => x.Amount).ToString("#,#"),
+					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Date == day).Sum(x => x.Amount),
+					ClothingsAmountLastYear = _context.Clothings.Where(x => x.ReceiveDt.Date == dayLastYear).Sum(x => x.Amount),
 					MachineCash = _context.MachineCashs.Where(x => x.Dt.Date == day).Sum(x => x.Amount).ToString("#,#"),
 				};
 				viewModel.Add(item);
 			}
 
 			ViewData["Title"] = "月報表(90日)";
+			ViewData["DateFormat"] = "MM-dd";
 			return View("Report", viewModel);
 		}
 

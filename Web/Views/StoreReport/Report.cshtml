@@ -1,18 +1,50 @@
 ﻿@model IEnumerable<Web.Models.ReportModel>
 
+@section Styles{
+	<style>
+		.container {
+			width: 70%;
+			margin: 15px auto;
+		}
+
+		body {
+			text-align: center;
+			color: green;
+		}
+
+		h2 {
+			text-align: center;
+			font-family: "Verdana", sans-serif;
+			font-size: 30px;
+		}
+	</style>
+}
 
 <h1>@ViewData["Title"]</h1>
 
+@if (((bool)(ViewData["ShowChart"]??false)) == true)
+{
+	<div class="container">
+		<div>
+			<canvas id="myChart"></canvas>
+		</div>
+	</div>
+
+	<hr />
+}
+
+
+
 @*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
+		<a asp-action="Create">Create New</a>
+	</p>*@
 <span>可以點選表格標題進行排序</span>
 <table id="myTable" class="table">
-    <thead>
+	<thead>
 		<tr>
 			@*<th>
-			@Html.DisplayNameFor(model => model.Month)
-		</th>*@
+					@Html.DisplayNameFor(model => model.Month)
+				</th>*@
 			<th>
 				@Html.DisplayNameFor(model => model.DateStr)
 			</th>
@@ -26,20 +58,21 @@
 				@Html.DisplayNameFor(model => model.Clothings)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.ClothingsAmount)
+				@Html.DisplayNameFor(model => model.ClothingsAmountStr)
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.MachineCash)
 			</th>
 			@*<th></th>*@
 		</tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
 		<tr>
 			@*<td>
-			@Html.DisplayFor(modelItem => item.Month)
-		</td>*@
+					@Html.DisplayFor(modelItem => item.Month)
+				</td>*@
 			<td>
 				@Html.DisplayFor(modelItem => item.DateStr)
 			</td>
@@ -53,17 +86,56 @@
 				@Html.DisplayFor(modelItem => item.Clothings)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.ClothingsAmount)
+				@Html.DisplayFor(modelItem => item.ClothingsAmountStr)
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.MachineCash)
 			</td>
 			@*<td>
-			@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-			@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-			@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-		</td>*@
+					@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+					@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+					@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+				</td>*@
 		</tr>
-}
-    </tbody>
+		}
+	</tbody>
 </table>
+
+@section Scripts{
+	<script src="~/js/Chart.min.js" asp-append-version="true"></script>
+
+	<script>
+		var dtArray = [];
+		var array_for_this_year = [];
+		var array_for_last_year = [];
+
+		@foreach (var item in Model)
+		{
+			@:dtArray.push('@item.Date.ToString(ViewData["dateformat"].ToString())');
+			@:array_for_this_year.push('@item.ClothingsAmount');
+			@:array_for_last_year.push('@item.ClothingsAmountLastYear');
+		}
+
+		var ctx = document.getElementById("myChart").getContext("2d");
+		var myChart = new Chart(ctx, {
+			type: "line",
+			data: {
+				labels: dtArray,
+				datasets: [
+					{
+						label: "今年",
+						data: array_for_this_year,
+						fill: false,
+						borderColor: "rgb(75, 192, 192)",
+					},
+					{
+						label: "去年同期",
+						data: array_for_last_year,
+						fill: false,
+						borderColor: "rgba(155,153,10,0.6)",
+					},
+				],
+			},
+		});
+	</script>
+}
