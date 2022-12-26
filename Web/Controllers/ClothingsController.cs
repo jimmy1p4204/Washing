@@ -63,7 +63,7 @@ namespace Web.Controllers
 			// 預設顯示未取件
 			if (unPickup) 
 			{
-				clothings = clothings.Where(x => (x.PickupDt == null));
+				clothings = clothings.Where(x => (x.IsPickup == false));
 			}
 
 			AssignViewData();
@@ -530,8 +530,8 @@ namespace Web.Controllers
 			{
 				Act = LogAct.取消衣物取件,
 				MemberId = clothing.MemberId,
-				Amount = member.Amount,
-				Balance = 0,
+				Amount = 0,
+				Balance = member.Amount,
 				ClothingId = clothing.Id,
 				Employee = User.Identity.Name,
 			});
