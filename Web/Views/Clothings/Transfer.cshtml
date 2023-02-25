@@ -93,21 +93,16 @@
 
 	<form asp-action="Transfer">
 		<input type="hidden" asp-for="Id" />
-		@if (Model.Paid)
-		{
-			<span class="text-danger">要改回「未付款」才能移轉 </span>
-		}
-		else
-		{
-			<hr />
-			<div class="form-group">
-				<label asp-for="MemberId" class="control-label">請輸入目標會員編號: </label>
-				<input asp-for="MemberId" class="form-control" />
-				<span asp-validation-for="MemberId" class="text-danger"></span>
-				<span class="text-danger">@ViewBag.MemberIdError</span>
-			</div>
-			<input type="submit" value="移轉" class="btn btn-danger" />
-		}
+		
+		<hr />
+		<div class="form-group">
+			<label asp-for="MemberId" class="control-label">請輸入目標會員編號: </label>
+			<input asp-for="MemberId" class="form-control" />
+			<span asp-validation-for="MemberId" class="text-danger"></span>
+			<span class="text-danger">@ViewBag.MemberIdError</span>
+		</div>
+		<input type="submit" value="移轉" class="btn btn-danger" />
+		
 	</form>
 
 	<hr />

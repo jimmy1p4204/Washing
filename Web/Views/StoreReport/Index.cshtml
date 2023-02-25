@@ -18,11 +18,11 @@
 		</dd>
 
 		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.UnPayAmountOfClothings)
+			@Html.DisplayNameFor(model => model.InsufficientBalanceTotalAmount)
 		</dt>
 		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.UnPayAmountOfClothings)
-			(<a asp-controller="ClothingManage" asp-action="Unpaid">明細</a>)
+			@Html.DisplayFor(model => model.InsufficientBalanceTotalAmount)
+			(<a asp-controller="Members" asp-action="InsufficientBalance">明細</a>) <span class="text-danger">New!</span>
 </dd>
 	</dl>
 

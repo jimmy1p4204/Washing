@@ -26,17 +26,20 @@
 		<h4>衣物管理:</h4>
 		<ul>
 			<li>
-				<a asp-controller="ClothingManage" asp-action="Unpaid">未付款衣物清單</a>
+				<a asp-controller="Members" asp-action="InsufficientBalance">餘額不足的會員</a> <span class="text-danger">New!</span>
 			</li>
+			@*<li>
+				<a asp-controller="ClothingManage" asp-action="Unpaid">未付款衣物清單</a>
+			</li>*@
 			<li>
 				<a  asp-controller="ClothingManage" asp-action="index">未清洗衣物清單</a>
 			</li>
 			<li>
 				<a asp-area="" asp-controller="ClothingManage" asp-action="WashedButUnPick">已清洗未取件衣物清單</a>
 			</li>
-			<li>
+			@*<li>
 				<a asp-area="" asp-controller="ClothingManage" asp-action="PickedButUnPay">已取件未付款衣物清單</a>
-			</li>
+			</li>*@
 
 		</ul>
 	</div>
@@ -61,16 +64,16 @@
 			<h4>店鋪報表: (僅店長可看)</h4>
 			<ul>
 				<li>
-					<a asp-area="" asp-controller="StoreReport" asp-action="index">店鋪報表(含當日報表)</a>
+					<a asp-area="" asp-controller="StoreReport" asp-action="index">店鋪報表(含當日報表)</a> <span class="text-danger">New!</span>
 				</li>
 				<li>
 					<a asp-area="" asp-controller="StoreReport" asp-action="MonthReport">月報表(90日)</a>
 				</li>
 				<li>
-					<a asp-area="" asp-controller="StoreReport" asp-action="YearReport">年報表(18個月)</a>
+					<a asp-area="" asp-controller="StoreReport" asp-action="YearReport">年報表(18個月)</a> <span class="text-danger">New!</span>
 				</li>
 				<li>
-					<a asp-area="" asp-controller="MachineCashes" asp-action="Index">機器現金報表</a> <span class="text-danger">New!</span>
+					<a asp-area="" asp-controller="MachineCashes" asp-action="Index">機器現金報表</a> 
 				</li>
 			</ul>
 		</div>

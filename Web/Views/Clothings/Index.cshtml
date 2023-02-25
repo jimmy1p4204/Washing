@@ -13,8 +13,6 @@
 <h4>會員: @ViewBag.MemberId @ViewBag.MemberName</h4>
 <ul>
 	<li>餘額: @ViewBag.Members[ViewBag.MemberId].Amount</li>
-	<li>未付衣物金額: @ViewBag.UnPayAmount </li>
-	<li>預計餘額: @ViewBag.estimateAmount</li>
 	<li>報表時間: @ViewBag.ReportDt</li>
 </ul>
 }
@@ -38,8 +36,8 @@
 <div>
 	<h4>備註:</h4>
 	<ul>
-		<li>若顧客已付款，則點選 「已付款」，此動作會在「會員總餘額」減掉此訂單的金額</li>
-		<li>「改回未付款」 則會在「會員總餘額」加回此訂單的金額</li>
+		<li>衣物收件時，會在「會員總餘額」減掉此衣物的金額</li>
+		<li>衣物狀態改成「退件」 則會在「會員總餘額」加回此衣物的金額</li>
 	</ul>
 </div>
 
@@ -77,9 +75,9 @@
 			<th>
 				@Html.DisplayNameFor(model => model.DiscountAmount)
 			</th>
-			<th>
+			@*<th>
 				@Html.DisplayNameFor(model => model.Paid)
-			</th>
+			</th>*@
 			<th>
 				@Html.DisplayNameFor(model => model.Status)
 			</th>
@@ -144,7 +142,7 @@
 			<td>
 				@Html.DisplayFor(modelItem => item.DiscountAmount)
 			</td>
-			<td>
+			@*<td>
 				@if (item.Paid)
 				{
 					<span>已付</span>
@@ -154,7 +152,7 @@
 					<span>未付</span>
 				}
 
-			</td>
+			</td>*@
 			<td>
 				@*@Html.DisplayFor(modelItem => item.Status)*@
 				@ViewBag.ClothingStatus[item.Status]
@@ -177,10 +175,10 @@
 			{
 				<a asp-action="Paid" asp-route-id="@item.Id">已付款</a>
 			}
-			else
+			@*else
 			{
 				<a asp-action="UnPaid" asp-route-id="@item.Id">改回未付款</a>
-			} |
+			} |*@
 
 			@if (!item.IsPickup)
 			{

@@ -31,8 +31,8 @@ namespace Web.Controllers
 			// 儲值金總餘額
 			viewModel.TotalBalanceOfStoreAmount = GetTotalBalanceOfStoreAmount();
 
-			// 未付衣物總金額
-			viewModel.UnPayAmountOfClothings = GetUnPayAmountOfClothings();
+			// 餘額不足總額
+			viewModel.InsufficientBalanceTotalAmount = GetInsufficientBalanceTotalAmount();
 
 			// 本月收件數
 			viewModel.ThisMonthClothings = GetThisMonthClothings();
@@ -221,9 +221,9 @@ namespace Web.Controllers
 		/// 取得未付衣物總餘額
 		/// </summary>
 		/// <returns></returns>
-		private string GetUnPayAmountOfClothings()
+		private string GetInsufficientBalanceTotalAmount()
 		{
-			return $"{_context.Clothings.Where(x=>x.Paid == false && x.Status != 3).Sum(y => y.Amount).ToString("#,#")} 元";
+			return $"{_context.Members.Where(x=>x.Amount < 0).Sum(y => y.Amount).ToString("#,#")} 元";
 		}
 
 		/// <summary>

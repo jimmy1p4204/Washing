@@ -18,20 +18,22 @@ namespace Web.Controllers
 			_context = context;
 		}
 
+		#region  未付款清單 (排除退件)
 		/// <summary>
 		/// 未付款清單 (排除退件)
 		/// </summary>
 		/// <returns></returns>
-		public IActionResult UnPaid()
-		{
-			ViewData["Title"] = "未付款衣物清單";
+		//public IActionResult UnPaid()
+		//{
+		//	ViewData["Title"] = "未付款衣物清單";
 
-			var clothings = _context.Clothings.Where(x => x.Paid == false && x.Status != 3);
+		//	var clothings = _context.Clothings.Where(x => x.Paid == false && x.Status != 3);
 
-			var viewModel = GetViewData(clothings);
+		//	var viewModel = GetViewData(clothings);
 
-			return View(nameof(Index), viewModel);
-		}
+		//	return View(nameof(Index), viewModel);
+		//}
+		#endregion
 
 		/// <summary>
 		/// 未清洗清單
@@ -63,20 +65,22 @@ namespace Web.Controllers
 			return View(nameof(Index), viewModel);
 		}
 
+		#region 已取件未付款清單
 		/// <summary>
 		/// 已取件未付款清單
 		/// </summary>
 		/// <returns></returns>
-		public IActionResult PickedButUnPay()
-		{
-			ViewData["Title"] = "已取件未付款衣物清單";
+		//public IActionResult PickedButUnPay()
+		//{
+		//	ViewData["Title"] = "已取件未付款衣物清單";
 
-			var clothings = _context.Clothings.Where(x => x.Paid == false && x.IsPickup && x.Status != 3);
+		//	var clothings = _context.Clothings.Where(x => x.Paid == false && x.IsPickup && x.Status != 3);
 
-			var viewModel = GetViewData(clothings);
+		//	var viewModel = GetViewData(clothings);
 
-			return View(nameof(Index), viewModel);
-		}
+		//	return View(nameof(Index), viewModel);
+		//}
+		#endregion
 
 		/// <summary>
 		/// 取得相關資料 (含 ViewBag)

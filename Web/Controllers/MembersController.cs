@@ -33,6 +33,7 @@ namespace Web.Controllers
 				}
 			}
 
+			ViewData["Title"] = "會員資料清單";
 			return View(await _context.Members.ToListAsync());
 		}
 
@@ -184,7 +185,7 @@ namespace Web.Controllers
 					member.Amount += viewModel.DepositAmount + viewModel.BonusAmount;
 					_context.Update(member);
 					_context.Logs.Add(new Log()
-					{
+					{	
 						Act = LogAct.儲值,
 						MemberId = id,
 						Amount = viewModel.DepositAmount,
@@ -240,6 +241,19 @@ namespace Web.Controllers
 			_context.Members.Remove(member);
 			await _context.SaveChangesAsync();
 			return RedirectToAction(nameof(Index));
+		}
+
+		/// <summary>
+		/// 餘額不足之會員
+		/// GET: InsufficientBalance
+		/// </summary>
+		/// <returns></returns>
+		public async Task<IActionResult> InsufficientBalance()
+		{
+			var members = _context.Members.Where(x => x.Amount < 0);
+
+			ViewData["Title"] = "餘額不足的會員清單";
+			return View(nameof(Index), await members.ToListAsync());
 		}
 
 		private bool MemberExists(int id)

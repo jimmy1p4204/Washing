@@ -13,8 +13,6 @@
 <h4>會員: <a asp-action="Index" asp-route-memberid="@ViewBag.MemberId">@ViewBag.MemberId @ViewBag.MemberName</a></h4>
 <ul>
 	<li>餘額: @ViewBag.Members[ViewBag.MemberId].Amount</li>
-	<li>未付衣物金額: @ViewBag.UnPayAmount </li>
-	<li>預計餘額: @ViewBag.estimateAmount</li>
 	<li>報表時間: @ViewBag.ReportDt <input name="print" type="button" value="列印" onClick="varitext()"></li>
 </ul>
 }

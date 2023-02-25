@@ -18,10 +18,10 @@ namespace Web.Models
 		public string TotalBalanceOfStoreAmount { get; set; }
 
 		/// <summary>
-		/// 衣物未收總額
+		/// 會員餘額不足總額
 		/// </summary>
-		[DisplayName("衣物未收總額")] 
-		public string UnPayAmountOfClothings { get; set; }
+		[DisplayName("會員餘額不足總額")] 
+		public string InsufficientBalanceTotalAmount { get; set; }
 
 		/// <summary>
 		/// 本月收款金額

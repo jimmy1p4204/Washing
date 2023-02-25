@@ -79,5 +79,8 @@ namespace Web.Models
 		internal const string 取消衣物取件 = "取消衣物取件";
 		internal const string 衣物轉出 = "衣物轉出";
 		internal const string 衣物轉入 = "衣物轉入";
+		internal const string 刪除衣物 = "刪除衣物";
+		internal const string 衣物退件 = "衣物退件";
+		internal const string 取消衣物退件 = "取消衣物退件";
 	}
 }

@@ -52,12 +52,6 @@ namespace Web.Controllers
 				}
 
 				clothings = await _context.Clothings.Where(x => x.MemberId == memberId).ToListAsync();
-				
-				// 未付衣物金額
-				var unPayAmount = clothings.Where(x => x.Paid == false).Sum(x => x.Amount);
-				ViewBag.UnPayAmount = unPayAmount;
-				// 預計餘額
-				ViewBag.estimateAmount = member.Amount - unPayAmount;
 			}
 
 			// 預設顯示未取件
@@ -154,11 +148,17 @@ namespace Web.Controllers
 				// 找到會員
 				var member = await _context.Members.FindAsync(clothing.MemberId);
 
+				// 會員總額扣掉衣物餘額
+				member.Amount -= clothing.Amount;
+
+				// 設成已付款
+				clothing.Paid = true;
+
 				_context.Logs.Add(new Log()
 				{
 					Act = LogAct.衣物收件,
 					MemberId = clothing.MemberId,
-					Amount = 0,
+					Amount = -clothing.Amount,
 					Balance = member.Amount,
 					Employee = User.Identity.Name,
 					ClothingId = clothing.Id,
@@ -267,10 +267,25 @@ namespace Web.Controllers
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
 			var clothing = await _context.Clothings.FindAsync(id);
-			var memberId = clothing.MemberId;
+
+			// 找到會員
+			var member = await _context.Members.FindAsync(clothing.MemberId);
+			member.Amount += clothing.Amount; // 將衣物金額退款至顧客餘額
+
+			_context.Logs.Add(new Log()
+			{
+				Act = LogAct.刪除衣物,
+				MemberId = member.Id,
+				Amount = clothing.Amount,
+				Balance = member.Amount,
+				ClothingId = id,
+				Employee = User.Identity.Name,
+			});
+
+			_context.Update(member);
 			_context.Clothings.Remove(clothing);
 			await _context.SaveChangesAsync();
-			return RedirectToAction(nameof(Index), new { memberId = memberId });
+			return RedirectToAction(nameof(Index), new { memberId = member.Id });
 		}
 
 		/// <summary>
@@ -315,45 +330,48 @@ namespace Web.Controllers
 		{
 			var clothing = await _context.Clothings.FindAsync(id);
 
-			if (clothing.Paid)
-			{
-				return RedirectToAction(nameof(Index), new { id });
-			}
-
 			if(memberId < 1)
 			{
 				ViewBag.MemberIdError = "請輸入正確的會員編號";
 				return RedirectToAction(nameof(Index), new { id });
 			}
 
-			var originalMemberId = clothing.MemberId;
+			// 原會員
+			var originalMember = await _context.Members.FindAsync(clothing.MemberId);
+			originalMember.Amount += clothing.Amount; // 退衣服的錢給原會員
+
+			// 目標會員
+			var targetMember = await _context.Members.FindAsync(memberId);
+			targetMember.Amount -= clothing.Amount; // 扣衣服的錢給目標會員
 
 			//衣物調整: 衣物編號 原會員 -> 目標會員
-			clothing.MemberId = memberId;
+			clothing.MemberId = targetMember.Id;
 			_context.Update(clothing);
+			_context.Update(originalMember);
+			_context.Update(targetMember);
 
 			//Log 調整
 			_context.Logs.Add(new Log()
 			{
 				Act = LogAct.衣物轉出,
-				MemberId = originalMemberId,
-				Amount = 0,
-				Balance = 0,
+				MemberId = originalMember.Id,
+				Amount = clothing.Amount,
+				Balance = originalMember.Amount,
 				ClothingId = id,
 				Employee = User.Identity.Name,
 			});
 			_context.Logs.Add(new Log()
 			{
 				Act = LogAct.衣物轉入,
-				MemberId = memberId,
-				Amount = 0,
-				Balance = 0,
+				MemberId = targetMember.Id,
+				Amount = -clothing.Amount,
+				Balance = targetMember.Amount,
 				ClothingId = id,
 				Employee = User.Identity.Name,
 			});
 
 			await _context.SaveChangesAsync();
-			return RedirectToAction(nameof(Index), new { memberId = originalMemberId });
+			return RedirectToAction(nameof(Index), new { memberId = originalMember.Id });
 		}
 
 		private bool ClothingExists(int id)
@@ -361,6 +379,7 @@ namespace Web.Controllers
 			return _context.Clothings.Any(e => e.Id == id);
 		}
 
+		#region 衣物已收款
 		/// <summary>
 		/// 已付款
 		/// GET: Clothings/Edit/5
@@ -406,54 +425,57 @@ namespace Web.Controllers
 			// 回到該會員的衣物清單
 			return RedirectToAction(nameof(Index), new { memberId = member.Id });
 		}
+		#endregion
 
-		//
+
+		#region 衣物改為未收款
 		/// <summary>
 		/// 改回未付款
 		///  GET: Clothings/UnPaid/5
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		public async Task<IActionResult> UnPaid(int? id)
-		{
-			if (id == null)
-			{
-				return NotFound();
-			}
+		//public async Task<IActionResult> UnPaid(int? id)
+		//{
+		//	if (id == null)
+		//	{
+		//		return NotFound();
+		//	}
 
-			var clothing = await _context.Clothings.FindAsync(id);
-			if (clothing == null)
-			{
-				return NotFound();
-			}
+		//	var clothing = await _context.Clothings.FindAsync(id);
+		//	if (clothing == null)
+		//	{
+		//		return NotFound();
+		//	}
 
-			// 找到會員
-			var member = await _context.Members.FindAsync(clothing.MemberId);
+		//	// 找到會員
+		//	var member = await _context.Members.FindAsync(clothing.MemberId);
 
-			// 會員總額扣掉衣物餘額
-			member.Amount += clothing.Amount;
+		//	// 會員總額扣掉衣物餘額
+		//	member.Amount += clothing.Amount;
 
-			// 改成已付款
-			clothing.Paid = false;
+		//	// 改成已付款
+		//	clothing.Paid = false;
 
-			_context.Update(clothing);
-			_context.Update(member);
+		//	_context.Update(clothing);
+		//	_context.Update(member);
 
-			_context.Logs.Add(new Log()
-			{
-				Act = LogAct.衣物改回未付款,
-				MemberId = member.Id,
-				Amount = clothing.Amount,
-				Balance = member.Amount,
-				ClothingId = id,
-				Employee = User.Identity.Name,
-			});
+		//	_context.Logs.Add(new Log()
+		//	{
+		//		Act = LogAct.衣物改回未付款,
+		//		MemberId = member.Id,
+		//		Amount = clothing.Amount,
+		//		Balance = member.Amount,
+		//		ClothingId = id,
+		//		Employee = User.Identity.Name,
+		//	});
 
-			await _context.SaveChangesAsync();
+		//	await _context.SaveChangesAsync();
 
-			// 回到該會員的衣物清單
-			return RedirectToAction(nameof(Index), new { memberId = member.Id });
-		}
+		//	// 回到該會員的衣物清單
+		//	return RedirectToAction(nameof(Index), new { memberId = member.Id });
+		//}
+		#endregion
 
 		/// <summary>
 		/// 顧客取件
@@ -500,7 +522,7 @@ namespace Web.Controllers
 
 		//
 		/// <summary>
-		/// 改回未付款
+		/// 改回未取件
 		///  GET: Clothings/UnPaid/5
 		/// </summary>
 		/// <param name="id"></param>
@@ -540,6 +562,94 @@ namespace Web.Controllers
 
 			// 回到該會員的衣物清單
 			return RedirectToAction(nameof(Index), new { memberId = member.Id });
+		}
+
+		/// <summary>
+		/// 退件
+		/// GET: Clothings/Return/5
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public async Task<IActionResult> Return(int? id) 
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var clothing = await _context.Clothings.FindAsync(id);
+			if (clothing == null)
+			{
+				return NotFound();
+			}
+
+			clothing.Status = 3;
+
+			// 找到會員
+			var member = await _context.Members.FindAsync(clothing.MemberId);
+			member.Amount += clothing.Amount; // 退件要將衣物金額退費到會員餘額
+
+			_context.Update(clothing);
+			_context.Update(member);
+
+			_context.Logs.Add(new Log()
+			{
+				Act = LogAct.衣物退件,
+				MemberId = clothing.MemberId,
+				Amount = clothing.Amount,
+				Balance = member.Amount,
+				ClothingId = clothing.Id,
+				Employee = User.Identity.Name,
+			});
+
+			await _context.SaveChangesAsync();
+
+			// 回到衣物編輯頁面
+			return RedirectToAction(nameof(Edit), new { Id = id });
+		}
+
+		/// <summary>
+		/// 取消退件
+		/// GET: Clothings/CancelReturn/5
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public async Task<IActionResult> CancelReturn(int? id) 
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var clothing = await _context.Clothings.FindAsync(id);
+			if (clothing == null)
+			{
+				return NotFound();
+			}
+
+			clothing.Status = 1; // 衣物取消退件，衣物狀態會回到「未清洗」
+
+			// 找到會員
+			var member = await _context.Members.FindAsync(clothing.MemberId);
+			member.Amount -= clothing.Amount; // 取消退件要從會員餘額扣款將衣物金額
+
+			_context.Update(clothing);
+			_context.Update(member);
+
+			_context.Logs.Add(new Log()
+			{
+				Act = LogAct.取消衣物退件,
+				MemberId = clothing.MemberId,
+				Amount = -clothing.Amount,
+				Balance = member.Amount,
+				ClothingId = clothing.Id,
+				Employee = User.Identity.Name,
+			});
+
+			await _context.SaveChangesAsync();
+
+			// 回到衣物編輯頁面
+			return RedirectToAction(nameof(Edit), new { Id = id });
 		}
 
 		/// <summary>

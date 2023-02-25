@@ -64,16 +64,27 @@
 				<input asp-for="DiscountAmount" class="form-control" />
 				<span asp-validation-for="DiscountAmount" class="text-danger"></span>
 			</div>
-			<input type="hidden" asp-for="Paid" />
-			<div class="form-group">
-				<label asp-for="Paid" class="control-label"></label>(變更付款狀態請使用 "已付款" 功能)
-				<input asp-for="Paid" class="form-control" disabled="disabled" />
-				<span asp-validation-for="Paid" class="text-danger"></span>
-			</div>
+			@*<input type="hidden" asp-for="Paid" />
+		<div class="form-group">
+			<label asp-for="Paid" class="control-label"></label>(變更付款狀態請使用 "已付款" 功能)
+			<input asp-for="Paid" class="form-control" disabled="disabled" />
+			<span asp-validation-for="Paid" class="text-danger"></span>
+		</div>*@
+			<input type="hidden" asp-for="Status" />
 			<div class="form-group">
 				<label asp-for="Status" class="control-label"></label>
-				<select asp-for="Status" class="form-control" asp-items="ViewBag.ClothingStatus"></select>
+				<select asp-for="Status" class="form-control" asp-items="ViewBag.ClothingStatus" disabled="disabled"></select>
 				<span asp-validation-for="Status" class="text-danger"></span>
+				@if (Model.Status == 3)
+				{
+					<a asp-action="CancelReturn" asp-route-id="@Model.Id">取消退件</a>
+					<p class="text-danger">注意: 衣物取消退件，衣物狀態會回到「未清洗」</p>
+				}
+				else
+				{
+					<a asp-action="Return" asp-route-id="@Model.Id">退件</a>
+				}
+
 			</div>
 			<div class="form-group">
 				<label asp-for="ReceiveDt" class="control-label"></label>
