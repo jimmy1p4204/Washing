@@ -12,7 +12,7 @@
 {
 <h4>會員: @ViewBag.MemberId @ViewBag.MemberName</h4>
 <ul>
-	<li>餘額: @ViewBag.Members[ViewBag.MemberId].Amount</li>
+	<li>餘額: @ViewBag.Members[ViewBag.MemberId].Amount (<a asp-controller="Logs" asp-action="Today" asp-route-memberId="@ViewBag.MemberId">本日交易明細</a>)</li>
 	<li>報表時間: @ViewBag.ReportDt</li>
 </ul>
 }
