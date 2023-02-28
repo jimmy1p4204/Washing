@@ -79,9 +79,14 @@ namespace Web.Controllers
 		/// 本日操作紀錄
 		/// </summary>
 		/// <returns></returns>
-        public async Task<IActionResult> Today()
+        public async Task<IActionResult> Today(int memberId)
         {
             IQueryable<Log> logs = _context.Logs.Where(x => x.LogDt > DateTime.Today);
+
+            if (memberId != 0)
+            {
+                logs = logs.Where(x => x.MemberId == memberId);
+            }
 
             var logList = await logs.OrderByDescending(x => x.LogDt).ToListAsync();
 
