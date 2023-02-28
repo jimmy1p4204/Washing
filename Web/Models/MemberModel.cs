@@ -90,4 +90,25 @@ namespace Web.Models
 		/// </summary>
 		public ICollection<Clothing> Enrollments { get; set; }
 	}
+
+	public class SearchMemberViewModel 
+	{
+		/// <summary>
+		/// 顧客編號
+		/// </summary>
+		[DisplayName("顧客編號")]
+		public int? MemberId { get; set; }
+
+		/// <summary>
+		/// 顧客姓名
+		/// </summary>
+		[DisplayName("顧客姓名")]
+		public string Name { get; set; }
+
+		/// <summary>
+		/// 顧客電話
+		/// </summary>
+		[DisplayName("顧客電話")]
+		public string Phone { get; set; }
+	}
 }

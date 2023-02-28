@@ -12,7 +12,7 @@
 {
 <h4>會員: @ViewBag.MemberId @ViewBag.MemberName</h4>
 <ul>
-	<li>餘額: @ViewBag.Members[ViewBag.MemberId].Amount (<a asp-controller="Logs" asp-action="Today" asp-route-memberId="@ViewBag.MemberId">本日交易明細</a>)</li>
+	<li>餘額: @ViewBag.Members[ViewBag.MemberId].Amount (<a asp-controller="Logs" asp-action="Today" asp-route-memberId="@ViewBag.MemberId">本日交易明細</a> <span class="text-danger">New!</span>)</li>
 	<li>報表時間: @ViewBag.ReportDt</li>
 </ul>
 }
@@ -23,12 +23,14 @@
 		@if (ViewBag.MemberId > 0)
 		{
 			<a asp-action="Create" asp-route-memberId="@ViewBag.MemberId">建立訂單</a>
+			
 		}
 		else
 		{
 			<a asp-controller="Members" asp-action="Index">建立訂單請由 "會員資料" 進入</a>
 		}
 	</li>
+	<li><a asp-controller="Members" asp-action="Search" target="_blank">查詢其他會員資料</a> <span class="text-danger">New!</span></li>
 	<li>僅顯示「未取件」的資料，可點此<a asp-action="Index" asp-route-memberId="@ViewBag.MemberId" asp-route-unPickup=false>顯示所有衣物資料</a> </li>
 	<li><a asp-action="Index" asp-route-memberId="@ViewBag.MemberId" asp-route-print="true">友善列印</a> </li>
 </ul>

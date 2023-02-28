@@ -37,6 +37,52 @@ namespace Web.Controllers
 			return View(await _context.Members.ToListAsync());
 		}
 
+		// GET: Members/Search
+		public IActionResult Search()
+		{
+			return View();
+		}
+
+		// POST: Members/Create
+		// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+		// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Search(SearchMemberViewModel member)
+		{
+			if (!ModelState.IsValid) 
+			{
+				return View();
+			}
+
+			IQueryable<Member> members = null;
+			if (member.MemberId.HasValue && member.MemberId > 0)
+			{
+				members = _context.Members.Where(x => member.MemberId.ToString().Contains(x.Id.ToString()));
+			}
+			else if(!string.IsNullOrEmpty(member.Phone))
+			{
+				members = _context.Members.Where(x => x.Phone.Contains(member.Phone));
+			}
+			else if (!string.IsNullOrEmpty(member.Name))
+			{
+				members = _context.Members.Where(x => x.Name.Contains(member.Name));
+			}
+			else
+			{
+				return View();
+			}
+			
+			if(members.Count() > 1)
+			{
+				return View(nameof(Index), await members.ToListAsync());
+			}
+			else
+			{
+				return RedirectToAction(nameof(Index), "Clothings", new { memberId = member.MemberId });
+			}
+		}
+
 		// GET: Members/Details/5
 		public async Task<IActionResult> Details(int? id)
 		{
