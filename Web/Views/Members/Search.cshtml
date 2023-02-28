@@ -1,0 +1,46 @@
+﻿@model Web.Models.SearchMemberViewModel
+
+@{
+    ViewData["Title"] = "搜尋會員";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action="Search">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+			<h4>選擇任一種條件去搜尋即可</h4>
+
+			<div class="form-group">
+				<label asp-for="Phone" class="control-label"></label>
+				<input asp-for="Phone" class="form-control" />
+				<span asp-validation-for="Phone" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="MemberId" class="control-label"></label>
+				<input asp-for="MemberId" class="form-control" />
+				<span asp-validation-for="MemberId" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Name" class="control-label"></label>
+				<input asp-for="Name" class="form-control" />
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<input type="submit" value="搜尋" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a asp-controller="Home" asp-action="Index">回首頁</a> | <a asp-controller="Members" asp-action="Index" asp-route-id="0">查看全部會員</a>
+</div>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
