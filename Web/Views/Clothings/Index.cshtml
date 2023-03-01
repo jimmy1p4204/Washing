@@ -12,9 +12,9 @@
 {
 <h4>會員: @ViewBag.MemberId @ViewBag.MemberName</h4>
 <ul>
-	<li>餘額: @ViewBag.Members[ViewBag.MemberId].Amount</li>
+	<li>餘額: <span class="@(@ViewBag.Members[ViewBag.MemberId].Amount < 0 ? "text-danger" : "")">@ViewBag.Members[ViewBag.MemberId].Amount</span></li>
 	<li>未付衣物金額: @ViewBag.UnPayAmount </li>
-	<li>預計餘額: @ViewBag.estimateAmount</li>
+	<li>預計餘額: <span class="@(@ViewBag.estimateAmount < 0 ? "text-danger" : "")">@ViewBag.estimateAmount</span></li>
 	<li>報表時間: @ViewBag.ReportDt</li>
 </ul>
 }

@@ -27,9 +27,13 @@
 			<th>
 				@Html.DisplayNameFor(model => model.Name)
 			</th>
-			<th>
+			@if(@ViewBag.Action == "Search")
+			{
+				<th>
 				@Html.DisplayNameFor(model => model.Amount)
-			</th>
+				</th>
+			}
+			
 			<th>
 				@Html.DisplayNameFor(model => model.Phone)
 			</th>
@@ -64,9 +68,12 @@
 			<td>
 				@Html.DisplayFor(modelItem => item.Name)
 			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Amount)
-			</td>
+			@if (@ViewBag.Action == "Search")
+			{
+				<td>
+					<span class="@(@item.Amount < 0 ? "text-danger" : "")">@Html.DisplayFor(modelItem => item.Amount)</span>
+				</td>
+			}
 			<td>
 				@Html.DisplayFor(modelItem => item.Phone)
 			</td>
@@ -74,14 +81,14 @@
 				@Html.DisplayFor(modelItem => item.Address)
 			</td>
 			@*<td>
-				@Html.DisplayFor(modelItem => item.UniformNo)
-			</td>*@
+			@Html.DisplayFor(modelItem => item.UniformNo)
+		</td>*@
 			<td>
 				@Html.DisplayFor(modelItem => item.Remark)
 			</td>
 			@*<td>
-				@Html.DisplayFor(modelItem => item.LineId)
-			</td>*@
+			@Html.DisplayFor(modelItem => item.LineId)
+		</td>*@
 			<td>
 				@Html.DisplayFor(modelItem => item.CreateDt)
 			</td>

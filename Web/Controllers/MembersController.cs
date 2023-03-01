@@ -33,6 +33,7 @@ namespace Web.Controllers
 				}
 			}
 
+			ViewBag.Action = nameof(Index);
 			return View(await _context.Members.ToListAsync());
 		}
 
@@ -72,6 +73,7 @@ namespace Web.Controllers
 				return View();
 			}
 
+			ViewBag.Action = nameof(Search);
 			if (members.Count() > 1)
 			{
 				foreach (var item in members)
