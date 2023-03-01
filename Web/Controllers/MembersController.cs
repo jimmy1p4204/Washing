@@ -48,17 +48,17 @@ namespace Web.Controllers
 		// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Search(SearchMemberViewModel member)
+		public IActionResult Search(SearchMemberViewModel member)
 		{
 			if (!ModelState.IsValid) 
 			{
 				return View();
 			}
 
-			IQueryable<Member> members = null;
+			List<Member> members = null;
 			if (member.MemberId.HasValue && member.MemberId > 0)
 			{
-				members = _context.Members.Where(x => member.MemberId.ToString().Contains(x.Id.ToString()));
+				members = _context.Members.Where(x => member.MemberId.ToString().Contains(x.Id.ToString())).ToList();
 				if (!members.Any())
 				{
 					ViewBag.MemberIdErrorMsg = "會員編號不存在";
@@ -67,7 +67,7 @@ namespace Web.Controllers
 			}
 			else if(!string.IsNullOrEmpty(member.Phone))
 			{
-				members = _context.Members.Where(x => x.Phone.Contains(member.Phone));
+				members = _context.Members.Where(x => x.Phone.Contains(member.Phone)).ToList();
 				if (!members.Any())
 				{
 					ViewBag.PhoneErrorMsg = "電話不存在";
@@ -76,7 +76,7 @@ namespace Web.Controllers
 			}
 			else if (!string.IsNullOrEmpty(member.Name))
 			{
-				members = _context.Members.Where(x => x.Name.Contains(member.Name));
+				members = _context.Members.Where(x => x.Name.Contains(member.Name)).ToList();
 				if (!members.Any())
 				{
 					ViewBag.NameErrorMsg = "名字不存在";
@@ -93,7 +93,7 @@ namespace Web.Controllers
 			{
 				foreach (var item in members)
 				{
-					var clothings = await _context.Clothings.Where(x => x.MemberId == item.Id).ToListAsync();
+					var clothings = _context.Clothings.Where(x => x.MemberId == item.Id).ToList();
 
 					// 未付衣物金額
 					var unPayAmount = clothings.Where(x => x.Paid == false).Sum(x => x.Amount);
