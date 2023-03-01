@@ -71,9 +71,20 @@ namespace Web.Controllers
 			{
 				return View();
 			}
-			
-			if(members.Count() > 1)
+
+			if (members.Count() > 1)
 			{
+				foreach (var item in members)
+				{
+					var clothings = await _context.Clothings.Where(x => x.MemberId == item.Id).ToListAsync();
+
+					// 未付衣物金額
+					var unPayAmount = clothings.Where(x => x.Paid == false).Sum(x => x.Amount);
+
+					// 預計餘額 (會員儲值餘額 - 未付衣物金額
+					item.Amount -= unPayAmount;
+				}
+				
 				return View(nameof(Index), await members.ToListAsync());
 			}
 			else
