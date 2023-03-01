@@ -41,6 +41,10 @@ namespace Web.Controllers
 				clothings = await _context.Clothings.ToListAsync();
 
 			}
+			else if(!_context.Members.Any(x => x.Id == memberId))
+			{
+				return NotFound();
+			}
 			else
 			{
 				if (_context.Members.Any(x => x.Id == memberId))

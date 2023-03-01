@@ -11,27 +11,31 @@
 	<div class="col-md-4">
 		<form asp-action="Search">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+			
 			<h4>選擇任一種條件去搜尋即可</h4>
 
 			<div class="form-group">
 				<label asp-for="Phone" class="control-label"></label>
 				<input asp-for="Phone" class="form-control" />
 				<span asp-validation-for="Phone" class="text-danger"></span>
+				<div style="color:#DC143C; font-size:large">@ViewBag.PhoneErrorMsg</div>
 			</div>
 			<div class="form-group">
 				<label asp-for="MemberId" class="control-label"></label>
 				<input asp-for="MemberId" class="form-control" />
 				<span asp-validation-for="MemberId" class="text-danger"></span>
+				<div style="color:#DC143C; font-size:large">@ViewBag.MemberIdErrorMsg</div>
 			</div>
 			<div class="form-group">
 				<label asp-for="Name" class="control-label"></label>
 				<input asp-for="Name" class="form-control" />
 				<span asp-validation-for="Name" class="text-danger"></span>
+				<div style="color:#DC143C; font-size:large">@ViewBag.NameErrorMsg</div>
 			</div>
 
 			<div class="form-group">
 				<input type="submit" value="搜尋" class="btn btn-primary" />
+				
 			</div>
 		</form>
 	</div>

@@ -59,14 +59,29 @@ namespace Web.Controllers
 			if (member.MemberId.HasValue && member.MemberId > 0)
 			{
 				members = _context.Members.Where(x => member.MemberId.ToString().Contains(x.Id.ToString()));
+				if (!members.Any())
+				{
+					ViewBag.MemberIdErrorMsg = "會員編號不存在";
+					return View();
+				}
 			}
 			else if(!string.IsNullOrEmpty(member.Phone))
 			{
 				members = _context.Members.Where(x => x.Phone.Contains(member.Phone));
+				if (!members.Any())
+				{
+					ViewBag.PhoneErrorMsg = "電話不存在";
+					return View();
+				}
 			}
 			else if (!string.IsNullOrEmpty(member.Name))
 			{
 				members = _context.Members.Where(x => x.Name.Contains(member.Name));
+				if (!members.Any())
+				{
+					ViewBag.NameErrorMsg = "名字不存在";
+					return View();
+				}
 			}
 			else
 			{
@@ -87,7 +102,7 @@ namespace Web.Controllers
 					item.Amount -= unPayAmount;
 				}
 				
-				return View(nameof(Index), await members.ToListAsync());
+				return View(nameof(Index), members.ToList());
 			}
 			else
 			{
