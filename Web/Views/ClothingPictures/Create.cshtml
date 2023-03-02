@@ -9,11 +9,9 @@
 <h4>ClothingPicture</h4>
 <hr />
 <div class="row">
-	<div class="col-md-6">
-		<video id="video" style="width: 768px;"></video>
-	</div>
-	<div class="col-md-6">
-		<canvas id="canvas" width="1024" height="768" style="display: none"></canvas>
+	<div class="col-md-4">
+		<video id="video" width="400" height="400" playsinline></video>
+		<canvas id="canvas" width="400" height="400" style="display: none"></canvas>
 	</div>
 </div>
 <hr />
@@ -75,19 +73,27 @@
 		}
 
 		function error(error) {
-			console.log(`訪問使用者媒體裝置失敗${error.name}, ${error.message}`);
+			console.log('訪問使用者媒體裝置失敗${error.name}, ${error.message}');
 		}
 
 		if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
 			//呼叫使用者媒體裝置, 訪問攝像頭
-			getUserMedia({ video: { width: 1024, height: 768, facingMode: { exact: "environment" } } }, success, error);
+			getUserMedia({ video: { width: 400, height: 400, facingMode: { exact: "environment" } } }, success, error);
 		} else {
 			alert('不支援訪問使用者媒體');
 		}
 
 		document.getElementById('submit').addEventListener('click', function () {
-			context.drawImage(video, 0, 0, 1024, 768);
+			context.drawImage(video, 0, 0, 400, 400);
 			$('#Content').val(canvas.toDataURL("image/jpeg", 1.0));
+			$("#canvas").show();
+			$("#video").hide();
+			$.blockUI({
+				message: " ",
+				//borderWidth:'0px' 和透明背景
+				css: { borderWidth: '0px', backgroundColor: 'transparent' },
+			});
+			$('#submit').val('上傳中');
 		})
 	</script>
 }

@@ -28,6 +28,7 @@ namespace Web.Models
 		/// 照片內容 (Base64 字串)
 		/// </summary>
 		[DisplayName("照片內容")]
+		[Required]
 		public string Content { get; set; }
 
 		/// <summary>
