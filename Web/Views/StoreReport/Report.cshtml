@@ -43,8 +43,8 @@
 	<thead>
 		<tr>
 			@*<th>
-					@Html.DisplayNameFor(model => model.Month)
-				</th>*@
+			@Html.DisplayNameFor(model => model.Month)
+		</th>*@
 			<th>
 				@Html.DisplayNameFor(model => model.DateStr)
 			</th>
@@ -61,7 +61,10 @@
 				@Html.DisplayNameFor(model => model.ClothingsAmountStr)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.MachineCash)
+				@Html.DisplayNameFor(model => model.MachineAmount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.SelfWashAmount)
 			</th>
 			@*<th></th>*@
 		</tr>
@@ -71,8 +74,8 @@
 		{
 		<tr>
 			@*<td>
-					@Html.DisplayFor(modelItem => item.Month)
-				</td>*@
+			@Html.DisplayFor(modelItem => item.Month)
+		</td>*@
 			<td>
 				@Html.DisplayFor(modelItem => item.DateStr)
 			</td>
@@ -89,13 +92,16 @@
 				@Html.DisplayFor(modelItem => item.ClothingsAmountStr)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.MachineCash)
+				@Html.DisplayFor(modelItem => item.MachineAmount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.SelfWashAmount)
 			</td>
 			@*<td>
-					@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-					@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-					@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-				</td>*@
+			@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+			@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+			@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+		</td>*@
 		</tr>
 		}
 	</tbody>

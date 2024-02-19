@@ -39,7 +39,13 @@ namespace Web.Models
 		/// 本月機器現金總計
 		/// </summary>
 		[DisplayName("本月機器現金總計")]
-		public string ThisMonthMachineCash { get; set; }
+		public string ThisMonthMachineAmount { get; set; }
+
+		/// <summary>
+		/// 本月自助洗現金總計
+		/// </summary>
+		[DisplayName("本月自助洗現金總計")]
+		public string ThisMonthSelfWashAmount { get; set; }
 
 		/// <summary>
 		/// 本月收件數
@@ -81,7 +87,13 @@ namespace Web.Models
 		/// 今日機器現金
 		/// </summary>
 		[DisplayName("今日機器現金")]
-		public string TodayMachineCash { get; set; }
+		public string TodayMachineAmount { get; set; }
+
+		/// <summary>
+		/// 今日自助洗現金
+		/// </summary>
+		[DisplayName("今日自助洗現金")]
+		public string TodaySelfWashAmount { get; set; }
 	}
 
 	/// <summary>
@@ -135,12 +147,19 @@ namespace Web.Models
 		/// 機器現金總額
 		/// </summary>
 		[DisplayName("機器現金總額")]
-		public string MachineCash { get; set; }
+		public string MachineAmount { get; set; }
+
+		/// <summary>
+		/// 自助洗現金總額
+		/// </summary>
+		[DisplayName("自助洗現金總額")]
+		public string SelfWashAmount { get; set; }
 
 		/// <summary>
 		/// 去年同期衣物收款總額
 		/// </summary>
 		[DisplayName("去年同期衣物收款總額")]
 		public int ClothingsAmountLastYear { get; internal set; }
+		
 	}
 }

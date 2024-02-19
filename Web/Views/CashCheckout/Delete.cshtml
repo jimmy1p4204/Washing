@@ -1,7 +1,7 @@
-﻿@model Web.Models.MachineCash
+﻿@model Web.Models.CashCheckout
 
 @{
-    ViewData["Title"] = "機器現金-刪除資料";
+    ViewData["Title"] = "現金結帳-刪除資料";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -17,10 +17,16 @@
 			@Html.DisplayFor(model => model.Dt)
 		</dd>
 		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Amount)
+			@Html.DisplayNameFor(model => model.MachineAmount)
 		</dt>
 		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Amount)
+			@Html.DisplayFor(model => model.MachineAmount)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.SelfWashAmount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.SelfWashAmount)
 		</dd>
 		<dt class="col-sm-2">
 			@Html.DisplayNameFor(model => model.CreateDt)

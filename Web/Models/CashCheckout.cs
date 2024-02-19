@@ -6,14 +6,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Web.Models
 {
 	/// <summary>
-	/// 機器現金 
+	/// 現金結帳 
 	/// </summary>
-	public class MachineCash
+	public class CashCheckout
 	{
 		/// <summary>
-		/// 金額
+		/// 編號
 		/// </summary>
-		[DisplayName("金額")]
+		[DisplayName("編號")]
 		[Key]
 		public int Id { get; set; }
 
@@ -27,10 +27,16 @@ namespace Web.Models
 		public DateTime Dt { get; set; }
 
 		/// <summary>
-		/// 金額
+		/// 機器現金金額
 		/// </summary>
-		[DisplayName("金額")]
-		public int Amount { get; set; }
+		[DisplayName("機器現金金額")]
+		public int MachineAmount { get; set; }
+
+		/// <summary>
+		/// 自助洗現金金額
+		/// </summary>
+		[DisplayName("自助洗現金金額")]
+		public int SelfWashAmount { get; set; }
 
 		/// <summary>
 		/// 建立日期

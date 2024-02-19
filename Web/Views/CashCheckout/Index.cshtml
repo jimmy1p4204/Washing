@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Web.Models.MachineCash>
+﻿@model IEnumerable<Web.Models.CashCheckout>
 
 @{
     ViewData["Title"] = "機器現金清單 (僅店長可看)";
@@ -16,7 +16,10 @@
 				@Html.DisplayNameFor(model => model.Dt)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.Amount)
+				@Html.DisplayNameFor(model => model.MachineAmount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.SelfWashAmount)
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.UpdateBy)
@@ -37,7 +40,10 @@
 				@Html.DisplayFor(modelItem => item.Dt)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.Amount)
+				@Html.DisplayFor(modelItem => item.MachineAmount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.SelfWashAmount)
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.UpdateBy)

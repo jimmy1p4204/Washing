@@ -58,11 +58,18 @@
 			@Html.DisplayFor(model => model.ThisMonthClothingsAmount)
 		</dd>
 		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.ThisMonthMachineCash)
+			@Html.DisplayNameFor(model => model.ThisMonthMachineAmount)
 		</dt>
 		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.ThisMonthMachineCash)
-			(<a asp-action="Index" asp-controller="MachineCashes">明細</a>)
+			@Html.DisplayFor(model => model.ThisMonthMachineAmount)
+			(<a asp-action="Index" asp-controller="CashCheckout">明細</a>)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.ThisMonthSelfWashAmount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ThisMonthSelfWashAmount)
+			(<a asp-action="Index" asp-controller="CashCheckout">明細</a>)
 		</dd>
 	</dl>
 
@@ -98,10 +105,16 @@
 			@Html.DisplayFor(model => model.TodayClothingsAmount)
 		</dd>
 		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.TodayMachineCash)
+			@Html.DisplayNameFor(model => model.TodayMachineAmount)
 		</dt>
 		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.TodayMachineCash)
+			@Html.DisplayFor(model => model.TodayMachineAmount)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TodaySelfWashAmount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TodaySelfWashAmount)
 		</dd>
 	</dl>
 </div>

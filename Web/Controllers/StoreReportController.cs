@@ -47,7 +47,10 @@ namespace Web.Controllers
 			viewModel.ThisMonthStoreAmount = GetThisMonthStoreAmount();
 
 			// 本月機器現金
-			viewModel.ThisMonthMachineCash = GetThisMonthMachineCash();
+			viewModel.ThisMonthMachineAmount = GetThisMonthMachineAmount();
+
+			// 本月自助洗現金
+			viewModel.ThisMonthSelfWashAmount = GetThisMonthSelfWashAmount();
 
 			// 本日收件數
 			viewModel.TodayClothings = GetTodayClothings();
@@ -62,7 +65,10 @@ namespace Web.Controllers
 			viewModel.TodayStoreAmount = GetTodayStoreAmount();
 
 			// 本日機器現金
-			viewModel.TodayMachineCash = GetTodayMachineCash();
+			viewModel.TodayMachineAmount = GetTodayMachineAmount();
+
+			// 本日機器現金
+			viewModel.TodaySelfWashAmount = GetTodaySelfWashAmount();
 
 			return View(viewModel);
 		}
@@ -139,7 +145,8 @@ namespace Web.Controllers
 					Clothings = _context.Clothings.Count(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).ToString("#,#"),
 					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Year == month.Year && x.ReceiveDt.Month == month.Month).Sum(x=> x.Amount),
 					ClothingsAmountLastYear = _context.Clothings.Where(x => x.ReceiveDt.Year == monthLastYear.Year && x.ReceiveDt.Month == monthLastYear.Month).Sum(x => x.Amount),
-					MachineCash = _context.MachineCashs.Where(x=>x.Dt.Year == month.Year && x.Dt.Month == month.Month).Sum(x => x.Amount).ToString("#,#"),
+					MachineAmount = _context.CashCheckout.Where(x=>x.Dt.Year == month.Year && x.Dt.Month == month.Month).Sum(x => x.MachineAmount).ToString("#,#"),
+					SelfWashAmount = _context.CashCheckout.Where(x => x.Dt.Year == month.Year && x.Dt.Month == month.Month).Sum(x => x.SelfWashAmount).ToString("#,#"),
 				};
 				viewModel.Add(item);
 			}
@@ -171,7 +178,8 @@ namespace Web.Controllers
 					Clothings = _context.Clothings.Count(x => x.ReceiveDt.Date == day).ToString("#,#"),
 					ClothingsAmount = _context.Clothings.Where(x => x.ReceiveDt.Date == day).Sum(x => x.Amount),
 					ClothingsAmountLastYear = _context.Clothings.Where(x => x.ReceiveDt.Date == dayLastYear).Sum(x => x.Amount),
-					MachineCash = _context.MachineCashs.Where(x => x.Dt.Date == day).Sum(x => x.Amount).ToString("#,#"),
+					MachineAmount = _context.CashCheckout.Where(x => x.Dt.Date == day).Sum(x => x.MachineAmount).ToString("#,#"),
+					SelfWashAmount = _context.CashCheckout.Where(x => x.Dt.Date == day).Sum(x => x.SelfWashAmount).ToString("#,#"),
 				};
 				viewModel.Add(item);
 			}
@@ -203,9 +211,18 @@ namespace Web.Controllers
 		/// 本月機器現金
 		/// </summary>
 		/// <returns></returns>
-		private string GetThisMonthMachineCash()
+		private string GetThisMonthMachineAmount()
 		{
-			return $"{_context.MachineCashs.Where(x => x.Dt.Year == DateTime.Today.Year && x.Dt.Month == DateTime.Today.Month).Sum(y => y.Amount).ToString("#,#")} 元";
+			return $"{_context.CashCheckout.Where(x => x.Dt.Year == DateTime.Today.Year && x.Dt.Month == DateTime.Today.Month).Sum(y => y.MachineAmount).ToString("#,#")} 元";
+		}
+
+		/// <summary>
+		/// 本月自助洗現金
+		/// </summary>
+		/// <returns></returns>
+		private string GetThisMonthSelfWashAmount()
+		{
+			return $"{_context.CashCheckout.Where(x => x.Dt.Year == DateTime.Today.Year && x.Dt.Month == DateTime.Today.Month).Sum(y => y.SelfWashAmount).ToString("#,#")} 元";
 		}
 
 		/// <summary>
@@ -239,15 +256,31 @@ namespace Web.Controllers
 		/// 取得今日機器現金
 		/// </summary>
 		/// <returns></returns>
-		private string GetTodayMachineCash()
+		private string GetTodayMachineAmount()
 		{
-			if(!_context.MachineCashs.Any(x=>x.Dt == DateTime.Today))
+			if(!_context.CashCheckout.Any(x=>x.Dt == DateTime.Today))
 			{
 				return  "尚未結帳";
 			}
 			else
 			{
-				return $"{_context.MachineCashs.First(x => x.Dt == DateTime.Today).Amount} 元";
+				return $"{_context.CashCheckout.First(x => x.Dt == DateTime.Today).MachineAmount} 元";
+			}
+		}
+
+		/// <summary>
+		/// 取得今日自助洗現金
+		/// </summary>
+		/// <returns></returns>
+		private string GetTodaySelfWashAmount()
+		{
+			if (!_context.CashCheckout.Any(x => x.Dt == DateTime.Today))
+			{
+				return "尚未結帳";
+			}
+			else
+			{
+				return $"{_context.CashCheckout.First(x => x.Dt == DateTime.Today).SelfWashAmount} 元";
 			}
 		}
 	}

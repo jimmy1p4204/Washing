@@ -12,97 +12,97 @@ using Web.Models;
 namespace Web.Controllers
 {
     /// <summary>
-    /// 機器現金
+    /// 現金結帳
     /// </summary>
-    public class MachineCashesController : Controller
+    public class CashCheckoutController : Controller
     {
         private readonly WashingDbContext _context;
 
-        public MachineCashesController(WashingDbContext context)
+        public CashCheckoutController(WashingDbContext context)
         {
             _context = context;
         }
 
-        // GET: MachineCashes
+        // GET: CashCheckout
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MachineCashs.ToListAsync());
+            return View(await _context.CashCheckout.ToListAsync());
         }
 
-        // GET: MachineCashes/Create
+        // GET: CashCheckout/Create
         [Authorize(Roles = "Manager")]
         public IActionResult Create()
         {
-            MachineCash machineCash = new MachineCash()
+            CashCheckout cashCheckout = new CashCheckout()
             {
                 Dt = DateTime.Now,
                 UpdateBy = User.Identity.Name,
             };
-            return View(machineCash);
+            return View(cashCheckout);
         }
 
-        // POST: MachineCashes/Create
+        // POST: CashCheckout/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> Create([Bind("Id,Dt,Amount,CreateDt,UpdateDt,UpdateBy")] MachineCash machineCash)
+        public async Task<IActionResult> Create([Bind("Id,Dt,MachineAmount,SelfWashAmount,CreateDt,UpdateDt,UpdateBy")] CashCheckout cashCheckout)
         {
             if (ModelState.IsValid)
             {
-                machineCash.CreateDt = DateTime.Now;
-                machineCash.UpdateDt = DateTime.Now;
-                _context.Add(machineCash);
+                cashCheckout.CreateDt = DateTime.Now;
+                cashCheckout.UpdateDt = DateTime.Now;
+                _context.Add(cashCheckout);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(machineCash);
+            return View(cashCheckout);
         }
 
 
         /// <summary>
-        /// 機器現金結帳 (for 員工)
-        /// GET: MachineCashes/CheckOut
+        /// 現金結帳結帳 (for 員工)
+        /// GET: CashCheckout/CheckOut
         /// </summary>
         /// <returns></returns>
         [Authorize(Roles = "Manager,Employee,SystemManager")]
         public IActionResult CheckOut()
         {
-            if (!_context.MachineCashs.Any(x => x.Dt == DateTime.Today))
+            if (!_context.CashCheckout.Any(x => x.Dt == DateTime.Today))
 			{
-                MachineCash machineCash = new MachineCash()
+                CashCheckout cashCheckout = new CashCheckout()
                 {
                     Dt = DateTime.Now,
                     CreateDt = DateTime.Now,
                     UpdateDt = DateTime.Now,
                     UpdateBy = User.Identity.Name,
                 };
-                return View(machineCash);
+                return View(cashCheckout);
             }
 			else
 			{
-                var todayMachineCash = _context.MachineCashs.First(x => x.Dt == DateTime.Today);
-                todayMachineCash.UpdateBy = User.Identity.Name;
-                return View(todayMachineCash);
+                var todayCashCheckout = _context.CashCheckout.First(x => x.Dt == DateTime.Today);
+                todayCashCheckout.UpdateBy = User.Identity.Name;
+                return View(todayCashCheckout);
             }
         }
 
         /// <summary>
-        /// 機器現金結帳 (for 員工)
-        /// POST: MachineCashes/CheckOut
+        /// 現金結帳結帳 (for 員工)
+        /// POST: CashCheckout/CheckOut
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager,Employee,SystemManager")]
-        public async Task<IActionResult> CheckOut(int? id, [Bind("Id,Dt,Amount,CreateDt,UpdateDt,UpdateBy")] MachineCash machineCash)
+        public async Task<IActionResult> CheckOut(int? id, [Bind("Id,Dt,MachineAmount,SelfWashAmount,CreateDt,UpdateDt,UpdateBy")] CashCheckout cashCheckout)
         {
-            var todayMachineCash = _context.MachineCashs.FirstOrDefault(x => x.Dt == DateTime.Today);
+            var todayCashCheckout = _context.CashCheckout.FirstOrDefault(x => x.Dt == DateTime.Today);
 
             // 本日已有資料但員工編輯送出後的給的Id不對
-            if (todayMachineCash != null && id != machineCash.Id)
+            if (todayCashCheckout != null && id != cashCheckout.Id)
             {
                 return NotFound();
             }
@@ -111,26 +111,27 @@ namespace Web.Controllers
             {
                 try
                 {
-                    if (todayMachineCash != null)
+                    if (todayCashCheckout != null)
                     {
-                        todayMachineCash.UpdateDt = DateTime.Now;
-                        todayMachineCash.UpdateBy = User.Identity.Name;
-                        todayMachineCash.Amount = machineCash.Amount;
-                        _context.Update(todayMachineCash);
+                        todayCashCheckout.UpdateDt = DateTime.Now;
+                        todayCashCheckout.UpdateBy = User.Identity.Name;
+                        todayCashCheckout.MachineAmount = cashCheckout.MachineAmount;
+                        todayCashCheckout.SelfWashAmount = cashCheckout.SelfWashAmount;
+                        _context.Update(todayCashCheckout);
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Index", "Home");
                     }
 					else
 					{
-                        machineCash.UpdateDt = DateTime.Now;
-                        _context.Add(machineCash);
+                        cashCheckout.UpdateDt = DateTime.Now;
+                        _context.Add(cashCheckout);
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Index", "Home");
                     }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MachineCashExists(machineCash.Id))
+                    if (!CashCheckoutExists(cashCheckout.Id))
                     {
                         return NotFound();
                     }
@@ -146,7 +147,7 @@ namespace Web.Controllers
         }
 
 
-        // GET: MachineCashes/Edit/5
+        // GET: CashCheckout/Edit/5
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -155,27 +156,27 @@ namespace Web.Controllers
                 return NotFound();
             }
 
-            var machineCash = await _context.MachineCashs.FindAsync(id);
-            if (machineCash == null)
+            var CashCheckout = await _context.CashCheckout.FindAsync(id);
+            if (CashCheckout == null)
             {
                 return NotFound();
             }
 
-            machineCash.UpdateDt = DateTime.Now;
-            machineCash.UpdateBy = User.Identity.Name;
+            CashCheckout.UpdateDt = DateTime.Now;
+            CashCheckout.UpdateBy = User.Identity.Name;
 
-            return View(machineCash);
+            return View(CashCheckout);
         }
 
-        // POST: MachineCashes/Edit/5
+        // POST: CashCheckout/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> Edit(int? id, [Bind("Id,Dt,Amount,CreateDt,UpdateDt,UpdateBy")] MachineCash machineCash)
+        public async Task<IActionResult> Edit(int? id, [Bind("Id,Dt,MachineAmount,SelfWashAmount,CreateDt,UpdateDt,UpdateBy")] CashCheckout CashCheckout)
         {
-            if (id != machineCash.Id)
+            if (id != CashCheckout.Id)
             {
                 return NotFound();
             }
@@ -184,12 +185,12 @@ namespace Web.Controllers
             {
                 try
                 {
-                    _context.Update(machineCash);
+                    _context.Update(CashCheckout);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MachineCashExists(machineCash.Id))
+                    if (!CashCheckoutExists(CashCheckout.Id))
                     {
                         return NotFound();
                     }
@@ -200,10 +201,10 @@ namespace Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(machineCash);
+            return View(CashCheckout);
         }
 
-        // GET: MachineCashes/Delete/5
+        // GET: CashCheckout/Delete/5
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -212,31 +213,31 @@ namespace Web.Controllers
                 return NotFound();
             }
 
-            var machineCash = await _context.MachineCashs
+            var CashCheckout = await _context.CashCheckout
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (machineCash == null)
+            if (CashCheckout == null)
             {
                 return NotFound();
             }
 
-            return View(machineCash);
+            return View(CashCheckout);
         }
 
-        // POST: MachineCashes/Delete/5
+        // POST: CashCheckout/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var machineCash = await _context.MachineCashs.FindAsync(id);
-            _context.MachineCashs.Remove(machineCash);
+            var CashCheckout = await _context.CashCheckout.FindAsync(id);
+            _context.CashCheckout.Remove(CashCheckout);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MachineCashExists(int id)
+        private bool CashCheckoutExists(int id)
         {
-            return _context.MachineCashs.Any(e => e.Id == id);
+            return _context.CashCheckout.Any(e => e.Id == id);
         }
     }
 }

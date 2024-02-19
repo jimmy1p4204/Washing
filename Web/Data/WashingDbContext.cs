@@ -37,6 +37,6 @@ namespace Web.Data
 
 		public DbSet<Log> Logs { get; set; }
 
-		public DbSet<MachineCash> MachineCashs { get; set; }
+		public DbSet<CashCheckout> CashCheckout { get; set; }
 	}
 }
