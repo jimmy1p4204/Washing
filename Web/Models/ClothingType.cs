@@ -57,9 +57,9 @@ namespace Web.Models
 	public static class ClothingTyoeConst
 	{
 		/// <summary>
-		/// 衣物編號 800 為特別編號，為自助洗，此類衣物需獨立統計金額
+		/// 衣物編號(Id) 96 為特別編號 (對應 ClothingType 的 Seq = 800)，為自助洗，此類衣物需獨立統計金額
 		/// (自助洗為本店自行收送整桶衣物，本店親洗，水洗，不會再送到外面乾洗、水洗。)
 		/// </summary>
-		public const int SelfWash = 800;
+		public const int SelfWash = 96;
 	}
 }

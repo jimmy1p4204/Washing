@@ -86,7 +86,7 @@ namespace Web.Models
 		/// <summary>
 		/// 今日乾水洗(件) (不含自助洗)
 		/// </summary>
-		[DisplayName("今日乾水洗(件) (不含自助洗)")]
+		[DisplayName("今日乾水洗(件)")]
 		public string TodayClothingCount { get; set; }
 
 		/// <summary>
@@ -152,7 +152,7 @@ namespace Web.Models
 		/// <summary>
 		/// 乾水洗(件) (不含自助洗)
 		/// </summary>
-		[DisplayName("乾水洗(件) (不含自助洗)")]
+		[DisplayName("乾水洗(件)")]
 		public string ClothingCount { get; set; }
 
 		/// <summary>
