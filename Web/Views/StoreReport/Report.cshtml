@@ -39,6 +39,7 @@
 		<a asp-action="Create">Create New</a>
 	</p>*@
 <span>可以點選表格標題進行排序</span>
+
 <table id="myTable" class="table">
 	<thead>
 		<tr>
@@ -55,16 +56,26 @@
 				@Html.DisplayNameFor(model => model.StoreAmount)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.Clothings)
+				@Html.DisplayNameFor(model => model.ClothingCount)
 			</th>
 			<th>
-				@Html.DisplayNameFor(model => model.ClothingsAmountStr)
+				@Html.DisplayNameFor(model => model.ClothingAmount)
 			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.SelfWashClothingCount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.SelfWashClothingAmount)
+			</th>
+
 			<th>
 				@Html.DisplayNameFor(model => model.MachineAmount)
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.SelfWashAmount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TotalClothingsAmount)
 			</th>
 			@*<th></th>*@
 		</tr>
@@ -86,16 +97,27 @@
 				@Html.DisplayFor(modelItem => item.StoreAmount)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.Clothings)
+				@Html.DisplayFor(modelItem => item.ClothingCount)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.ClothingsAmountStr)
+				@Html.DisplayFor(modelItem => item.ClothingAmount)
 			</td>
+
+			<td>
+				@Html.DisplayFor(modelItem => item.SelfWashClothingCount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.SelfWashClothingAmount)
+			</td>
+
 			<td>
 				@Html.DisplayFor(modelItem => item.MachineAmount)
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.SelfWashAmount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.TotalClothingsAmount)
 			</td>
 			@*<td>
 			@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
@@ -118,8 +140,8 @@
 		@foreach (var item in Model)
 		{
 			@:dtArray.push('@item.Date.ToString(ViewData["dateformat"].ToString())');
-			@:array_for_this_year.push('@item.ClothingsAmount');
-			@:array_for_last_year.push('@item.ClothingsAmountLastYear');
+			@:array_for_this_year.push('@item.TotalClothingsAmount');
+			@:array_for_last_year.push('@item.TotalClothingAmountLastYear');
 		}
 
 		var ctx = document.getElementById("myChart").getContext("2d");

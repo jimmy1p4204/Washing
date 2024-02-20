@@ -38,26 +38,38 @@ namespace Web.Models
 		/// <summary>
 		/// 本月機器現金總計
 		/// </summary>
-		[DisplayName("本月機器現金總計")]
+		[DisplayName("本月機器(Cash)")]
 		public string ThisMonthMachineAmount { get; set; }
 
 		/// <summary>
 		/// 本月自助洗現金總計
 		/// </summary>
-		[DisplayName("本月自助洗現金總計")]
+		[DisplayName("本月自助洗(Cash)")]
 		public string ThisMonthSelfWashAmount { get; set; }
 
 		/// <summary>
-		/// 本月收件數
+		/// 本月乾水洗(件) (不含自助洗)
 		/// </summary>
-		[DisplayName("本月收件數")] 
-		public string ThisMonthClothings { get; set; }
+		[DisplayName("本月乾水洗(件)")] 
+		public string ThisMonthClothingCount { get; set; }
 
 		/// <summary>
-		/// 本月收件總金額
+		/// 本月乾水洗($)
 		/// </summary>
-		[DisplayName("本月收件總金額")]
-		public string ThisMonthClothingsAmount { get; set; }
+		[DisplayName("本月乾水洗($)")]
+		public string ThisMonthClothingAmount { get; set; }
+
+		/// <summary>
+		/// 本月自助洗(件)
+		/// </summary>
+		[DisplayName("本月自助洗(件)")]
+		public string ThisMonthSelfWashClothingCount { get; set; }
+
+		/// <summary>
+		/// 本月自助洗($)
+		/// </summary>
+		[DisplayName("本月自助洗($)")]
+		public string ThisMonthSelfWashClothingAmount { get; set; }
 
 		/// <summary>
 		/// 今日收款金額
@@ -72,27 +84,39 @@ namespace Web.Models
 		public string TodayStoreAmount { get; set; }
 
 		/// <summary>
-		/// 今日收件數
+		/// 今日乾水洗(件) (不含自助洗)
 		/// </summary>
-		[DisplayName("今日收件數")]
-		public string TodayClothings { get; set; }
+		[DisplayName("今日乾水洗(件) (不含自助洗)")]
+		public string TodayClothingCount { get; set; }
 
 		/// <summary>
-		/// 本日收件總金額
+		/// 今日乾水洗($)
 		/// </summary>
-		[DisplayName("今日收件總金額")]
-		public string TodayClothingsAmount { get; set; }
+		[DisplayName("今日乾水洗($)")]
+		public string TodayClothingAmount { get; set; }
+
+		/// <summary>
+		/// 今日自助洗(件)
+		/// </summary>
+		[DisplayName("今日自助洗(件)")]
+		public string TodaySelfWashClothingCount { get; set; }
+
+		/// <summary>
+		/// 今日自助洗($)
+		/// </summary>
+		[DisplayName("今日自助洗($)")]
+		public string TodaySelfWashClothingAmount { get; set; }
 
 		/// <summary>
 		/// 今日機器現金
 		/// </summary>
-		[DisplayName("今日機器現金")]
+		[DisplayName("今日機器(Cash)")]
 		public string TodayMachineAmount { get; set; }
 
 		/// <summary>
 		/// 今日自助洗現金
 		/// </summary>
-		[DisplayName("今日自助洗現金")]
+		[DisplayName("今日自助洗(Cash)")]
 		public string TodaySelfWashAmount { get; set; }
 	}
 
@@ -102,9 +126,9 @@ namespace Web.Models
 	public class ReportModel 
 	{
 		/// <summary>
-		/// 月份/日期
+		/// 日期/月份
 		/// </summary>
-		[DisplayName("月份/日期")]
+		[DisplayName("Date/Mount")]
 		public DateTime Date { get; set; }
 
 		/// <summary>
@@ -126,40 +150,59 @@ namespace Web.Models
 		public string StoreAmount { get; set; }
 
 		/// <summary>
-		/// 收件數
+		/// 乾水洗(件) (不含自助洗)
 		/// </summary>
-		[DisplayName("收件數")]
-		public string Clothings { get; set; }
+		[DisplayName("乾水洗(件) (不含自助洗)")]
+		public string ClothingCount { get; set; }
 
 		/// <summary>
-		/// 收件總金額
+		/// 乾水洗($)
 		/// </summary>
-		[DisplayName("收件總金額")]
-		public decimal ClothingsAmount { get; set; }
+		[DisplayName("乾水洗($)")]
+		public int ClothingAmount { get; set; }
 
 		/// <summary>
-		/// 收件總金額
+		/// 自助洗(件)
 		/// </summary>
-		[DisplayName("收件總金額")]
-		public string  ClothingsAmountStr => ClothingsAmount.ToString("#,#");
+		[DisplayName("自助洗(件)")]
+		public string SelfWashClothingCount { get; set; }
 
 		/// <summary>
-		/// 機器現金總額
+		/// 自助洗($)
 		/// </summary>
-		[DisplayName("機器現金總額")]
-		public string MachineAmount { get; set; }
+		[DisplayName("自助洗($)")]
+		public int SelfWashClothingAmount { get; set; }
 
 		/// <summary>
-		/// 自助洗現金總額
+		/// 機器(Cash)
 		/// </summary>
-		[DisplayName("自助洗現金總額")]
-		public string SelfWashAmount { get; set; }
+		[DisplayName("機器(Cash)")]
+		public int MachineAmount { get; set; }
+
+		/// <summary>
+		/// 自助洗(Cash)
+		/// </summary>
+		[DisplayName("自助洗(Cash)")]
+		public int SelfWashAmount { get; set; }
+
+
+		/// <summary>
+		/// 金額總計(含Cash)
+		/// </summary>
+		[DisplayName("金額總計(含Cash)")]
+		public int TotalClothingsAmount => ClothingAmount + SelfWashClothingAmount + MachineAmount + SelfWashAmount;
+
+
+		public int ClothingAmountLastYear { get; internal set; }
+		public int SelfWashClothingAmountLastYear { get; internal set; }
+		public int MachineAmountLastYear { get; internal set; }
+		public int SelfWashAmountLastYear { get; internal set; }
 
 		/// <summary>
 		/// 去年同期衣物收款總額
 		/// </summary>
 		[DisplayName("去年同期衣物收款總額")]
-		public int ClothingsAmountLastYear { get; internal set; }
-		
+		public int TotalClothingAmountLastYear => ClothingAmountLastYear + SelfWashClothingAmountLastYear + MachineAmountLastYear + SelfWashAmountLastYear;
+
 	}
 }

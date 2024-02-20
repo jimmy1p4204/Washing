@@ -10,14 +10,14 @@
 	@*<h4>StoreReportModel</h4>*@
 	<hr />
 	<dl class="row">
-		<dt class="col-sm-2">
+		<dt class="col-sm-6">
 			@Html.DisplayNameFor(model => model.TotalBalanceOfStoreAmount)
 		</dt>
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.TotalBalanceOfStoreAmount)
 		</dd>
 
-		<dt class="col-sm-2">
+		<dt class="col-sm-6">
 			@Html.DisplayNameFor(model => model.UnPayAmountOfClothings)
 		</dt>
 		<dd class="col-sm-10">
@@ -29,14 +29,14 @@
 	<hr />
 
 	<dl class="row">
-		<dt class="col-sm-2">
+		<dt class="col-sm-6">
 			@Html.DisplayNameFor(model => model.ThisMonthDepositAmount)
 		</dt>
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.ThisMonthDepositAmount)
 		</dd>
 
-		<dt class="col-sm-2">
+		<dt class="col-sm-6">
 			@Html.DisplayNameFor(model => model.ThisMonthStoreAmount)
 		</dt>
 		<dd class="col-sm-10">
@@ -44,27 +44,42 @@
 			(<a asp-action="ThisMonthDeposit" asp-controller="Logs">明細</a>)
 		</dd>
 
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.ThisMonthClothings)
+		<dt class="col-sm-6">
+			@Html.DisplayNameFor(model => model.ThisMonthClothingCount)
 		</dt>
 		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.ThisMonthClothings)
+			@Html.DisplayFor(model => model.ThisMonthClothingCount)
 		</dd>
 
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.ThisMonthClothingsAmount)
+		<dt class="col-sm-6">
+			@Html.DisplayNameFor(model => model.ThisMonthClothingAmount)
 		</dt>
 		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.ThisMonthClothingsAmount)
+			@Html.DisplayFor(model => model.ThisMonthClothingAmount)
 		</dd>
-		<dt class="col-sm-2">
+
+		<dt class="col-sm-6">
+			@Html.DisplayNameFor(model => model.ThisMonthSelfWashClothingCount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ThisMonthSelfWashClothingCount)
+		</dd>
+
+		<dt class="col-sm-6">
+			@Html.DisplayNameFor(model => model.ThisMonthSelfWashClothingAmount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ThisMonthSelfWashClothingAmount)
+		</dd>
+
+		<dt class="col-sm-6">
 			@Html.DisplayNameFor(model => model.ThisMonthMachineAmount)
 		</dt>
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.ThisMonthMachineAmount)
 			(<a asp-action="Index" asp-controller="CashCheckout">明細</a>)
 		</dd>
-		<dt class="col-sm-2">
+		<dt class="col-sm-6">
 			@Html.DisplayNameFor(model => model.ThisMonthSelfWashAmount)
 		</dt>
 		<dd class="col-sm-10">
@@ -76,14 +91,14 @@
 	<hr />
 	
 	<dl class="row">
-		<dt class="col-sm-2">
+		<dt class="col-sm-6">
 			@Html.DisplayNameFor(model => model.TodayDepositAmount)
 		</dt>
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.TodayDepositAmount)
 		</dd>
 
-		<dt class="col-sm-2">
+		<dt class="col-sm-6">
 			@Html.DisplayNameFor(model => model.TodayStoreAmount)
 		</dt>
 		<dd class="col-sm-10">
@@ -91,26 +106,38 @@
 			(<a asp-action="TodayDeposit" asp-controller="Logs">明細</a>)
 		</dd>
 
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.TodayClothings)
+		<dt class="col-sm-6">
+			@Html.DisplayNameFor(model => model.TodayClothingCount)
 		</dt>
 		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.TodayClothings)
+			@Html.DisplayFor(model => model.TodayClothingCount)
 		</dd>
 
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.TodayClothingsAmount)
+		<dt class="col-sm-6">
+			@Html.DisplayNameFor(model => model.TodayClothingAmount)
 		</dt>
 		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.TodayClothingsAmount)
+			@Html.DisplayFor(model => model.TodayClothingAmount)
 		</dd>
-		<dt class="col-sm-2">
+		<dt class="col-sm-6">
+			@Html.DisplayNameFor(model => model.TodaySelfWashClothingCount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TodaySelfWashClothingCount)
+		</dd>
+		<dt class="col-sm-6">
+			@Html.DisplayNameFor(model => model.TodaySelfWashClothingAmount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TodaySelfWashClothingAmount)
+		</dd>
+		<dt class="col-sm-6">
 			@Html.DisplayNameFor(model => model.TodayMachineAmount)
 		</dt>
 		<dd class="col-sm-10">
 			@Html.DisplayFor(model => model.TodayMachineAmount)
 		</dd>
-		<dt class="col-sm-2">
+		<dt class="col-sm-6">
 			@Html.DisplayNameFor(model => model.TodaySelfWashAmount)
 		</dt>
 		<dd class="col-sm-10">
