@@ -140,8 +140,17 @@ namespace Web.Models
 		/// <summary>
 		/// 收款金額
 		/// </summary>
+		public int DepositAmount { get; set; }
+
+		/// <summary>
+		/// 收款金額 (千分位文字)
+		/// </summary>
 		[DisplayName("收款金額")]
-		public string DepositAmount { get; set; }
+		public string DepositAmountStr {
+			get { 
+				return DepositAmount.ToString("#,#"); 
+			} 
+		}
 
 		/// <summary>
 		/// 儲值金額
@@ -187,11 +196,11 @@ namespace Web.Models
 
 
 		/// <summary>
-		/// 金額總計(含Cash)
+		/// 金額總計 (收款金額+機器Cash+自助洗 Cash)
 		/// </summary>
-		[DisplayName("金額總計(含Cash)")]
-		public int TotalClothingsAmount => ClothingAmount + SelfWashClothingAmount + MachineAmount + SelfWashAmount;
-
+		[DisplayName("金額總計(收款+Cash)")]
+		//public int TotalClothingsAmount => ClothingAmount + SelfWashClothingAmount + MachineAmount + SelfWashAmount;
+		public int TotalClothingsAmount => DepositAmount + MachineAmount + SelfWashAmount;
 
 		public int ClothingAmountLastYear { get; internal set; }
 		public int SelfWashClothingAmountLastYear { get; internal set; }

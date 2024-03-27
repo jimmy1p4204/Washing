@@ -179,7 +179,7 @@ namespace Web.Controllers
 				{
 					Date = month,
 					DateStr = month.ToString("yyyy-MM"),
-					DepositAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount).ToString("#,#"),
+					DepositAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount),
 					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Year == month.Year && x.LogDt.Month == month.Month).Sum(x => x.Amount + x.BonusAmount).ToString("#,#"),
 					ClothingCount = clothings.Count().ToString("#,#"),
 					ClothingAmount = clothings.Sum(x=> x.Amount),
@@ -233,7 +233,7 @@ namespace Web.Controllers
 				{
 					Date = day,
 					DateStr = day.ToString("yyyy-MM-dd"),
-					DepositAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Date == day).Sum(x => x.Amount).ToString("#,#"),
+					DepositAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Date == day).Sum(x => x.Amount),
 					StoreAmount = _context.Logs.Where(x => x.Act == LogAct.儲值 && x.LogDt.Date == day).Sum(x => x.Amount + x.BonusAmount).ToString("#,#"),
 					ClothingCount = clothings.Count().ToString("#,#"),
 					ClothingAmount = clothings.Sum(x => x.Amount),
