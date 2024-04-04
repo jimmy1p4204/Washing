@@ -40,11 +40,29 @@
 	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 	<script>
+
+		function tryFrontCamera() {
+			// 嘗試使用前置鏡頭設置
+			navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+				.then(success)
+				.catch(error);
+		}
+
 		//訪問使用者媒體裝置的相容方法
 		function getUserMedia(constraints, success, error) {
 			if (navigator.mediaDevices.getUserMedia) {
 				//最新的標準API
-				navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
+				// navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
+
+				// 嘗試使用後置鏡頭
+				navigator.mediaDevices.getUserMedia(constraints)
+					.then(success)
+					.catch(function (e) {
+						// 後置鏡頭讀取失敗，嘗試使用前置鏡頭
+						console.error('後置鏡頭讀取失敗:', e);
+						console.log('嘗試使用前置鏡頭...');
+						tryFrontCamera();
+					});
 			} else if (navigator.webkitGetUserMedia) {
 				//webkit核心瀏覽器
 				navigator.webkitGetUserMedia(constraints, success, error)
@@ -74,6 +92,7 @@
 
 		function error(error) {
 			console.log('訪問使用者媒體裝置失敗${error.name}, ${error.message}');
+			console.log(error);
 		}
 
 		if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
