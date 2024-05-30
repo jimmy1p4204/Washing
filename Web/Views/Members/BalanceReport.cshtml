@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Web.Models.Member>
+
+@{
+    ViewData["Title"] = "會員餘額清單";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+<table id="myTable" class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Id)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Amount) (尚未扣除未繳款衣物)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.UpdateDt)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model) {
+		<tr>
+			<td>
+				@*@Html.DisplayFor(modelItem => item.Id)*@
+				<a asp-action="Details" asp-route-id="@item.Id">@item.Id</a>
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Amount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.UpdateDt)
+			</td>
+			<td>
+				
+			</td>
+		</tr>
+}
+	</tbody>
+</table>

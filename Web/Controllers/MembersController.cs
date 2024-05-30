@@ -316,6 +316,22 @@ namespace Web.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
+		[Authorize(Roles = "Manager")]
+		public async Task<IActionResult> BalanceReport(int id = 0)
+		{
+			if (id != 0)
+			{
+				if (_context.Members.Any(x => x.Id == id))
+				{
+					var member = _context.Members.Where(x => x.Id == id);
+					return View(await member.ToListAsync());
+				}
+			}
+
+			ViewBag.Action = nameof(BalanceReport);
+			return View(await _context.Members.ToListAsync());
+		}
+
 		private bool MemberExists(int id)
 		{
 			return _context.Members.Any(e => e.Id == id);
