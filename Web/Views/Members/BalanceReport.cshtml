@@ -42,7 +42,7 @@
 				@Html.DisplayFor(modelItem => item.UpdateDt)
 			</td>
 			<td>
-				
+				<a asp-controller="Logs" asp-action="Member" asp-route-memberId="@item.Id">明細</a>
 			</td>
 		</tr>
 }
