@@ -389,6 +389,7 @@ namespace Web.Controllers
 
 			// 會員總額扣掉衣物餘額
 			member.Amount -= clothing.Amount;
+			member.UpdateDt = DateTime.Now;
 
 			// 改成已付款
 			clothing.Paid = true;
