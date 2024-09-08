@@ -34,50 +34,14 @@ namespace Web.Controllers
 		{
 			ViewBag.ErrorMsg = TempData["ErrorMsg"]?.ToString();
 
-			IEnumerable<Clothing> clothings;
-			Member member = null;
-			if (memberId == 0)
-			{
-				clothings = await _context.Clothings.ToListAsync();
-
-			}
-			else if(!_context.Members.Any(x => x.Id == memberId))
+			if (memberId != 0 && !_context.Members.Any(x => x.Id == memberId))
 			{
 				return NotFound();
 			}
-			else
-			{
-				if (_context.Members.Any(x => x.Id == memberId))
-				{
-					member = _context.Members.FirstOrDefault(x => x.Id == memberId);
-					ViewBag.MemberId = member.Id;
-					ViewBag.MemberName = member.Name;
-					ViewBag.ReportDt = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-				}
 
-				clothings = await _context.Clothings.Where(x => x.MemberId == memberId).ToListAsync();
-				
-				// 未付衣物金額
-				var unPayAmount = clothings.Where(x => x.Paid == false).Sum(x => x.Amount);
-				ViewBag.UnPayAmount = unPayAmount;
-				// 預計餘額
-				ViewBag.estimateAmount = member.Amount - unPayAmount;
-			}
-
-			// 預設顯示未取件
-			if (unPickup) 
-			{
-				clothings = clothings.Where(x => (x.IsPickup == false));
-			}
-
-			AssignViewData();
+			(DateTime startDate, DateTime endDate) = GetInterval(null, 0);
+			IEnumerable<Clothing> clothings = GetClothings(memberId, startDate, endDate, unPickup);
 			
-			// 將顏色編號轉成顏色
-			clothings.ToList().ForEach(x => 
-			{
-				x.Color = ColorIdToStr(x.Color);
-			});
-
 			if (print)
 			{
 				// 友善列印頁
@@ -89,6 +53,130 @@ namespace Web.Controllers
 			}
 			
 
+		}
+
+		public async Task<IActionResult> IndexForFactory(short monthOffset = 0, short offset=0) 
+		{
+			ViewBag.ErrorMsg = TempData["ErrorMsg"]?.ToString();
+			ViewBag.monthOffset = monthOffset;
+
+			(DateTime startDate, DateTime endDate) = GetInterval(monthOffset, offset);
+
+			IEnumerable<Clothing> clothings = GetClothings(0, startDate, endDate, false);
+
+			ViewData["Title"] = string.Format("乾水洗衣物清單 ({0} ~ {1})", startDate.ToShortDateString(), endDate.ToShortDateString());
+			return View(clothings);
+		}
+
+		/// <summary>
+		/// 根據條件取得衣物清單
+		/// </summary>
+		/// <param name="memberId"></param>
+		/// <param name="unPickup"></param>
+		/// <param name="print"></param>
+		/// <returns></returns>
+		private IEnumerable<Clothing> GetClothings(int memberId, DateTime startDate, DateTime endDate, bool unPickup = true) {
+			
+			IEnumerable<Clothing> clothings;
+
+			Member member = null;
+			if (memberId == 0)
+			{
+				clothings =  _context.Clothings.ToList();
+			}
+			else
+			{
+				if (_context.Members.Any(x => x.Id == memberId))
+				{
+					member = _context.Members.FirstOrDefault(x => x.Id == memberId);
+					ViewBag.MemberId = member.Id;
+					ViewBag.MemberName = member.Name;
+					ViewBag.ReportDt = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+				}
+
+				clothings = _context.Clothings.Where(x => x.MemberId == memberId).ToList();
+
+				// 未付衣物金額
+				var unPayAmount = clothings.Where(x => x.Paid == false).Sum(x => x.Amount);
+				ViewBag.UnPayAmount = unPayAmount;
+				// 預計餘額
+				ViewBag.estimateAmount = member.Amount - unPayAmount;
+			}
+
+			// 預設顯示未取件
+			if (unPickup)
+			{
+				clothings = clothings.Where(x => (x.IsPickup == false));
+			}
+
+			// 根據月份篩選條件
+			clothings = clothings.Where(x => (x.ReceiveDt >= startDate && x.ReceiveDt < endDate));
+			
+
+			AssignViewData();
+
+			// 將顏色編號轉成顏色
+			clothings.ToList().ForEach(x =>
+			{
+				x.Color = ColorIdToStr(x.Color);
+			});
+
+			return clothings;
+		}
+
+		/// <summary>
+		/// 取得時間區間
+		/// </summary>
+		/// <param name="date"></param>
+		/// <param name="offset"></param>
+		/// <returns></returns>
+		private (DateTime startDate, DateTime endDate) GetInterval(Nullable<DateTime> date = null, short offset = 0) {
+
+			DateTime startDate;
+			DateTime endDate;
+
+			// 根據月份篩選條件
+			if (!date.HasValue && offset == 0)
+			{
+				return (DateTime.MinValue.Date, DateTime.MaxValue.Date);
+			}
+
+			if (!date.HasValue)
+			{
+				startDate = DateTime.Today;
+				endDate = DateTime.Today;
+			}
+			else
+			{
+				startDate = date.Value.Date;
+				endDate = date.Value.Date;
+			}
+			
+			if (offset > 0)
+			{
+				endDate = endDate.AddDays(offset);
+			}
+			if (offset < 0)
+			{
+				startDate = startDate.AddDays(offset);
+			}
+			return (startDate, endDate);
+		}
+
+
+		private (DateTime startDate, DateTime endDate) GetInterval(short monthOffset = 0, short offset = 0) {
+			DateTime today = DateTime.Today;
+			DateTime targetMonth = today.AddMonths(monthOffset);
+			DateTime startDate = new DateTime(targetMonth.Year, targetMonth.Month, 1);
+			DateTime endDate = new DateTime(targetMonth.Year, targetMonth.Month, 1).AddMonths(1);
+
+			if (offset > 0) {
+				endDate = endDate.AddMonths(offset);
+			}
+			if(offset < 0) {
+				startDate = startDate.AddMonths(offset);
+			}
+			return (startDate, endDate);
 		}
 
 		// GET: Clothings/Details/5

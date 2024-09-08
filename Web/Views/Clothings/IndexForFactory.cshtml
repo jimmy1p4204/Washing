@@ -1,0 +1,165 @@
+﻿@model IEnumerable<Web.Models.Clothing>
+
+<h1>@ViewData["Title"]</h1>
+
+
+<hr />
+<h4>選單:</h4>
+<ul>
+	<li>
+		<a asp-action="IndexForFactory" asp-route-monthOffset=@(ViewBag.monthOffset-1) asp-route-offset=0>上個月</a> |
+		<a asp-action="IndexForFactory" asp-route-monthOffset=@(ViewBag.monthOffset+1) asp-route-offset=0>下個月</a>
+	</li>
+	<li>
+		<a asp-action="IndexForFactory"  asp-route-offset=-2>近2個月</a> |
+		<a asp-action="IndexForFactory"  asp-route-offset=-3>近3個月</a> |
+		<a asp-action="IndexForFactory"  asp-route-offset=-6>近6個月</a>
+	</li>
+</ul>
+<hr />
+
+<div>
+	<h4>備註:</h4>
+	<ul>
+		<li>以下清單僅包含未取件</li>
+	</ul>
+</div>
+<hr />
+
+<div style="color:#DC143C; font-size:large">@ViewBag.ErrorMsg</div>
+<table id="myTable" class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Seq)
+			</th>
+			<th>
+				會員
+			</th>
+			@*<th>
+			@Html.DisplayNameFor(model => model.MemberId)
+		</th>*@
+			<th>
+				@Html.DisplayNameFor(model => model.Type)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Color)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Action)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PackageTypeId)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Remark)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Amount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DiscountAmount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Paid)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Status)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ReceiveDt)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PickupDt)
+			</th>
+			@*<th>
+			@Html.DisplayNameFor(model => model.PicNo)
+		</th>*@
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+		<tr>
+			<td>
+				@if (item.Seq > 0)
+				{
+					<a asp-action="Details" asp-route-id="@item.Id">@item.Seq</a>
+				}
+				else
+				{
+					<a asp-action="Details" asp-route-id="@item.Id">無</a>
+				}
+
+				@*@Html.DisplayFor(modelItem => item.Seq)*@
+			</td>
+			<td>
+				<a asp-action="Index" asp-controller="Members" asp-route-Id="@item.MemberId">(@item.MemberId)@ViewBag.Members[item.MemberId].Name</a>
+			</td>
+			@*<td>
+			@Html.DisplayFor(modelItem => item.MemberId)
+		</td>*@
+			<td>
+				@*@Html.DisplayFor(modelItem => item.Type)*@
+				@ViewBag.ClothingTypes[item.Type]
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Color)
+			</td>
+			<td>
+				@*@Html.DisplayFor(modelItem => item.Action)*@
+				@ViewBag.ClothingActions[item.Action]
+			</td>
+			<td>
+				@if(item.PackageTypeId > 0)
+				{
+					@ViewBag.ClothingPackageTypes[item.PackageTypeId.Value]
+				}
+				@*@Html.DisplayFor(modelItem => item.PackageTypeId)*@
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Remark)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Amount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.DiscountAmount)
+			</td>
+			<td>
+				@if (item.Paid)
+				{
+					<span>已付</span>
+				}
+				else
+				{
+					<span>未付</span>
+				}
+
+			</td>
+			<td>
+				@*@Html.DisplayFor(modelItem => item.Status)*@
+				@ViewBag.ClothingStatus[item.Status]
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ReceiveDt)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.PickupDt)
+			</td>
+			@*<td>
+			@Html.DisplayFor(modelItem => item.PicNo)
+		</td>*@
+		<td>
+			<!--<a asp-action="Edit" asp-route-id="@item.Id">編輯</a> |-->
+			@*<a asp-action="Details" asp-route-id="@item.Id">訂單內容</a> |*@
+		</td>
+		</tr>
+		}
+	</tbody>
+</table>
+
+@section scripts{
+
+}

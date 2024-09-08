@@ -29,7 +29,7 @@
 				<a asp-controller="ClothingManage" asp-action="Unpaid">未付款衣物清單</a>
 			</li>
 			<li>
-				<a  asp-controller="ClothingManage" asp-action="index">未清洗衣物清單</a>
+				<a asp-controller="ClothingManage" asp-action="index">未清洗衣物清單</a>
 			</li>
 			<li>
 				<a asp-area="" asp-controller="ClothingManage" asp-action="WashedButUnPick">已清洗未取件衣物清單</a>
@@ -37,7 +37,9 @@
 			<li>
 				<a asp-area="" asp-controller="ClothingManage" asp-action="PickedButUnPay">已取件未付款衣物清單</a>
 			</li>
-
+			<li>
+				<a asp-action="IndexForFactory" asp-controller="Clothings">乾水洗衣物清單</a>
+			</li>
 		</ul>
 	</div>
 	<div class="col-md-4">
