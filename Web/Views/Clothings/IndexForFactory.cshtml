@@ -11,19 +11,12 @@
 		<a asp-action="IndexForFactory" asp-route-monthOffset=@(ViewBag.monthOffset+1) asp-route-offset=0>下個月</a>
 	</li>
 	<li>
-		<a asp-action="IndexForFactory"  asp-route-offset=-2>近2個月</a> |
-		<a asp-action="IndexForFactory"  asp-route-offset=-3>近3個月</a> |
-		<a asp-action="IndexForFactory"  asp-route-offset=-6>近6個月</a>
+		<a asp-action="IndexForFactory" asp-route-monthOffset=0>本月</a> | 
+		<a asp-action="IndexForFactory" asp-route-offset=-1>近2個月</a> |
+		<a asp-action="IndexForFactory" asp-route-offset=-2>近3個月</a> |
+		<a asp-action="IndexForFactory" asp-route-offset=-5>近6個月</a>
 	</li>
 </ul>
-<hr />
-
-<div>
-	<h4>備註:</h4>
-	<ul>
-		<li>以下清單僅包含未取件</li>
-	</ul>
-</div>
 <hr />
 
 <div style="color:#DC143C; font-size:large">@ViewBag.ErrorMsg</div>
@@ -68,9 +61,6 @@
 			</th>
 			<th>
 				@Html.DisplayNameFor(model => model.ReceiveDt)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.PickupDt)
 			</th>
 			@*<th>
 			@Html.DisplayNameFor(model => model.PicNo)
@@ -144,9 +134,6 @@
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.ReceiveDt)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.PickupDt)
 			</td>
 			@*<td>
 			@Html.DisplayFor(modelItem => item.PicNo)

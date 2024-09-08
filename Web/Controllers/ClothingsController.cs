@@ -62,20 +62,23 @@ namespace Web.Controllers
 
 			(DateTime startDate, DateTime endDate) = GetInterval(monthOffset, offset);
 
-			IEnumerable<Clothing> clothings = GetClothings(0, startDate, endDate, false);
+			IEnumerable<Clothing> clothings = GetClothings(0, startDate, endDate, false, true);
 
 			ViewData["Title"] = string.Format("乾水洗衣物清單 ({0} ~ {1})", startDate.ToShortDateString(), endDate.ToShortDateString());
 			return View(clothings);
 		}
 
+
 		/// <summary>
 		/// 根據條件取得衣物清單
 		/// </summary>
 		/// <param name="memberId"></param>
-		/// <param name="unPickup"></param>
-		/// <param name="print"></param>
+		/// <param name="startDate"></param>
+		/// <param name="endDate"></param>
+		/// <param name="unPickup">僅顯示未取件</param>
+		/// <param name="factoryWash">僅顯示乾水洗</param>
 		/// <returns></returns>
-		private IEnumerable<Clothing> GetClothings(int memberId, DateTime startDate, DateTime endDate, bool unPickup = true) {
+		private IEnumerable<Clothing> GetClothings(int memberId, DateTime startDate, DateTime endDate, bool unPickup = true, bool factoryWash = false) {
 			
 			IEnumerable<Clothing> clothings;
 
@@ -111,6 +114,12 @@ namespace Web.Controllers
 
 			// 根據月份篩選條件
 			clothings = clothings.Where(x => (x.ReceiveDt >= startDate && x.ReceiveDt < endDate));
+
+			// 僅顯示乾水洗 (送工廠洗)
+			if (factoryWash)
+			{
+				clothings = clothings.Where(x => x.Type != ClothingTyoeConst.SelfWash);
+			}
 			
 
 			AssignViewData();
