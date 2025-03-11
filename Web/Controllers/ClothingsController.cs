@@ -68,6 +68,19 @@ namespace Web.Controllers
 			return View(clothings);
 		}
 
+		public async Task<IActionResult> IndexForStockIn(short dayOffset = 0, short offset = 0)
+		{
+			ViewBag.ErrorMsg = TempData["ErrorMsg"]?.ToString();
+			ViewBag.dayOffset = dayOffset;
+
+			(DateTime startDate, DateTime endDate) = GetIntervalForDay(dayOffset, offset);
+
+			IEnumerable<Clothing> clothings = GetClothings(0, startDate, endDate, false, true, QueryTypeEnum.StockInTime);
+
+			ViewData["Title"] = string.Format("衣物入庫清單 ({0} ~ {1})", startDate.ToShortDateString(), endDate.ToShortDateString());
+			return View(clothings);
+		}
+
 
 		/// <summary>
 		/// 根據條件取得衣物清單
@@ -78,7 +91,7 @@ namespace Web.Controllers
 		/// <param name="unPickup">僅顯示未取件</param>
 		/// <param name="factoryWash">僅顯示乾水洗</param>
 		/// <returns></returns>
-		private IEnumerable<Clothing> GetClothings(int memberId, DateTime startDate, DateTime endDate, bool unPickup = true, bool factoryWash = false) {
+		private IEnumerable<Clothing> GetClothings(int memberId, DateTime startDate, DateTime endDate, bool unPickup = true, bool factoryWash = false, QueryTypeEnum queryType = QueryTypeEnum.ReceiveDt) {
 			
 			IEnumerable<Clothing> clothings;
 
@@ -113,7 +126,18 @@ namespace Web.Controllers
 			}
 
 			// 根據月份篩選條件
-			clothings = clothings.Where(x => (x.ReceiveDt >= startDate && x.ReceiveDt < endDate));
+			switch (queryType)
+			{
+				case QueryTypeEnum.ReceiveDt:
+					clothings = clothings.Where(x => (x.ReceiveDt >= startDate && x.ReceiveDt < endDate));
+					break;
+				case QueryTypeEnum.StockInTime:
+					clothings = clothings.Where(x => (x.StockInTime >= startDate && x.StockInTime < endDate));
+					break;
+				default:
+					break;
+			}
+			
 
 			// 僅顯示乾水洗 (送工廠洗)
 			if (factoryWash)
@@ -184,6 +208,22 @@ namespace Web.Controllers
 			}
 			if(offset < 0) {
 				startDate = startDate.AddMonths(offset);
+			}
+			return (startDate, endDate);
+		}
+		private (DateTime startDate, DateTime endDate) GetIntervalForDay(short dayOffset = 0, short offset = 0)
+		{
+			DateTime today = DateTime.Today;
+			DateTime startDate = today.AddDays(dayOffset);
+			DateTime endDate = startDate.AddDays(1);
+
+			if (offset > 0)
+			{
+				endDate = endDate.AddDays(offset);
+			}
+			if (offset < 0)
+			{
+				startDate = startDate.AddDays(offset);
 			}
 			return (startDate, endDate);
 		}
@@ -291,6 +331,7 @@ namespace Web.Controllers
 			SetCloseingActionSelectList(clothing.Action);
 			SetCloseingPackageTypeSelectList(clothing.PackageTypeId);
 			ViewBag.Colors = new MultiSelectList(_context.ClothingColors.ToList(), "Id", "Name", clothing.Color.Split(','));
+			ViewBag.OriginalClothingStatus = clothing.Status; // 記錄原始狀態
 			return View(clothing);
 		}
 
@@ -299,43 +340,64 @@ namespace Web.Controllers
 		// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int? id, ClothingEditViewModel clothing)
+		public async Task<IActionResult> Edit(int? id, ClothingEditViewModel clothing, ClothingStatusEnum OriginalClothingStatus)
 		{
 			if (id != clothing.Id)
 			{
 				return NotFound();
 			}
 
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					if (clothing.SelectedColorIds.Count == 0)
-					{
-						clothing.SelectedColorIds.Add(1); // 無指定
-					}
-					clothing.Color = string.Join(",", clothing.SelectedColorIds);
-					_context.Update(clothing);
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!ClothingExists(clothing.Id))
-					{
-						return NotFound();
-					}
-					else
-					{
-						throw;
-					}
-				}
-				// 找到會員
-				var member = await _context.Members.FindAsync(clothing.MemberId);
-
-				// 回到該會員的衣物清單
-				return RedirectToAction(nameof(Index), new { memberId = member.Id });
+			if (!ModelState.IsValid) {
+				return View(clothing);
 			}
-			return View(clothing);
+
+			
+			try
+			{
+				// 處理 ColorIds
+				if (clothing.SelectedColorIds.Count == 0)
+				{
+					clothing.SelectedColorIds.Add(1); // 無指定
+				}
+				clothing.Color = string.Join(",", clothing.SelectedColorIds);
+
+				//	處理衣物狀態，若有異動則要記錄異動時間
+			   
+				if (OriginalClothingStatus != clothing.Status) // 若狀態異動
+				{
+					switch (clothing.Status)
+					{
+						case ClothingStatusEnum.Unwashed:
+							clothing.StockInTime = null;
+							break;
+						case ClothingStatusEnum.Washed:
+							clothing.StockInTime = DateTime.Now; // 更新入庫時間
+							break;
+						default:
+							break;
+					}
+				}
+
+				_context.Update(clothing);
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!ClothingExists(clothing.Id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+			// 找到會員
+			var member = await _context.Members.FindAsync(clothing.MemberId);
+
+			// 回到該會員的衣物清單
+			return RedirectToAction(nameof(Index), new { memberId = member.Id });
+			
 		}
 
 		// GET: Clothings/Delete/5
@@ -727,7 +789,7 @@ namespace Web.Controllers
 			ViewBag.ClothingPackageTypes = selectList.OrderBy(x => x.Value);
 		}
 
-		private void SetCloseingStatusSelectList(int clothingStatusId = 0)
+		private void SetCloseingStatusSelectList(ClothingStatusEnum clothingStatusId = 0)
 		{
 			var selectList = _context.ClothingStatus.Select(x => new SelectListItem { Text = $"{x.Id}:{x.Name}", Value = x.Id.ToString() }).ToList();
 			if (selectList.Any(x => x.Value == clothingStatusId.ToString()))
@@ -744,5 +806,11 @@ namespace Web.Controllers
 			public SelectList Colors { get; set; }
 			public List<int> SelectedColorIds { get; set; }
 		}
+	}
+
+	public enum QueryTypeEnum
+	{
+		ReceiveDt = 1,
+		StockInTime = 2,
 	}
 }

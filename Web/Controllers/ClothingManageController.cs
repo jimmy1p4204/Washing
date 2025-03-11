@@ -26,7 +26,7 @@ namespace Web.Controllers
 		{
 			ViewData["Title"] = "未付款衣物清單";
 
-			var clothings = _context.Clothings.Where(x => x.Paid == false && x.Status != 3);
+			var clothings = _context.Clothings.Where(x => x.Paid == false && x.Status != ClothingStatusEnum.Returned);
 
 			var viewModel = GetViewData(clothings);
 
@@ -41,7 +41,7 @@ namespace Web.Controllers
 		{
 			ViewData["Title"] = "未清洗衣物清單";
 
-			var clothings = _context.Clothings.Where(x=> x.Status == 1);
+			var clothings = _context.Clothings.Where(x=> x.Status == ClothingStatusEnum.Unwashed);
 
 			var viewModel = GetViewData(clothings);
 
@@ -56,7 +56,7 @@ namespace Web.Controllers
 		{
 			ViewData["Title"] = "已清洗未取件衣物清單";
 
-			var clothings = _context.Clothings.Where(x => x.Status == 2 && x.IsPickup == false);
+			var clothings = _context.Clothings.Where(x => x.Status == ClothingStatusEnum.Washed && x.IsPickup == false);
 
 			var viewModel = GetViewData(clothings);
 
@@ -71,7 +71,7 @@ namespace Web.Controllers
 		{
 			ViewData["Title"] = "已取件未付款衣物清單";
 
-			var clothings = _context.Clothings.Where(x => x.Paid == false && x.IsPickup && x.Status != 3);
+			var clothings = _context.Clothings.Where(x => x.Paid == false && x.IsPickup && x.Status != ClothingStatusEnum.Returned);
 
 			var viewModel = GetViewData(clothings);
 

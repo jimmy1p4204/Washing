@@ -15,7 +15,7 @@ namespace Web.Models
 		/// DB 序號
 		/// </summary>
 		[DisplayName("序號")]
-		public int Id { get; set; }
+		public ClothingStatusEnum Id { get; set; }
 
 		/// <summary>
 		/// 狀態名稱

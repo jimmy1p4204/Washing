@@ -13,6 +13,8 @@
 		<form asp-action="Edit">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<input type="hidden" asp-for="Id" />
+			<input type="hidden" name="OriginalClothingStatus" value="@ViewBag.OriginalClothingStatus" /> <!-- 記錄原始狀態 -->
+
 			<div class="form-group">
 				<label asp-for="Seq" class="control-label"></label>
 				<input asp-for="Seq" class="form-control" />

@@ -69,7 +69,7 @@ namespace Web.Models
 		/// <para>2:已清洗, 3:已退件</para>
 		/// </summary>
 		[DisplayName("狀態")]
-		public int Status { get; set; } = 1;
+		public ClothingStatusEnum Status { get; set; } = ClothingStatusEnum.Unwashed;
 
 		/// <summary>
 		/// 是否已付款
@@ -99,10 +99,27 @@ namespace Web.Models
 		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
 		public DateTime? PickupDt { get; set; }
 
+
+		/// <summary>
+		/// 入庫日期 (送洗回來後，狀態改成已清洗的時間點)
+		/// </summary>
+		[DisplayName("入庫日期")]
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}")]
+		public DateTime? StockInTime { get; set; }
+
+		
 		/// <summary>
 		/// 包裝方式
 		/// </summary>
 		[DisplayName("包裝方式")]
 		public int? PackageTypeId { get; set; }
+	}
+
+	public enum ClothingStatusEnum
+	{
+		Unwashed = 1,   // 未清洗
+		Washed = 2,     // 已清洗
+		Returned = 3    // 退件
 	}
 }

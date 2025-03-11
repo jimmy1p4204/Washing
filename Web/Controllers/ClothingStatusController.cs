@@ -28,7 +28,7 @@ namespace Web.Controllers
         }
 
         // GET: ClothingStatus/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(ClothingStatusEnum? id)
         {
             if (id == null)
             {
@@ -88,7 +88,7 @@ namespace Web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] ClothingStatus clothingStatus)
+        public async Task<IActionResult> Edit(ClothingStatusEnum id, [Bind("Id,Name")] ClothingStatus clothingStatus)
         {
             if (id != clothingStatus.Id)
             {
@@ -119,7 +119,7 @@ namespace Web.Controllers
         }
 
         // GET: ClothingStatus/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(ClothingStatusEnum? id)
         {
             if (id == null)
             {
@@ -147,7 +147,7 @@ namespace Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClothingStatusExists(int id)
+        private bool ClothingStatusExists(ClothingStatusEnum id)
         {
             return _context.ClothingStatus.Any(e => e.Id == id);
         }
