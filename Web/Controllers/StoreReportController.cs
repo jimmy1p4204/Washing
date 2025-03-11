@@ -299,7 +299,7 @@ namespace Web.Controllers
 		/// <returns></returns>
 		private string GetUnPayAmountOfClothings()
 		{
-			return $"{_context.Clothings.Where(x=>x.Paid == false && x.Status != ClothingStatusEnum.Returned).Sum(y => y.Amount).ToString("#,#")} 元";
+			return $"{_context.Clothings.Where(x=>x.Paid == false && x.Status != (int)ClothingStatusEnum.Returned).Sum(y => y.Amount).ToString("#,#")} 元";
 		}
 
 		/// <summary>

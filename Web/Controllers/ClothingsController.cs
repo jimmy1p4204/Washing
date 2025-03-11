@@ -340,7 +340,7 @@ namespace Web.Controllers
 		// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int? id, ClothingEditViewModel clothing, ClothingStatusEnum OriginalClothingStatus)
+		public async Task<IActionResult> Edit(int? id, ClothingEditViewModel clothing, int OriginalClothingStatus)
 		{
 			if (id != clothing.Id)
 			{
@@ -367,10 +367,10 @@ namespace Web.Controllers
 				{
 					switch (clothing.Status)
 					{
-						case ClothingStatusEnum.Unwashed:
+						case (int)ClothingStatusEnum.Unwashed:
 							clothing.StockInTime = null;
 							break;
-						case ClothingStatusEnum.Washed:
+						case (int)ClothingStatusEnum.Washed:
 							clothing.StockInTime = DateTime.Now; // 更新入庫時間
 							break;
 						default:
@@ -789,7 +789,7 @@ namespace Web.Controllers
 			ViewBag.ClothingPackageTypes = selectList.OrderBy(x => x.Value);
 		}
 
-		private void SetCloseingStatusSelectList(ClothingStatusEnum clothingStatusId = 0)
+		private void SetCloseingStatusSelectList(int clothingStatusId = 0)
 		{
 			var selectList = _context.ClothingStatus.Select(x => new SelectListItem { Text = $"{x.Id}:{x.Name}", Value = x.Id.ToString() }).ToList();
 			if (selectList.Any(x => x.Value == clothingStatusId.ToString()))

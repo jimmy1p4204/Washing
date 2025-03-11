@@ -46,7 +46,7 @@ namespace Web.Models
 		/// 衣物狀態
 		/// </summary>
 		[DisplayName("衣物狀態")]
-		public ClothingStatusEnum Status { get; set; }
+		public int Status { get; set; }
 
 		/// <summary>
 		/// 付款狀態

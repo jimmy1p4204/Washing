@@ -69,7 +69,7 @@ namespace Web.Models
 		/// <para>2:已清洗, 3:已退件</para>
 		/// </summary>
 		[DisplayName("狀態")]
-		public ClothingStatusEnum Status { get; set; } = ClothingStatusEnum.Unwashed;
+		public int Status { get; set; } = (int)ClothingStatusEnum.Unwashed;
 
 		/// <summary>
 		/// 是否已付款
@@ -116,7 +116,7 @@ namespace Web.Models
 		public int? PackageTypeId { get; set; }
 	}
 
-	public enum ClothingStatusEnum
+	public enum ClothingStatusEnum : int
 	{
 		Unwashed = 1,   // 未清洗
 		Washed = 2,     // 已清洗

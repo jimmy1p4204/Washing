@@ -72,7 +72,7 @@
 				@Html.DisplayFor(modelItem => item.ReceiveDt)
 			</td>
 			<td>
-				@ViewBag.ClothingStatus[item.Status]
+				@ViewBag.ClothingStatus[(int)item.Status]
 				@*@Html.DisplayFor(modelItem => item.Status)*@
 			</td>
 			<td>
